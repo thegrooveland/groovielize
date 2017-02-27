@@ -1,0 +1,278 @@
+@import url("font/groovie/groovie.css");
+@import url("font/altehaas/altehaas.css");
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+    list-style: none;
+}
+
+html,body{
+    min-width: 100%;
+    min-height: 100%;
+}
+
+/*
+clearfix hack
+*/
+[class$="-layout"]:after,
+.grid-layout:after{
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+}
+[class$="-layout"],
+.grid-layout{
+    display: inline-table; 
+}
+
+/* Hides from IE-mac \*/
+* html [class$="-layout"],
+* html .grid-layout{ 
+    height: 1%; 
+}
+
+[class$="-layout"],
+.grid-layout{ 
+    display: block; 
+}
+
+/****************************************************************************************************************************************************************/
+/****************************************************************************************************************************************************************/
+/****************************************************************************LAYOUTS*****************************************************************************/
+/****************************************************************************************************************************************************************/
+/****************************************************************************************************************************************************************/
+
+.grid-layout{
+    width: 100%;
+    position: relative;
+}
+
+.grid-layout > [class*="hs-"],
+.grid-layout > [class*="ms-"],
+.grid-layout > [class*="ss-"]{
+    float: left;
+}
+
+
+/****************************************************************************************************************************************************************/
+/****************************************************************************************************************************************************************/
+/************************************************************************CONTAINERS SIZES************************************************************************/
+/****************************************************************************************************************************************************************/
+/****************************************************************************************************************************************************************/
+
+[class*="hs-"],
+[class*="ms-"],
+[class*="ss-"]{
+    position: relative;
+}
+
+@media only screen and (min-width: 1024px){    
+    .ss-1{width: 5%;}
+    .ss-2{width: 10%;}
+    .ss-3{width: 15%;}
+    .ss-4{width: 20%;}
+    .ss-5{width: 25%;}
+    .ss-6{width: 30%;}
+    .ss-7{width: 35%;}
+    .ss-8{width: 40%;}
+    .ss-9{width: 45%;}
+    .ss-10{width: 50%;}
+    .ss-11{width: 55%;}
+    .ss-12{width: 60%;}
+    .ss-13{width: 65%;}
+    .ss-14{width: 70%;}
+    .ss-15{width: 75%;}
+    .ss-16{width: 80%;}
+    .ss-17{width: 85%;}
+    .ss-18{width: 90%;}
+    .ss-19{width: 95%;}
+    .ss-20{width: 100%;}
+    
+    .ms-1{width: 5%;}
+    .ms-2{width: 10%;}
+    .ms-3{width: 15%;}
+    .ms-4{width: 20%;}
+    .ms-5{width: 25%;}
+    .ms-6{width: 30%;}
+    .ms-7{width: 35%;}
+    .ms-8{width: 40%;}
+    .ms-9{width: 45%;}
+    .ms-10{width: 50%;}
+    .ms-11{width: 55%;}
+    .ms-12{width: 60%;}
+    .ms-13{width: 65%;}
+    .ms-14{width: 70%;}
+    .ms-15{width: 75%;}
+    .ms-16{width: 80%;}
+    .ms-17{width: 85%;}
+    .ms-18{width: 90%;}
+    .ms-19{width: 95%;}
+    .ms-20{width: 100%;}
+    
+    .hs-1{width: 5%;}
+    .hs-2{width: 10%;}    
+    .hs-3{width: 15%;}
+    .hs-4{width: 20%;}    
+    .hs-5{width: 25%;}
+    .hs-6{width: 30%;}    
+    .hs-7{width: 35%;}
+    .hs-8{width: 40%;}    
+    .hs-9{width: 45%;}
+    .hs-10{width: 50%;}    
+    .hs-11{width: 55%;}
+    .hs-12{width: 60%;}    
+    .hs-13{width: 65%;}
+    .hs-14{width: 70%;}    
+    .hs-15{width: 75%;}
+    .hs-16{width: 80%;}    
+    .hs-17{width: 85%;}
+    .hs-18{width: 90%;}    
+    .hs-19{width: 95%;}
+    .hs-20{width: 100%;}
+}
+
+@media only screen and (min-width: 720px) and (max-width: 1023px){
+    .hs-1,.hs-2,.hs-3,.hs-4,.hs-5{width: 25%;}
+    .hs-6,.hs-7,.hs-8,.hs-9,.hs-10{width: 50%;}    
+    .hs-11,.hs-12,.hs-13,.hs-14,.hs-15{width: 75%;}
+    .hs-16,.hs-17,.hs-18,.hs-19,.hs-20{width: 100%;}
+    
+    .ss-1{width: 5%;}
+    .ss-2{width: 10%;}
+    .ss-3{width: 15%;}
+    .ss-4{width: 20%;}
+    .ss-5{width: 25%;}
+    .ss-6{width: 30%;}
+    .ss-7{width: 35%;}
+    .ss-8{width: 40%;}
+    .ss-9{width: 45%;}
+    .ss-10{width: 50%;}
+    .ss-11{width: 55%;}
+    .ss-12{width: 60%;}
+    .ss-13{width: 65%;}
+    .ss-14{width: 70%;}
+    .ss-15{width: 75%;}
+    .ss-16{width: 80%;}
+    .ss-17{width: 85%;}
+    .ss-18{width: 90%;}
+    .ss-19{width: 95%;}
+    .ss-20{width: 100%;}
+    
+    .ms-1{width: 5%;}
+    .ms-2{width: 10%;}    
+    .ms-3{width: 15%;}
+    .ms-4{width: 20%;}    
+    .ms-5{width: 25%;}
+    .ms-6{width: 30%;}    
+    .ms-7{width: 35%;}
+    .ms-8{width: 40%;}    
+    .ms-9{width: 45%;}
+    .ms-10{width: 50%;}    
+    .ms-11{width: 55%;}
+    .ms-12{width: 60%;}    
+    .ms-13{width: 65%;}
+    .ms-14{width: 70%;}    
+    .ms-15{width: 75%;}
+    .ms-16{width: 80%;}    
+    .ms-17{width: 85%;}
+    .ms-18{width: 90%;}    
+    .ms-19{width: 95%;}
+    .ms-20{width: 100%;}
+}
+
+@media only screen and (min-width: 200px)  and (max-width: 719px){
+    .hs-1,.hs-2,.hs-3,.hs-4,.hs-5,.hs-6,.hs-7,.hs-8,.hs-9,.hs-10{width: 50%;}    
+    .hs-11,.hs-12,.hs-13,.hs-14,.hs-15,.hs-16,.hs-17,.hs-18,.hs-19,.hs-20{width: 100%;}
+    
+    .ms-1,.ms-2,.ms-3,.ms-4,.ms-5{width: 25%;}
+    .ms-6,.ms-7,.ms-8,.ms-9,.ms-10{width: 50%;}    
+    .ms-11,.ms-12,.ms-13,.ms-14,.ms-15{width: 75%;}
+    .ms-16,.ms-17,.ms-18,.ms-19,.ms-20{width: 100%;}
+    
+    .ss-1{width: 5%;}
+    .ss-2{width: 10%;}
+    .ss-3{width: 15%;}
+    .ss-4{width: 20%;}
+    .ss-5{width: 25%;}
+    .ss-6{width: 30%;}
+    .ss-7{width: 35%;}
+    .ss-8{width: 40%;}
+    .ss-9{width: 45%;}
+    .ss-10{width: 50%;}
+    .ss-11{width: 55%;}
+    .ss-12{width: 60%;}
+    .ss-13{width: 65%;}
+    .ss-14{width: 70%;}
+    .ss-15{width: 75%;}
+    .ss-16{width: 80%;}
+    .ss-17{width: 85%;}
+    .ss-18{width: 90%;}
+    .ss-19{width: 95%;}
+    .ss-20{width: 100%;}
+}
+
+
+/****************************************************************************************************************************************************************/
+/****************************************************************************************************************************************************************/
+/*****************************************************************************GLOBALS****************************************************************************/
+/****************************************************************************************************************************************************************/
+/****************************************************************************************************************************************************************/
+
+[class*="gl"],[class*="groovie-"]{
+    font-family: "alte_haas_regular", Arial;
+}
+
+/****************************************************************************************************************************************************************/
+/****************************************************************************************************************************************************************/
+/*****************************************************************************BUTONS*****************************************************************************/
+/****************************************************************************************************************************************************************/
+/****************************************************************************************************************************************************************/
+
+.gl-btn, .groovie-btn{    
+    font-family: "alte_haas_bold", Arial !important;
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+    border: none;
+    border-radius: 6px;
+    height: 36px;
+    line-height: 36px;
+    padding: 0 1.2rem;
+    vertical-align: middle;
+    -webkit-tap-highlight-color: transparent;    
+    color: #FFF;
+    background-color: #0097FF;
+    text-decoration: none;
+    transition: box-shadow 0.2s ease-in-out;
+}
+
+.gl-btn:hover, .groovie-btn:hover,
+.gl-btn.clickedGl, .groovie-btn.clickedGl{
+    -webkit-box-shadow: 0px 2px 3px -1px rgba(0,0,0,0.57) !important;
+    -moz-box-shadow: 0px 2px 3px -1px rgba(0,0,0,0.57) !important;
+    box-shadow: 0px 2px 3px -1px rgba(0,0,0,0.57) !important;
+}
+
+.gl-btn .icon-right , .groovie-btn .icon-right {
+    float:right;
+}

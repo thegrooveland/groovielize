@@ -1,0 +1,7 @@
+.menu, .body{
+    height: 100%;
+}
+
+.menu{
+    z-index: 2;
+}
