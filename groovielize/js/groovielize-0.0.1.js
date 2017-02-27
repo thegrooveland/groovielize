@@ -83,7 +83,6 @@ $(document).ready(function(){
                 },200,"easeInOutQuad").transition({
                     "background-color" : color.hex
                 },200,"easeInOutQuad")
-                
             }
         };
 
@@ -106,6 +105,13 @@ $(document).ready(function(){
 /**********************************************/
 /*********************COLOR********************/
 /**********************************************/
+    /*
+    *Clase Color.
+        *Clase para gestionar las conversiones de colores en formato de string.
+        *@color {string} parametro que recibe un string en los siguiente formatos
+        *rgb(int r, int g, int, b), #RRGGBB, hsv(int h, int s, int v)
+        *los valores r,g,b son del 0 al 255, h es de 0 a 359 y s,v son de 0 a 100
+    */
     function Color(color){
         var color = color;
         this.hex = null;
