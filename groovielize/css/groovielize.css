@@ -47,12 +47,12 @@ clearfix hack
 
 /* Hides from IE-mac \*/
 * html [class$="-layout"],
-* html .grid-layout{ 
+* html .grid-layout{
     height: 1%; 
 }
 
 [class$="-layout"],
-.grid-layout{ 
+.grid-layout{
     display: block; 
 }
 
@@ -275,4 +275,78 @@ clearfix hack
 
 .gl-btn .icon-right , .groovie-btn .icon-right {
     float:right;
+}
+
+/****************************************************************************************************************************************************************/
+/****************************************************************************************************************************************************************/
+/*****************************************************************************BADGES*****************************************************************************/
+/****************************************************************************************************************************************************************/
+/****************************************************************************************************************************************************************/
+
+.gl-badge, .groovie-badge{
+    display: inline-block;
+    height: 20px;
+    width: 30px;
+    line-height: 20px;
+    color: #FFF;
+    text-align: center;
+    border-radius: 6px;
+    background-color:#0097FF;
+    margin-right: 10px;
+}
+
+/****************************************************************************************************************************************************************/
+/****************************************************************************************************************************************************************/
+/**************************************************************************COLLECTIONS***************************************************************************/
+/****************************************************************************************************************************************************************/
+/****************************************************************************************************************************************************************/
+
+.gl-coll, .groovie-coll, .gl-collection, .groovie-collection{
+}
+
+.gl-coll .gl-coll-item, .groovie-coll .groovie-coll-item, .gl-collection .gl-collection-item, .groovie-collection .groovie-collection-item{
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    background-color: #FFF;
+}
+.gl-coll .gl-coll-item:nth-child(2n+0), .groovie-coll .groovie-coll-item:nth-child(2n+0), .gl-collection .gl-collection-item:nth-child(2n+0), .groovie-collection .groovie-collection-item:nth-child(2n+0){
+    background-color: #F2F2F2;    
+}
+
+.gl-coll .gl-coll-item > *, .groovie-coll .groovie-coll-item > *, .gl-collection .gl-collection-item > *, .groovie-collection .groovie-collection-item > *{
+    padding: 8px 10px;
+    display: block;
+}
+
+.gl-coll .gl-coll-item > :first-child, .groovie-coll .groovie-coll-item > :first-child, .gl-collection .gl-collection-item > :first-child, .groovie-collection .groovie-collection-item > :first-child{
+    background-color: inherit;
+    position: relative;
+    z-index: 2;
+}
+
+.gl-coll .gl-coll-item > :first-child > button, .groovie-coll .groovie-coll-item > :first-child > button, .gl-collection .gl-collection-item > :first-child > button, .groovie-collection .groovie-collection-item > :first-child > button{
+    padding: 0;
+    margin: 0px;
+    border: 0;
+    background: transparent;
+    position: absolute;
+    top: 8px;
+    bottom: 8px;
+    right: 10px;
+    left: auto;
+    cursor: pointer;
+}
+
+.gl-coll .gl-coll-item > :first-child > button:active, .groovie-coll .groovie-coll-item > :first-child > button:active, .gl-collection .gl-collection-item > :first-child > button:active, .groovie-collection .groovie-collection-item > :first-child > button:active,
+.gl-coll .gl-coll-item > :first-child > button:focus, .groovie-coll .groovie-coll-item > :first-child > button:focus, .gl-collection .gl-collection-item > :first-child > button:focus, .groovie-collection .groovie-collection-item > :first-child > button:focus{
+    outline: none;
+    border: none;
+}
+
+.gl-coll .gl-coll-item > .actions, .groovie-coll .groovie-coll-item > .actions, .gl-collection .gl-collection-item > .actions, .groovie-collection .groovie-collection-item > .actions{
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 1;
 }

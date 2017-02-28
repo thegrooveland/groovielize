@@ -4,7 +4,22 @@ $(document).ready(function(){
 
     $(".fullscreen").fullscreen();
     $(".gl-btn, .groovie-btn").onClick();
+    collections();
 });
+
+/*****************************CUSTOM ELEMENTS*****************************/
+    function collections(){
+        var elements = $(".gl-coll, .groovie-coll, .gl-collection, .groovie-collection");
+        for(var i = 0; i < elements.length; i++){
+            var element = elements.eq(i);
+            var items = element.find(".gl-coll-item, .groovie-coll-item, .gl-collection-item, .groovie-collection-item");
+            console.log(items);
+            for(var j = 0; j < items.length; j++){
+                items.eq(j).addIemColl();
+            }
+        }
+    }
+/*****************************CUSTOM ELEMENTS*****************************/
 
 (function($){
 
@@ -26,6 +41,12 @@ $(document).ready(function(){
         });
     }
 
+    /*
+    *Add new ELEMENTS
+    */
+    $.fn.Add = function(){
+
+    }
 
 /*CUSTOM FUNCTIONS*/
 
@@ -89,6 +110,21 @@ $(document).ready(function(){
     /*Click Function*/
 
 /*CUSTOM EVENTS*/
+
+/*****************************CUSTOM ELEMENTS*****************************/
+    $.fn.addIemColl = function(){
+        if($(this).hasClass("gl-coll-item") ||  $(this).hasClass("groovie-coll-item") || $(this).hasClass("gl-collection-item") || $(this).hasClass("groovie-collection-item")){
+            var actions = $(this).children(".actions");
+            if(actions.length == 1){
+                actions.prev().append("<button class='gl-coll-btn'>...</button>")
+                var btn = actions.prev().children(".gl-coll-btn");
+                btn.onClick(function(){
+                    alert("hola");
+                });
+            }
+        }
+    }
+/*****************************CUSTOM ELEMENTS*****************************/
 
 }(jQuery));
 
