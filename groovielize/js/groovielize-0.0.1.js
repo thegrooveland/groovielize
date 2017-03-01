@@ -3,7 +3,7 @@ var groovie, gl;
 $(document).ready(function(){
 
     $(".fullscreen").fullscreen();
-    $(".gl-btn, .groovie-btn").onClick();
+    $(".gl-btn, .groovie-btn").click()//onClick();
     collections();
 });
 
@@ -52,11 +52,16 @@ $(document).ready(function(){
 
 
 /*CUSTOM EVENTS*/
+    var attachEvent = document.attachEvent;
+    /********************************resize event********************************/
+        
+    /********************************resize event********************************/
 
-    /*Click Function*/
+    /*******************************Click Function*******************************/
+        var jQuery_click = $.fn.click;        
         $.event.special.Click = {
             setup: function(data){
-                $(this).bind('click', function(event){
+                $(this).bind("click", function(event){
                     event.stopPropagation();
                     event.preventDefault();
         
@@ -74,11 +79,11 @@ $(document).ready(function(){
             },
             
             _default: function(event){
-            $(event.target).css("cursor","pointer");        
+                $(event.target).css("cursor","pointer");        
             }
         };
 
-        $.fn.onClick = function(callback){
+        $.fn.click = function(callback){
             if(typeof callback == "function"){
                 $(this).bind("Click",callback);
             }else{
@@ -86,7 +91,7 @@ $(document).ready(function(){
             }
         };
 
-        var clickButtons = function(element) {
+        var clickButtons = function(element,callback) {
             var _class = "clickedGl";
             if((element.hasClass("gl-btn") || element.hasClass("groovie-btn")) && !element.hasClass(_class)){
                 element.addClass(_class)
@@ -107,22 +112,75 @@ $(document).ready(function(){
             }
         };
 
-    /*Click Function*/
+    /*******************************Click Function*******************************/
 
 /*CUSTOM EVENTS*/
 
 /*****************************CUSTOM ELEMENTS*****************************/
     $.fn.addIemColl = function(){
         if($(this).hasClass("gl-coll-item") ||  $(this).hasClass("groovie-coll-item") || $(this).hasClass("gl-collection-item") || $(this).hasClass("groovie-collection-item")){
+            var item = $(this);
             var actions = $(this).children(".actions");
             if(actions.length == 1){
                 actions.prev().append("<button class='gl-coll-btn'>...</button>")
                 var btn = actions.prev().children(".gl-coll-btn");
-                btn.onClick(function(){
-                    alert("hola");
+                btn.click(function(){
+                    if(!$(this).hasClass("clicked")){
+                        $(this).addClass("clicked");
+                        var openitems = item.siblings(".open");
+                        for(var i = 0; i < openitems.length; i++){
+                            var openItem = openitems.eq(i);
+                            toggleItem(openItem);
+                        }
+                        toggleItem(item);
+                    }
                 });
             }
         }
+    }
+
+    function toggleItem(item){
+        var item_content = item.children(".actions").prev();
+        var action_width = item.children(".actions").outerWidth(true);
+        var item_width = item_content.width();        
+        var item_content_padding_margin = item_content.outerWidth(true)-item_content.width();
+        var shadow = "0px 3px 6px 0px rgba(0,0,0,0.25)";
+
+        item_content.width(item_width);
+        item.css("z-index",3);
+
+        if(item.hasClass("open")){
+            item.removeClass("open");
+            new_width = item_width + action_width;
+            shadow = "0px 3px 6px 0px rgba(0,0,0,0)";
+            ResizeSensor.detach(item);
+        }else{
+            item.addClass("open")
+            new_width = item_width - action_width;
+            new ResizeSensor(item, function() {
+                var item_width = item.width()-item_content_padding_margin;
+                item_content.width(item_width - item.children(".actions").outerWidth(true));
+            });
+        }
+
+        setTimeout(function() {
+            if(!item.hasClass("open")){
+                item_content.removeAttr("style");
+                item.removeAttr("style");
+            }
+            item_content.children(".gl-coll-btn").removeClass("clicked");
+        }, 300);
+        item.transition({
+            "-webkit-box-shadow": shadow,
+            "-moz-box-shadow": shadow,
+            "box-shadow": shadow
+        },300, "easeInOutQuad");
+        item_content.transition({
+            width: new_width+"px",
+            "-webkit-box-shadow": shadow,
+            "-moz-box-shadow": shadow,
+            "box-shadow": shadow
+        },300, "easeInOutQuad");
     }
 /*****************************CUSTOM ELEMENTS*****************************/
 
@@ -273,3 +331,16 @@ $(document).ready(function(){
 /**********************************************/
 /*********************COLOR********************/
 /**********************************************/
+
+/**************************************************************************************/
+/*************************************ResizeSensor*************************************/
+/**************************************************************************************/
+    /**
+     * Copyright Marc J. Schmidt. See the LICENSE file at the top-level
+     * directory of this distribution and at
+     * https://github.com/marcj/css-element-queries/blob/master/LICENSE.
+     */
+    (function (root, factory) { if (typeof define === "function" && define.amd) { define(factory); } else if (typeof exports === "object") { module.exports = factory(); } else { root.ResizeSensor = factory(); }}(this, function () { if (typeof window === "undefined") {return null;} var requestAnimationFrame = window.requestAnimationFrame ||window.mozRequestAnimationFrame ||window.webkitRequestAnimationFrame ||function (fn) {return window.setTimeout(fn, 20);}; function forEachElement(elements, callback){var elementsType = Object.prototype.toString.call(elements);var isCollectionTyped = ('[object Array]' === elementsType|| ('[object NodeList]' === elementsType)|| ('[object HTMLCollection]' === elementsType)|| ('[object Object]' === elementsType)|| ('undefined' !== typeof jQuery && elements instanceof jQuery)|| ('undefined' !== typeof Elements && elements instanceof Elements));var i = 0, j = elements.length;if (isCollectionTyped) {for (; i < j; i++) {callback(elements[i]);}} else {callback(elements);}} var ResizeSensor = function(element, callback) { function EventQueue() {var q = [];this.add = function(ev) {q.push(ev);};var i, j;this.call = function() {for (i = 0, j = q.length; i < j; i++) {q[i].call();}};this.remove = function(ev) {var newQueue = [];for(i = 0, j = q.length; i < j; i++) {if(q[i] !== ev) newQueue.push(q[i]);}q = newQueue;};this.length = function() {return q.length;};}function getComputedStyle(element, prop) {if (element.currentStyle) {return element.currentStyle[prop];}if (window.getComputedStyle) {return window.getComputedStyle(element, null).getPropertyValue(prop);}return element.style[prop];} function attachResizeEvent(element, resized) { if (element.resizedAttached) { element.resizedAttached.add(resized); return; } element.resizedAttached = new EventQueue(); element.resizedAttached.add(resized); element.resizeSensor = document.createElement('div'); element.resizeSensor.className = 'resize-sensor'; var style = 'position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;'; var styleChild = 'position: absolute; left: 0; top: 0; transition: 0s;'; element.resizeSensor.style.cssText = style; element.resizeSensor.innerHTML = '<div class="resize-sensor-expand" style="' + style + '">' + '<div style="' + styleChild + '"></div>' + '</div>' + '<div class="resize-sensor-shrink" style="' + style + '">' + '<div style="' + styleChild + ' width: 200%; height: 200%"></div>' + '</div>'; element.appendChild(element.resizeSensor);if (getComputedStyle(element, 'position') == 'static') {element.style.position = 'relative';}var expand = element.resizeSensor.childNodes[0];var expandChild = expand.childNodes[0];var shrink = element.resizeSensor.childNodes[1];var dirty, rafId, newWidth, newHeight;var lastWidth = element.offsetWidth;var lastHeight = element.offsetHeight;var reset = function() {expandChild.style.width = '100000px';expandChild.style.height = '100000px';expand.scrollLeft = 100000;expand.scrollTop = 100000;shrink.scrollLeft = 100000;shrink.scrollTop = 100000;};reset();var onResized = function() {rafId = 0;if (!dirty) return;lastWidth = newWidth;lastHeight = newHeight;if (element.resizedAttached) {element.resizedAttached.call();}};var onScroll = function() {newWidth = element.offsetWidth;newHeight = element.offsetHeight;dirty = newWidth != lastWidth || newHeight != lastHeight;if (dirty && !rafId) {rafId = requestAnimationFrame(onResized);}reset();};var addEvent = function(el, name, cb) {if (el.attachEvent) {el.attachEvent('on' + name, cb);} else {el.addEventListener(name, cb);}};addEvent(expand, 'scroll', onScroll);addEvent(shrink, 'scroll', onScroll);}forEachElement(element, function(elem){attachResizeEvent(elem, callback);}); this.detach = function(ev){ResizeSensor.detach(element, ev);};};ResizeSensor.detach=function(element,ev){forEachElement(element,function(elem){if(elem.resizedAttached&&typeof ev=="function"){elem.resizedAttached.remove(ev);if(elem.resizedAttached.length())return;} if(elem.resizeSensor){if(elem.contains(elem.resizeSensor)){elem.removeChild(elem.resizeSensor);} delete elem.resizeSensor;delete elem.resizedAttached;}});};return ResizeSensor;}));
+/**************************************************************************************/
+/*************************************ResizeSensor*************************************/
+/**************************************************************************************/

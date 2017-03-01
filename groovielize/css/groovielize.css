@@ -306,7 +306,8 @@ clearfix hack
 
 .gl-coll .gl-coll-item, .groovie-coll .groovie-coll-item, .gl-collection .gl-collection-item, .groovie-collection .groovie-collection-item{
     width: 100%;
-    overflow: hidden;
+    z-index: 1;
+    overflow-x: hidden;
     position: relative;
     background-color: #FFF;
 }
@@ -346,6 +347,7 @@ clearfix hack
 
 .gl-coll .gl-coll-item > .actions, .groovie-coll .groovie-coll-item > .actions, .gl-collection .gl-collection-item > .actions, .groovie-collection .groovie-collection-item > .actions{
     position: absolute;
+    background-color: #E6E6E6;
     top: 0;
     right: 0;
     z-index: 1;
