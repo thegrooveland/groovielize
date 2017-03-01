@@ -56,6 +56,20 @@ clearfix hack
     display: block; 
 }
 
+/*
+No select text
+*/
+.noselect,
+.gl-coll-item,
+.gl-coll-itemSpec{
+    -webkit-touch-callout: none;
+    -webkit-user-select: none; 
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
 /****************************************************************************************************************************************************************/
 /****************************************************************************************************************************************************************/
 /****************************************************************************LAYOUTS*****************************************************************************/
@@ -238,7 +252,7 @@ clearfix hack
 /****************************************************************************************************************************************************************/
 /****************************************************************************************************************************************************************/
 
-[class*="gl"],[class*="groovie-"]{
+[class*="gl"]{
     font-family: "alte_haas_regular", Arial;
 }
 
@@ -248,7 +262,7 @@ clearfix hack
 /****************************************************************************************************************************************************************/
 /****************************************************************************************************************************************************************/
 
-.gl-btn, .groovie-btn{    
+.gl-btn{
     font-family: "alte_haas_bold", Arial !important;
     display: inline-block;
     position: relative;
@@ -258,6 +272,7 @@ clearfix hack
     height: 36px;
     line-height: 36px;
     padding: 0 1.2rem;
+    margin: 0.2rem;
     vertical-align: middle;
     -webkit-tap-highlight-color: transparent;    
     color: #FFF;
@@ -266,14 +281,14 @@ clearfix hack
     transition: box-shadow 0.2s ease-in-out;
 }
 
-.gl-btn:hover, .groovie-btn:hover,
-.gl-btn.clickedGl, .groovie-btn.clickedGl{
+.gl-btn:hover,
+.gl-btn.clickedGl{
     -webkit-box-shadow: 0px 2px 3px -1px rgba(0,0,0,0.57) !important;
     -moz-box-shadow: 0px 2px 3px -1px rgba(0,0,0,0.57) !important;
     box-shadow: 0px 2px 3px -1px rgba(0,0,0,0.57) !important;
 }
 
-.gl-btn .icon-right , .groovie-btn .icon-right {
+.gl-btn .icon-right{
     float:right;
 }
 
@@ -283,7 +298,7 @@ clearfix hack
 /****************************************************************************************************************************************************************/
 /****************************************************************************************************************************************************************/
 
-.gl-badge, .groovie-badge{
+.gl-badge{
     display: inline-block;
     height: 20px;
     width: 30px;
@@ -301,32 +316,45 @@ clearfix hack
 /****************************************************************************************************************************************************************/
 /****************************************************************************************************************************************************************/
 
-.gl-coll, .groovie-coll, .gl-collection, .groovie-collection{
-}
-
-.gl-coll .gl-coll-item, .groovie-coll .groovie-coll-item, .gl-collection .gl-collection-item, .groovie-collection .groovie-collection-item{
+.gl-coll .gl-coll-item{
     width: 100%;
+    height: 36px;
     z-index: 1;
     overflow-x: hidden;
     position: relative;
     background-color: #FFF;
 }
-.gl-coll .gl-coll-item:nth-child(2n+0), .groovie-coll .groovie-coll-item:nth-child(2n+0), .gl-collection .gl-collection-item:nth-child(2n+0), .groovie-collection .groovie-collection-item:nth-child(2n+0){
+.gl-coll .gl-coll-item:nth-child(2n+0){
     background-color: #F2F2F2;    
 }
 
-.gl-coll .gl-coll-item > *, .groovie-coll .groovie-coll-item > *, .gl-collection .gl-collection-item > *, .groovie-collection .groovie-collection-item > *{
+.gl-coll .gl-coll-item > *{
     padding: 8px 10px;
     display: block;
 }
 
-.gl-coll .gl-coll-item > :first-child, .groovie-coll .groovie-coll-item > :first-child, .gl-collection .gl-collection-item > :first-child, .groovie-collection .groovie-collection-item > :first-child{
+.gl-coll .gl-coll-item > :first-child{
     background-color: inherit;
     position: relative;
     z-index: 2;
+    color: inherit;
+    text-decoration: none;
 }
 
-.gl-coll .gl-coll-item > :first-child > button, .groovie-coll .groovie-coll-item > :first-child > button, .gl-collection .gl-collection-item > :first-child > button, .groovie-collection .groovie-collection-item > :first-child > button{
+.gl-coll .gl-coll-item > a{
+    transition: color 0.3s ease, background-color 0.3s ease;
+}
+.gl-coll .gl-coll-item > a:hover{
+    background-color: #0097FF; 
+    color: #FFF;
+}
+
+.gl-coll .gl-coll-item > :first-child > *{
+    display: inline-block;
+}
+
+.gl-coll .gl-coll-item > :first-child > button{
+    display: block;
     padding: 0;
     margin: 0px;
     border: 0;
@@ -339,16 +367,84 @@ clearfix hack
     cursor: pointer;
 }
 
-.gl-coll .gl-coll-item > :first-child > button:active, .groovie-coll .groovie-coll-item > :first-child > button:active, .gl-collection .gl-collection-item > :first-child > button:active, .groovie-collection .groovie-collection-item > :first-child > button:active,
-.gl-coll .gl-coll-item > :first-child > button:focus, .groovie-coll .groovie-coll-item > :first-child > button:focus, .gl-collection .gl-collection-item > :first-child > button:focus, .groovie-collection .groovie-collection-item > :first-child > button:focus{
+.gl-coll .gl-coll-item > :first-child > button:active,
+.gl-coll .gl-coll-item > :first-child > button:focus{
     outline: none;
     border: none;
 }
 
-.gl-coll .gl-coll-item > .actions, .groovie-coll .groovie-coll-item > .actions, .gl-collection .gl-collection-item > .actions, .groovie-collection .groovie-collection-item > .actions{
+.gl-coll .gl-coll-item > .actions{
     position: absolute;
     background-color: #E6E6E6;
+    padding-top: 4px;
+    padding-bottom: 4px;
     top: 0;
     right: 0;
     z-index: 1;
 }
+
+.gl-coll .gl-coll-item > .actions .gl-btn{
+    height: 28px;
+    margin: 0;
+    line-height: 28px;
+    padding: 0 0.5rem;
+}
+
+/****************************************************************************************************************************************************************/
+/****************************************************************************************************************************************************************/
+/**************************************************************************COLLECTIONS***************************************************************************/
+/****************************************************************************************************************************************************************/
+/****************************************************************************************************************************************************************/
+
+.gl-coll .gl-coll-itemSpec{
+    width: 100%;
+    height: 50px;
+    z-index: 1;
+    overflow-x: hidden;
+    position: relative;
+    background-color: #FFF;
+}
+.gl-coll .gl-coll-itemSpec:nth-child(2n+0){
+    background-color: #F2F2F2;    
+}
+
+.gl-coll .gl-coll-itemSpec > *, .groovie-coll .groovie-coll-itemSpec > *{
+    padding: 4px 10px;
+    display: block;
+}
+
+.gl-coll .gl-coll-itemSpec > :first-child .gl-collection .gl-collection-itemSpec > :first-child{
+    background-color: inherit;
+    position: relative;
+    z-index: 2;
+    overflow: hidden;
+}
+
+.gl-coll .gl-coll-itemSpec > :first-child > *{
+    display: block;
+    float: left;
+}
+
+.gl-coll .gl-coll-itemSpec > :first-child > .gl-badge{
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.gl-coll .gl-coll-itemSpec > :first-child >.gl-coll-itemSpec-img{
+    width: 40px;
+    height: 40px;
+    margin: 5px 0;
+    overflow: hidden;
+    position: relative;
+    border-radius: 100%;
+}
+.gl-coll .gl-coll-itemSpec > :first-child >.gl-coll-itemSpec-img > img.tall{
+    width: auto;
+    height: 100%;
+}
+.gl-coll .gl-coll-itemSpec > :first-child >.gl-coll-itemSpec-img > img.wide{
+    width: 100%;
+    height: auto;
+}
+
+

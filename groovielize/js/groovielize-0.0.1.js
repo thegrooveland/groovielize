@@ -3,17 +3,16 @@ var groovie, gl;
 $(document).ready(function(){
 
     $(".fullscreen").fullscreen();
-    $(".gl-btn, .groovie-btn").click()//onClick();
+    $(".gl-btn").click()//onClick();
     collections();
 });
 
 /*****************************CUSTOM ELEMENTS*****************************/
     function collections(){
-        var elements = $(".gl-coll, .groovie-coll, .gl-collection, .groovie-collection");
+        var elements = $(".gl-coll");
         for(var i = 0; i < elements.length; i++){
             var element = elements.eq(i);
-            var items = element.find(".gl-coll-item, .groovie-coll-item, .gl-collection-item, .groovie-collection-item");
-            console.log(items);
+            var items = element.find(".gl-coll-item, .gl-coll-itemSpec");
             for(var j = 0; j < items.length; j++){
                 items.eq(j).addIemColl();
             }
@@ -54,7 +53,13 @@ $(document).ready(function(){
 /*CUSTOM EVENTS*/
     var attachEvent = document.attachEvent;
     /********************************resize event********************************/
-        
+        $.fn.coverImg = function(){
+            this.each(function(){
+                var $this = $(this);
+                var naturalwidth = this.naturalWidth, naturalheight = this.naturalHeight;
+                $this.addClass((naturalwidth/naturalheight > 1)?"wide":"tall")
+            })
+        }
     /********************************resize event********************************/
 
     /*******************************Click Function*******************************/
@@ -65,7 +70,7 @@ $(document).ready(function(){
                     event.stopPropagation();
                     event.preventDefault();
         
-                    if($(this).hasClass("gl-btn") || $(this).hasClass("groovie-btn")){
+                    if($(this).hasClass("gl-btn")){
                         clickButtons($(this));
                     }else{
                         $(this).trigger('Click');
@@ -117,71 +122,90 @@ $(document).ready(function(){
 /*CUSTOM EVENTS*/
 
 /*****************************CUSTOM ELEMENTS*****************************/
-    $.fn.addIemColl = function(){
-        if($(this).hasClass("gl-coll-item") ||  $(this).hasClass("groovie-coll-item") || $(this).hasClass("gl-collection-item") || $(this).hasClass("groovie-collection-item")){
-            var item = $(this);
-            var actions = $(this).children(".actions");
-            if(actions.length == 1){
-                actions.prev().append("<button class='gl-coll-btn'>...</button>")
-                var btn = actions.prev().children(".gl-coll-btn");
-                btn.click(function(){
-                    if(!$(this).hasClass("clicked")){
-                        $(this).addClass("clicked");
-                        var openitems = item.siblings(".open");
-                        for(var i = 0; i < openitems.length; i++){
-                            var openItem = openitems.eq(i);
-                            toggleItem(openItem);
+    /*******************************ITEM COLL*******************************/
+        $.fn.addIemColl = function(){
+            var item = $(this);                
+            if(item.hasClass("gl-coll-item") || item.hasClass("gl-coll-itemSpec")){
+                var actions = item.children(".actions");
+
+                if(actions.length == 1){
+                    actions.prev().append("<button class='gl-coll-btn'>...</button>")
+                    actions.children().addClass("gl-btn").click();
+                    var btn = actions.prev().children(".gl-coll-btn");
+                    btn.click(function(){
+                        if(!$(this).hasClass("clicked")){
+                            $(this).addClass("clicked");
+                            var openitems = item.siblings(".open");
+                            for(var i = 0; i < openitems.length; i++){
+                                var openItem = openitems.eq(i);
+                                toggleItem(openItem);
+                            }
+                            toggleItem(item);
                         }
-                        toggleItem(item);
+                    });
+                }
+            }
+
+            if(item.hasClass("gl-coll-itemSpec")){
+                var item_content = item.children().first();
+                var img = item_content.children("img");;
+                if(img.length > 0){                    
+                    element = "<div class='gl-coll-itemSpec-img'>"+img.eq(0).prop('outerHTML')+"</div>";
+                    img.eq(0).replaceWith(element);
+                    for(var i = 1; i < img.length; i++){
+                        img.eq(i).remove();
                     }
+                    img = item_content.children(".gl-coll-itemSpec-img");
+                    img.children().coverImg();
+                }
+            }
+
+        }
+
+        function toggleItem(item){
+            var item_content = item.children(".actions").prev();
+            var action_width = item.children(".actions").outerWidth(true);
+            var item_width = item_content.width();        
+            var item_content_padding_margin = item_content.outerWidth(true)-item_content.width();
+            var shadow = "0px 3px 6px 0px rgba(0,0,0,0.25)";
+
+            item_content.width(item_width);
+            item.css("z-index",3);
+
+            if(item.hasClass("open")){
+                item.removeClass("open");
+                new_width = item_width + action_width;
+                shadow = "0px 3px 6px 0px rgba(0,0,0,0)";
+                ResizeSensor.detach(item);
+            }else{
+                item.addClass("open")
+                new_width = item_width - action_width;
+                new ResizeSensor(item, function() {
+                    var item_width = item.width()-item_content_padding_margin;
+                    item_content.width(item_width - item.children(".actions").outerWidth(true));
                 });
             }
+
+            setTimeout(function() {
+                if(!item.hasClass("open")){
+                    item_content.removeAttr("style");
+                    item.removeAttr("style");
+                }
+                item_content.children(".gl-coll-btn").removeClass("clicked");
+            }, 300);
+            item.transition({
+                "-webkit-box-shadow": shadow,
+                "-moz-box-shadow": shadow,
+                "box-shadow": shadow
+            },300, "easeInOutQuad");
+            item_content.transition({
+                width: new_width+"px",
+                "-webkit-box-shadow": shadow,
+                "-moz-box-shadow": shadow,
+                "box-shadow": shadow
+            },300, "easeInOutQuad");
         }
-    }
-
-    function toggleItem(item){
-        var item_content = item.children(".actions").prev();
-        var action_width = item.children(".actions").outerWidth(true);
-        var item_width = item_content.width();        
-        var item_content_padding_margin = item_content.outerWidth(true)-item_content.width();
-        var shadow = "0px 3px 6px 0px rgba(0,0,0,0.25)";
-
-        item_content.width(item_width);
-        item.css("z-index",3);
-
-        if(item.hasClass("open")){
-            item.removeClass("open");
-            new_width = item_width + action_width;
-            shadow = "0px 3px 6px 0px rgba(0,0,0,0)";
-            ResizeSensor.detach(item);
-        }else{
-            item.addClass("open")
-            new_width = item_width - action_width;
-            new ResizeSensor(item, function() {
-                var item_width = item.width()-item_content_padding_margin;
-                item_content.width(item_width - item.children(".actions").outerWidth(true));
-            });
-        }
-
-        setTimeout(function() {
-            if(!item.hasClass("open")){
-                item_content.removeAttr("style");
-                item.removeAttr("style");
-            }
-            item_content.children(".gl-coll-btn").removeClass("clicked");
-        }, 300);
-        item.transition({
-            "-webkit-box-shadow": shadow,
-            "-moz-box-shadow": shadow,
-            "box-shadow": shadow
-        },300, "easeInOutQuad");
-        item_content.transition({
-            width: new_width+"px",
-            "-webkit-box-shadow": shadow,
-            "-moz-box-shadow": shadow,
-            "box-shadow": shadow
-        },300, "easeInOutQuad");
-    }
+    /*******************************ITEM COLL*******************************/
 /*****************************CUSTOM ELEMENTS*****************************/
 
 }(jQuery));
