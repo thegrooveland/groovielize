@@ -4,4 +4,4 @@ Groovielize is a Custom css/jQuery Framework
 ##About
 Web page: [Grooveland](http://thegrooveland.com)<br/>
 Developer: [Alejandro de Tovar](https://github.com/venespana)<br/>
-Designer: Rafael de Tovar<br/>
+Designer: [Rafael de Tovar](https://www.behance.net/rafaeldetoa453)<br/>
