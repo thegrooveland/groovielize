@@ -63,8 +63,7 @@ No select text
 .gl-coll-item,
 .gl-coll-itemSpec{
     -webkit-touch-callout: none;
-    -webkit-user-select: none; 
-    -khtml-user-select: none;
+    -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
@@ -254,6 +253,7 @@ No select text
 
 [class*="gl"]{
     font-family: "alte_haas_regular", Arial;
+    color: #303030;
 }
 
 /****************************************************************************************************************************************************************/
@@ -278,13 +278,16 @@ No select text
     color: #FFF;
     background-color: #0097FF;
     text-decoration: none;
+    -webkit-transition: box-shadow 0.2s ease-in-out;
     transition: box-shadow 0.2s ease-in-out;
+}
+
+.gl-btn > [class*="gl"]{
+    color: #FFF;
 }
 
 .gl-btn:hover,
 .gl-btn.clickedGl{
-    -webkit-box-shadow: 0px 2px 3px -1px rgba(0,0,0,0.57) !important;
-    -moz-box-shadow: 0px 2px 3px -1px rgba(0,0,0,0.57) !important;
     box-shadow: 0px 2px 3px -1px rgba(0,0,0,0.57) !important;
 }
 
@@ -299,7 +302,7 @@ No select text
 /****************************************************************************************************************************************************************/
 
 .gl-badge{
-    display: inline-block;
+    display: inline-block !important;
     height: 20px;
     width: 30px;
     line-height: 20px;
@@ -308,6 +311,7 @@ No select text
     border-radius: 6px;
     background-color:#0097FF;
     margin-right: 10px;
+    font-size:10pt;
 }
 
 /****************************************************************************************************************************************************************/
@@ -342,6 +346,7 @@ No select text
 }
 
 .gl-coll .gl-coll-item > a{
+    -webkit-transition: color 0.3s ease, background-color 0.3s ease;
     transition: color 0.3s ease, background-color 0.3s ease;
 }
 .gl-coll .gl-coll-item > a:hover{
@@ -388,6 +393,7 @@ No select text
     margin: 0;
     line-height: 28px;
     padding: 0 0.5rem;
+    /*! color:#FFF; */
 }
 
 /****************************************************************************************************************************************************************/
@@ -408,36 +414,50 @@ No select text
     background-color: #F2F2F2;    
 }
 
-.gl-coll .gl-coll-itemSpec > *, .groovie-coll .groovie-coll-itemSpec > *{
+.gl-coll .gl-coll-itemSpec > *{
     padding: 4px 10px;
     display: block;
 }
 
-.gl-coll .gl-coll-itemSpec > :first-child .gl-collection .gl-collection-itemSpec > :first-child{
+.gl-coll .gl-coll-itemSpec > :first-child{
     background-color: inherit;
     position: relative;
     z-index: 2;
     overflow: hidden;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    text-decoration: none;
 }
 
-.gl-coll .gl-coll-itemSpec > :first-child > *{
-    display: block;
-    float: left;
+.gl-coll .gl-coll-itemSpec > a{
+    -webkit-transition: color 0.3s ease, background-color 0.3s ease;
+    transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+.gl-coll .gl-coll-itemSpec > a:hover{
+    background-color: #0097FF; 
+    color: #FFF;
+}
+.gl-coll .gl-coll-itemSpec > a:hover .gl-content,
+.gl-coll .gl-coll-itemSpec > a:hover .gl-header{
+    color: #FFF;
 }
 
 .gl-coll .gl-coll-itemSpec > :first-child > .gl-badge{
-    margin-top: 15px;
-    margin-bottom: 15px;
+    margin-top: 11px;
+    margin-bottom: 11px;
 }
 
 .gl-coll .gl-coll-itemSpec > :first-child >.gl-coll-itemSpec-img{
     width: 40px;
     height: 40px;
-    margin: 5px 0;
+    margin: 1px 10px 1px 0;
     overflow: hidden;
     position: relative;
     border-radius: 100%;
 }
+
 .gl-coll .gl-coll-itemSpec > :first-child >.gl-coll-itemSpec-img > img.tall{
     width: auto;
     height: 100%;
@@ -445,6 +465,56 @@ No select text
 .gl-coll .gl-coll-itemSpec > :first-child >.gl-coll-itemSpec-img > img.wide{
     width: 100%;
     height: auto;
+}
+
+.gl-coll .gl-coll-itemSpec > :first-child > .gl-content{
+    display: block;
+    width: calc(100% - 120px);
+    min-height: 42px;
+    font-size: 10pt;
+    height: 100%;
+}
+
+.gl-coll .gl-coll-itemSpec > :first-child > .gl-content .gl-header{ 
+    display: block;
+    font-size: 14pt;
+}
+
+.gl-coll .gl-coll-itemSpec > :first-child > button{
+    display: block;
+    padding: 0;
+    margin: 0px;
+    border: 0;
+    background: transparent;
+    position: absolute;
+    top: 8px;
+    bottom: 8px;
+    right: 10px;
+    left: auto;
+    cursor: pointer;
+}
+
+.gl-coll .gl-coll-itemSpec > :first-child > button:active,
+.gl-coll .gl-coll-itemSpec > :first-child > button:focus{
+    outline: none;
+    border: none;
+}
+
+.gl-coll .gl-coll-itemSpec > .actions{
+    position: absolute;
+    background-color: #E6E6E6;
+    padding-top: 11px;
+    padding-bottom: 11px;
+    top: 0;
+    right: 0;
+    z-index: 1;
+}
+
+.gl-coll .gl-coll-itemSpec > .actions .gl-btn{
+    height: 28px;
+    margin: 0;
+    line-height: 28px;
+    padding: 0 0.5rem;
 }
 
 

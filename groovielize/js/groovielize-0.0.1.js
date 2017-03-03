@@ -144,6 +144,8 @@ $(document).ready(function(){
                         }
                     });
                 }
+
+                item.children().first().addBadge();
             }
 
             if(item.hasClass("gl-coll-itemSpec")){
@@ -206,6 +208,58 @@ $(document).ready(function(){
             },300, "easeInOutQuad");
         }
     /*******************************ITEM COLL*******************************/
+
+    /********************************BADGES*********************************/
+        $.fn.addBadge = function (prepend = true){
+            element = $(this);
+            value = element.attr("data-badge");
+
+            if(isNaN(value) && value != undefined){
+                value = (value.toUpperCase() == "NEW")? -1 : value;
+            }
+            if(!isNaN(value)){
+                if(prepend)
+                    element.prepend("<span class='gl-badge'>new</span>");
+                else
+                    element.append("<span class='gl-badge'>new</span>");
+
+                if(value > 0)
+                    element.updateBadge(value);
+            }
+            return element;
+        }
+        $.fn.updateBadge = function(value){
+            element = $(this);
+            badge = element.children(".gl-badge");
+            if(badge.length > 0){
+                if(badge.length > 1){  
+                    for(var i = 1; i < badge.length; i++){
+                        badge.eq(i).remove();
+                    }
+                }
+                if(!isNaN(value)){
+                    if(value > 0){
+                        if(value >= 100){
+                            value = "+99";
+                        }
+                        badge.eq(0).text(value);
+                    }else{
+                        badge.eq(0).remove();
+                    }   
+                }           
+            }
+        }
+        $.fn.rmBadge = function(){
+            element = $(this);
+            badge = element.children(".gl-badge");
+            if(badge.length > 0){  
+                for(var i = 0; i < badge.length; i++){
+                    badge.eq(i).remove();
+                }
+            }
+        }
+    /********************************BADGES*********************************/
+
 /*****************************CUSTOM ELEMENTS*****************************/
 
 }(jQuery));
