@@ -5,6 +5,7 @@ $(document).ready(function(){
     $(".fullscreen").fullscreen();
     $(".gl-btn").click()//onClick();
     collections();
+    $(".gl-title").addTitle();
 });
 
 /*****************************CUSTOM ELEMENTS*****************************/
@@ -208,6 +209,18 @@ $(document).ready(function(){
             },300, "easeInOutQuad");
         }
     /*******************************ITEM COLL*******************************/
+
+    /*********************************TITLES*********************************/
+        $.fn.addTitle = function(){
+            element = $(this);
+            if(element.hasClass("gl-title")){
+                for(var i = 0;i < element.length; i++){
+                    var text = element.eq(i).text();
+                    element.eq(i).html("<span>"+text+"</span>");
+                }
+            }
+        }
+    /*********************************TITLES*********************************/
 
     /********************************BADGES*********************************/
         $.fn.addBadge = function (prepend = true){
