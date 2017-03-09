@@ -71,6 +71,18 @@ No select text
     cursor: default;
 }
 
+/*
+Truncate text with ellipsis
+*/
+.truncate,
+.gl-content,
+.gl-content *,
+.gl-coll-item :first-child{    
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 /****************************************************************************************************************************************************************/
 /****************************************************************************************************************************************************************/
 /****************************************************************************LAYOUTS*****************************************************************************/
@@ -82,9 +94,9 @@ No select text
     position: relative;
 }
 
-.grid-layout > [class*="hs-"],
-.grid-layout > [class*="ms-"],
-.grid-layout > [class*="ss-"]{
+.grid-layout > [class*="hd-"],
+.grid-layout > [class*="md-"],
+.grid-layout > [class*="ld-"]{
     float: left;
 }
 
@@ -95,155 +107,155 @@ No select text
 /****************************************************************************************************************************************************************/
 /****************************************************************************************************************************************************************/
 
-[class*="hs-"],
-[class*="ms-"],
-[class*="ss-"]{
+[class*="hd-"],
+[class*="md-"],
+[class*="ld-"]{
     position: relative;
 }
 
 @media only screen and (min-width: 1024px){    
-    .ss-1{width: 5%;}
-    .ss-2{width: 10%;}
-    .ss-3{width: 15%;}
-    .ss-4{width: 20%;}
-    .ss-5{width: 25%;}
-    .ss-6{width: 30%;}
-    .ss-7{width: 35%;}
-    .ss-8{width: 40%;}
-    .ss-9{width: 45%;}
-    .ss-10{width: 50%;}
-    .ss-11{width: 55%;}
-    .ss-12{width: 60%;}
-    .ss-13{width: 65%;}
-    .ss-14{width: 70%;}
-    .ss-15{width: 75%;}
-    .ss-16{width: 80%;}
-    .ss-17{width: 85%;}
-    .ss-18{width: 90%;}
-    .ss-19{width: 95%;}
-    .ss-20{width: 100%;}
+    .ld-1{width: 5%;}
+    .ld-2{width: 10%;}
+    .ld-3{width: 15%;}
+    .ld-4{width: 20%;}
+    .ld-5{width: 25%;}
+    .ld-6{width: 30%;}
+    .ld-7{width: 35%;}
+    .ld-8{width: 40%;}
+    .ld-9{width: 45%;}
+    .ld-10{width: 50%;}
+    .ld-11{width: 55%;}
+    .ld-12{width: 60%;}
+    .ld-13{width: 65%;}
+    .ld-14{width: 70%;}
+    .ld-15{width: 75%;}
+    .ld-16{width: 80%;}
+    .ld-17{width: 85%;}
+    .ld-18{width: 90%;}
+    .ld-19{width: 95%;}
+    .ld-20{width: 100%;}
     
-    .ms-1{width: 5%;}
-    .ms-2{width: 10%;}
-    .ms-3{width: 15%;}
-    .ms-4{width: 20%;}
-    .ms-5{width: 25%;}
-    .ms-6{width: 30%;}
-    .ms-7{width: 35%;}
-    .ms-8{width: 40%;}
-    .ms-9{width: 45%;}
-    .ms-10{width: 50%;}
-    .ms-11{width: 55%;}
-    .ms-12{width: 60%;}
-    .ms-13{width: 65%;}
-    .ms-14{width: 70%;}
-    .ms-15{width: 75%;}
-    .ms-16{width: 80%;}
-    .ms-17{width: 85%;}
-    .ms-18{width: 90%;}
-    .ms-19{width: 95%;}
-    .ms-20{width: 100%;}
+    .md-1{width: 5%;}
+    .md-2{width: 10%;}
+    .md-3{width: 15%;}
+    .md-4{width: 20%;}
+    .md-5{width: 25%;}
+    .md-6{width: 30%;}
+    .md-7{width: 35%;}
+    .md-8{width: 40%;}
+    .md-9{width: 45%;}
+    .md-10{width: 50%;}
+    .md-11{width: 55%;}
+    .md-12{width: 60%;}
+    .md-13{width: 65%;}
+    .md-14{width: 70%;}
+    .md-15{width: 75%;}
+    .md-16{width: 80%;}
+    .md-17{width: 85%;}
+    .md-18{width: 90%;}
+    .md-19{width: 95%;}
+    .md-20{width: 100%;}
     
-    .hs-1{width: 5%;}
-    .hs-2{width: 10%;}    
-    .hs-3{width: 15%;}
-    .hs-4{width: 20%;}    
-    .hs-5{width: 25%;}
-    .hs-6{width: 30%;}    
-    .hs-7{width: 35%;}
-    .hs-8{width: 40%;}    
-    .hs-9{width: 45%;}
-    .hs-10{width: 50%;}    
-    .hs-11{width: 55%;}
-    .hs-12{width: 60%;}    
-    .hs-13{width: 65%;}
-    .hs-14{width: 70%;}    
-    .hs-15{width: 75%;}
-    .hs-16{width: 80%;}    
-    .hs-17{width: 85%;}
-    .hs-18{width: 90%;}    
-    .hs-19{width: 95%;}
-    .hs-20{width: 100%;}
+    .hd-1{width: 5%;}
+    .hd-2{width: 10%;}    
+    .hd-3{width: 15%;}
+    .hd-4{width: 20%;}    
+    .hd-5{width: 25%;}
+    .hd-6{width: 30%;}    
+    .hd-7{width: 35%;}
+    .hd-8{width: 40%;}    
+    .hd-9{width: 45%;}
+    .hd-10{width: 50%;}    
+    .hd-11{width: 55%;}
+    .hd-12{width: 60%;}    
+    .hd-13{width: 65%;}
+    .hd-14{width: 70%;}    
+    .hd-15{width: 75%;}
+    .hd-16{width: 80%;}    
+    .hd-17{width: 85%;}
+    .hd-18{width: 90%;}    
+    .hd-19{width: 95%;}
+    .hd-20{width: 100%;}
 }
 
 @media only screen and (min-width: 720px) and (max-width: 1023px){
-    .hs-1,.hs-2,.hs-3,.hs-4,.hs-5{width: 25%;}
-    .hs-6,.hs-7,.hs-8,.hs-9,.hs-10{width: 50%;}    
-    .hs-11,.hs-12,.hs-13,.hs-14,.hs-15{width: 75%;}
-    .hs-16,.hs-17,.hs-18,.hs-19,.hs-20{width: 100%;}
+    .hd-1,.hd-2,.hd-3,.hd-4,.hd-5{width: 25%;}
+    .hd-6,.hd-7,.hd-8,.hd-9,.hd-10{width: 50%;}    
+    .hd-11,.hd-12,.hd-13,.hd-14,.hd-15{width: 75%;}
+    .hd-16,.hd-17,.hd-18,.hd-19,.hd-20{width: 100%;}
     
-    .ss-1{width: 5%;}
-    .ss-2{width: 10%;}
-    .ss-3{width: 15%;}
-    .ss-4{width: 20%;}
-    .ss-5{width: 25%;}
-    .ss-6{width: 30%;}
-    .ss-7{width: 35%;}
-    .ss-8{width: 40%;}
-    .ss-9{width: 45%;}
-    .ss-10{width: 50%;}
-    .ss-11{width: 55%;}
-    .ss-12{width: 60%;}
-    .ss-13{width: 65%;}
-    .ss-14{width: 70%;}
-    .ss-15{width: 75%;}
-    .ss-16{width: 80%;}
-    .ss-17{width: 85%;}
-    .ss-18{width: 90%;}
-    .ss-19{width: 95%;}
-    .ss-20{width: 100%;}
+    .ld-1{width: 5%;}
+    .ld-2{width: 10%;}
+    .ld-3{width: 15%;}
+    .ld-4{width: 20%;}
+    .ld-5{width: 25%;}
+    .ld-6{width: 30%;}
+    .ld-7{width: 35%;}
+    .ld-8{width: 40%;}
+    .ld-9{width: 45%;}
+    .ld-10{width: 50%;}
+    .ld-11{width: 55%;}
+    .ld-12{width: 60%;}
+    .ld-13{width: 65%;}
+    .ld-14{width: 70%;}
+    .ld-15{width: 75%;}
+    .ld-16{width: 80%;}
+    .ld-17{width: 85%;}
+    .ld-18{width: 90%;}
+    .ld-19{width: 95%;}
+    .ld-20{width: 100%;}
     
-    .ms-1{width: 5%;}
-    .ms-2{width: 10%;}    
-    .ms-3{width: 15%;}
-    .ms-4{width: 20%;}    
-    .ms-5{width: 25%;}
-    .ms-6{width: 30%;}    
-    .ms-7{width: 35%;}
-    .ms-8{width: 40%;}    
-    .ms-9{width: 45%;}
-    .ms-10{width: 50%;}    
-    .ms-11{width: 55%;}
-    .ms-12{width: 60%;}    
-    .ms-13{width: 65%;}
-    .ms-14{width: 70%;}    
-    .ms-15{width: 75%;}
-    .ms-16{width: 80%;}    
-    .ms-17{width: 85%;}
-    .ms-18{width: 90%;}    
-    .ms-19{width: 95%;}
-    .ms-20{width: 100%;}
+    .md-1{width: 5%;}
+    .md-2{width: 10%;}    
+    .md-3{width: 15%;}
+    .md-4{width: 20%;}    
+    .md-5{width: 25%;}
+    .md-6{width: 30%;}    
+    .md-7{width: 35%;}
+    .md-8{width: 40%;}    
+    .md-9{width: 45%;}
+    .md-10{width: 50%;}    
+    .md-11{width: 55%;}
+    .md-12{width: 60%;}    
+    .md-13{width: 65%;}
+    .md-14{width: 70%;}    
+    .md-15{width: 75%;}
+    .md-16{width: 80%;}    
+    .md-17{width: 85%;}
+    .md-18{width: 90%;}    
+    .md-19{width: 95%;}
+    .md-20{width: 100%;}
 }
 
 @media only screen and (min-width: 200px)  and (max-width: 719px){
-    .hs-1,.hs-2,.hs-3,.hs-4,.hs-5,.hs-6,.hs-7,.hs-8,.hs-9,.hs-10{width: 50%;}    
-    .hs-11,.hs-12,.hs-13,.hs-14,.hs-15,.hs-16,.hs-17,.hs-18,.hs-19,.hs-20{width: 100%;}
+    .hd-1,.hd-2,.hd-3,.hd-4,.hd-5,.hd-6,.hd-7,.hd-8,.hd-9,.hd-10{width: 50%;}    
+    .hd-11,.hd-12,.hd-13,.hd-14,.hd-15,.hd-16,.hd-17,.hd-18,.hd-19,.hd-20{width: 100%;}
     
-    .ms-1,.ms-2,.ms-3,.ms-4,.ms-5{width: 25%;}
-    .ms-6,.ms-7,.ms-8,.ms-9,.ms-10{width: 50%;}    
-    .ms-11,.ms-12,.ms-13,.ms-14,.ms-15{width: 75%;}
-    .ms-16,.ms-17,.ms-18,.ms-19,.ms-20{width: 100%;}
+    .md-1,.md-2,.md-3,.md-4,.md-5{width: 25%;}
+    .md-6,.md-7,.md-8,.md-9,.md-10{width: 50%;}    
+    .md-11,.md-12,.md-13,.md-14,.md-15{width: 75%;}
+    .md-16,.md-17,.md-18,.md-19,.md-20{width: 100%;}
     
-    .ss-1{width: 5%;}
-    .ss-2{width: 10%;}
-    .ss-3{width: 15%;}
-    .ss-4{width: 20%;}
-    .ss-5{width: 25%;}
-    .ss-6{width: 30%;}
-    .ss-7{width: 35%;}
-    .ss-8{width: 40%;}
-    .ss-9{width: 45%;}
-    .ss-10{width: 50%;}
-    .ss-11{width: 55%;}
-    .ss-12{width: 60%;}
-    .ss-13{width: 65%;}
-    .ss-14{width: 70%;}
-    .ss-15{width: 75%;}
-    .ss-16{width: 80%;}
-    .ss-17{width: 85%;}
-    .ss-18{width: 90%;}
-    .ss-19{width: 95%;}
-    .ss-20{width: 100%;}
+    .ld-1{width: 5%;}
+    .ld-2{width: 10%;}
+    .ld-3{width: 15%;}
+    .ld-4{width: 20%;}
+    .ld-5{width: 25%;}
+    .ld-6{width: 30%;}
+    .ld-7{width: 35%;}
+    .ld-8{width: 40%;}
+    .ld-9{width: 45%;}
+    .ld-10{width: 50%;}
+    .ld-11{width: 55%;}
+    .ld-12{width: 60%;}
+    .ld-13{width: 65%;}
+    .ld-14{width: 70%;}
+    .ld-15{width: 75%;}
+    .ld-16{width: 80%;}
+    .ld-17{width: 85%;}
+    .ld-18{width: 90%;}
+    .ld-19{width: 95%;}
+    .ld-20{width: 100%;}
 }
 
 
@@ -369,6 +381,7 @@ No select text
     color: inherit;
     text-decoration: none;
     height: 20px;
+    padding-right: 35px;
 }
 
 .gl-coll .gl-coll-item > a{
@@ -412,6 +425,7 @@ No select text
     top: 0;
     right: 0;
     z-index: 1;
+    text-align: center;
 }
 
 .gl-coll .gl-coll-item > .actions .gl-btn{
@@ -499,6 +513,8 @@ No select text
     min-height: 42px;
     font-size: 10pt;
     height: 100%;
+    min-width: 160px;
+    overflow-wrap: ;
 }
 
 .gl-coll .gl-coll-itemSpec > :first-child > .gl-content .gl-header{ 
@@ -534,6 +550,7 @@ No select text
     top: 0;
     right: 0;
     z-index: 1;
+    text-align: center;
 }
 
 .gl-coll .gl-coll-itemSpec > .actions .gl-btn{
@@ -573,9 +590,8 @@ No select text
 
 .gl-table tbody,
 .gl-table tbody *{
-    height: 30px;
     vertical-align: middle;
-    padding: 0 10px;
+    padding: 5px 10px;
 }
 
 .gl-table.striped > tbody tr:nth-child(2n+0),

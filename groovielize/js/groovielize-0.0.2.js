@@ -148,10 +148,10 @@ $(document).ready(function(){
 
                 item.children().first().addBadge();
             }
-
+            
             if(item.hasClass("gl-coll-itemSpec")){
                 var item_content = item.children().first();
-                var img = item_content.children("img");;
+                var img = item_content.children("img");
                 if(img.length > 0){                    
                     element = "<div class='gl-coll-itemSpec-img'>"+img.eq(0).prop('outerHTML')+"</div>";
                     img.eq(0).replaceWith(element);
@@ -166,42 +166,99 @@ $(document).ready(function(){
         }
 
         function toggleItem(item){
-            var item_content = item.children(".actions").prev();
-            var action_width = item.children(".actions").outerWidth(true);
-            var item_width = item_content.width();        
-            var item_content_padding_margin = item_content.outerWidth(true)-item_content.width();
-            var shadow = "0px 3px 6px 0px rgba(0,0,0,0.25)";
-
-            item_content.width(item_width);
-            item.css("z-index",3);
-
-            if(item.hasClass("open")){
-                item.removeClass("open");
-                new_width = item_width + action_width;
-                shadow = "0px 3px 6px 0px rgba(0,0,0,0)";
-                ResizeSensor.detach(item);
-            }else{
-                item.addClass("open")
-                new_width = item_width - action_width;
-                new ResizeSensor(item, function() {
-                    var item_width = item.width()-item_content_padding_margin;
-                    item_content.width(item_width - item.children(".actions").outerWidth(true));
-                });
+            var item = {
+                element: item,
+                width: item.width(),
+                height: item.height()
             }
+            
+            var action = {
+                element: item.element.children(".actions"),
+                width: item.element.children(".actions").width(),
+                height: item.element.children(".actions").height(),
+                outerWidth: item.element.children(".actions").outerWidth(true), 
+                outerHeight: item.element.children(".actions").outerHeight(true)
+            };   
+            action.paddingWidth = action.outerWidth - action.width;
+            action.paddingHeight = action.outerHeight - action.height;
 
-            setTimeout(function() {
-                if(!item.hasClass("open")){
-                    item_content.removeAttr("style");
-                    item.removeAttr("style");
+            var content = {
+                element: action.element.prev(),
+                width: action.element.prev().width(),
+                height: action.element.prev().height(),
+                outerWidth: action.element.prev().outerWidth(true),
+                outerHeight: action.element.prev().outerHeight(true),
+            };  
+            content.paddingWidth = content.outerWidth - content.width;
+            content.paddingHeight = content.outerHeight - content.height;
+
+            var shadow = "0px 3px 6px 0px rgba(0,0,0,0.25)";
+            var new_width = 0, new_height = 0, border_radius = 0;
+
+            content.element.width(content.width);
+            item.element.css("z-index",3);
+
+            if(item.element.hasClass("open")){
+                item.element.removeClass("open");
+                console.log(item.width)
+                if(item.width > 350){
+                    new_width = content.width + action.outerWidth;
+                    new_height = content.outerHeight;                    
+                }else{                    
+                    new_width = content.width;
+                    new_height = content.outerHeight;
                 }
-                item_content.children(".gl-coll-btn").removeClass("clicked");
+
+                ResizeSensor.detach(item.element);
+                shadow = "0px 3px 6px 0px rgba(0,0,0,0)";
+            }else{
+                item.element.addClass("open")
+
+                if(item.width > 350){
+                    new_width = content.width - action.outerWidth;
+                    new_height = content.outerHeight;
+                    border_radius = "0 6px 6px 0";
+                }else{
+                    new_width = content.width;
+                    new_height = item.height + action.outerHeight;
+                    action.element.css({
+                        width: item.width - action.paddingWidth,
+                        bottom: 0,
+                        left:0,
+                        top: "auto",
+                        right: "auto",
+                    });
+                    border_radius = "0 0 6px 6px";
+                }     
+
+                
+                new ResizeSensor(item.element, function() {
+                    width = (item.element.width() - content.paddingWidth);
+                    if(content.outerWidth >= 350)
+                        width -= action.outerWidth;
+                    else
+                        action.element.width(item.element.width() - action.paddingWidth);
+                    
+                    content.element.width(width);
+                });           
+            }
+            
+            setTimeout(function() {
+                if(!item.element.hasClass("open")){
+                    content.element.removeAttr("style");
+                    item.element.removeAttr("style");
+                    action.element.removeAttr("style");
+                }
+                content.element.children(".gl-coll-btn").removeClass("clicked");
             }, 300);
-            item.transition({
+            item.element.transition({
+                height: new_height+"px",
                 "-webkit-box-shadow": shadow,
                 "-moz-box-shadow": shadow,
-                "box-shadow": shadow
+                "box-shadow": shadow,
+                "border-radius": border_radius,
             },300, "easeInOutQuad");
-            item_content.transition({
+            content.element.transition({
                 width: new_width+"px",
                 "-webkit-box-shadow": shadow,
                 "-moz-box-shadow": shadow,
@@ -220,6 +277,7 @@ $(document).ready(function(){
                 }
             }
         }
+
     /*********************************TITLES*********************************/
 
     /********************************BADGES*********************************/
@@ -293,7 +351,7 @@ $(document).ready(function(){
     /*
     *Clase Color.
         *Clase para gestionar las conversiones de colores en formato de string.
-        *@color {string} parametro que recibe un string en los siguiente formatos
+        *@param {string} color, parametro que recibe un string en los siguiente formatos
         *rgb(int r, int g, int, b), #RRGGBB, hsv(int h, int s, int v)
         *los valores r,g,b son del 0 al 255, h es de 0 a 359 y s,v son de 0 a 100
     */
