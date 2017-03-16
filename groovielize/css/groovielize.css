@@ -62,7 +62,8 @@ No select text
 .noselect,
 .gl-coll-item,
 .gl-coll-itemSpec,
-.gl-title{
+.gl-title,
+.gl-taskbar #taskbar-time{
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -83,6 +84,21 @@ Truncate text with ellipsis
   text-overflow: ellipsis;
 }
 
+/*
+Remove :focus
+*/
+.gl-taskbar .gl-menu-button:active,
+.gl-taskbar .gl-menu-button:focus,
+.gl-btn:active,
+.gl-btn:focus,
+.gl-coll .gl-coll-item > :first-child > button:active,
+.gl-coll .gl-coll-item > :first-child > button:focus,
+.gl-coll .gl-coll-itemSpec > :first-child > button:active,
+.gl-coll .gl-coll-itemSpec > :first-child > button:focus{
+    outline: none;
+    border: none;
+}
+
 /****************************************************************************************************************************************************************/
 /****************************************************************************************************************************************************************/
 /****************************************************************************LAYOUTS*****************************************************************************/
@@ -92,6 +108,7 @@ Truncate text with ellipsis
 .grid-layout{
     width: 100%;
     position: relative;
+    overflow: auto;
 }
 
 .grid-layout > [class*="hd-"],
@@ -272,6 +289,55 @@ Truncate text with ellipsis
 
 /****************************************************************************************************************************************************************/
 /****************************************************************************************************************************************************************/
+/****************************************************************************TASK BAR****************************************************************************/
+/****************************************************************************************************************************************************************/
+/****************************************************************************************************************************************************************/
+
+.gl-taskbar{
+    width: 100%;
+    height: 50px;
+    background-color: #0097FF;
+    color: #FFFFFF;
+    position: fixed;
+    bottom: 0;
+    z-index: 99999;
+}
+
+.gl-taskbar #taskbar-time{
+    font-size: 10pt;
+    height: 50px;
+    padding: 0 20px;
+    float: left;
+}
+.gl-taskbar #taskbar-time > span{
+    display: table-cell;
+    vertical-align: middle;
+    height: 50px;
+}
+.gl-taskbar #taskbar-time b.clock,
+.gl-taskbar #taskbar-time b.date{
+    display: block; 
+}
+
+.gl-taskbar .gl-menu-button{
+    float: right;
+    height: 40px;
+    width: 40px;
+    margin: 5px 50px 5px 20px;
+    font-size:22pt;
+    text-align: center;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: #FFF;
+    line-height: 40px;
+    cursor: pointer;
+}
+.gl-taskbar .gl-menu-button:before {
+  content: "\e01c";
+}
+/****************************************************************************************************************************************************************/
+/****************************************************************************************************************************************************************/
 /*****************************************************************************TITLES*****************************************************************************/
 /****************************************************************************************************************************************************************/
 /****************************************************************************************************************************************************************/
@@ -411,12 +477,6 @@ Truncate text with ellipsis
     cursor: pointer;
 }
 
-.gl-coll .gl-coll-item > :first-child > button:active,
-.gl-coll .gl-coll-item > :first-child > button:focus{
-    outline: none;
-    border: none;
-}
-
 .gl-coll .gl-coll-item > .actions{
     position: absolute;
     background-color: #E6E6E6;
@@ -534,12 +594,6 @@ Truncate text with ellipsis
     right: 10px;
     left: auto;
     cursor: pointer;
-}
-
-.gl-coll .gl-coll-itemSpec > :first-child > button:active,
-.gl-coll .gl-coll-itemSpec > :first-child > button:focus{
-    outline: none;
-    border: none;
 }
 
 .gl-coll .gl-coll-itemSpec > .actions{

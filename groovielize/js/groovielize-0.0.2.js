@@ -3,6 +3,7 @@ var groovie, gl;
 $(document).ready(function(){
 
     $(".fullscreen").fullscreen();
+    taskbar();
     $(".gl-btn").click()//onClick();
     collections();
     $(".gl-title").addTitle();
@@ -18,6 +19,16 @@ $(document).ready(function(){
                 items.eq(j).addIemColl();
             }
         }
+    }
+
+    function taskbar(){
+        var elements = $(".gl-taskbar");
+        if(elements.length > 1){
+            for (var i = 1; i < elements.length; i++){
+                elements.eq(i).remove()
+            }
+        }
+        return elements.eq(0).addTaskbar();
     }
 /*****************************CUSTOM ELEMENTS*****************************/
 
@@ -36,8 +47,15 @@ $(document).ready(function(){
         var type = ((attr == "min" || attr == "max")? attr+"-" : "" )+"height";
         
         element.css(type,$window.height());            
-        $window.on("resize",function(event){
-            element.css(type,$window.height());
+        $window.on("resize",function(event){              
+            element.css(type,$window.height());         
+            taskbar = $(".gl-taskbar");
+            taskH = 0;
+            if(taskbar.length > 0){
+                taskH = taskbar.eq(0).height();
+            }
+            
+            element.css(type,$window.height()-taskH);
         });
     }
 
@@ -123,6 +141,51 @@ $(document).ready(function(){
 /*CUSTOM EVENTS*/
 
 /*****************************CUSTOM ELEMENTS*****************************/
+    /********************************TASK BAR********************************/
+        $.fn.addTaskbar = function(data = null){
+            var item = $(this);
+            if(!item.hasClass("gl-taskbar")) item.addClass("gl-taskbar");
+
+            var timeFormat = "hh:mm", dateFormat = "MM/DD/Y", updateTime = 1000;
+            if(typeof data =='object' && data != null){
+                timeFormat = ("time_format" in data)? data.time_format : timeFormat;
+                dateFormat = ("date_format" in data)? data.date_format : dateFormat;
+                updateTime = ("update_time" in data)? data.update_time : updateTime;
+            }else{
+                timeFormat = (item.attr("data-time-format") != "")? item.attr("data-time-format") : timeFormat;
+                dateFormat = (item.attr("data-date-format") != "")? item.attr("data-date-format") : dateFormat;
+                updateTime = (item.attr("data-update-time") != "")? item.attr("data-update-time") : updateTime;
+            }
+
+            item.removeAttr("data-time-format data-date-format data-update-time");
+
+            if(timeFormat != null || dateFormat != null){
+                item.prepend("<div id='taskbar-time'><span></span></div>");
+                item.find("#taskbar-time span").addClock(dateFormat+"&br;"+timeFormat, updateTime);
+            }
+
+            item.append("<button class='gl-menu-button'></button>")
+
+            $(window).resize();
+        }
+    /********************************TASK BAR********************************/
+
+    /******************************CLOCK & DATE******************************/
+        $.fn.addClock = function(format = "MM-DD-Y&br;HH:mm:ss", updateTime = 1000){
+            var clock = new Date();
+            $this = $(this);
+            clock = clock.format(format);
+            $this.prepend("<b class='clock'>"+clock.time+"</b>");
+            $this.append("<b class='date'>"+clock.date+"</b>")
+            setInterval(function(){
+                clock = new Date();                
+                clock = clock.format(format);
+                $this.children("b.clock").text(clock.time);
+                $this.children("b.date").text(clock.date);
+            },updateTime)
+        }
+    /******************************CLOCK & DATE******************************/
+
     /*******************************ITEM COLL*******************************/
         $.fn.addIemColl = function(){
             var item = $(this);                
@@ -492,4 +555,121 @@ $(document).ready(function(){
     (function (root, factory) { if (typeof define === "function" && define.amd) { define(factory); } else if (typeof exports === "object") { module.exports = factory(); } else { root.ResizeSensor = factory(); }}(this, function () { if (typeof window === "undefined") {return null;} var requestAnimationFrame = window.requestAnimationFrame ||window.mozRequestAnimationFrame ||window.webkitRequestAnimationFrame ||function (fn) {return window.setTimeout(fn, 20);}; function forEachElement(elements, callback){var elementsType = Object.prototype.toString.call(elements);var isCollectionTyped = ('[object Array]' === elementsType|| ('[object NodeList]' === elementsType)|| ('[object HTMLCollection]' === elementsType)|| ('[object Object]' === elementsType)|| ('undefined' !== typeof jQuery && elements instanceof jQuery)|| ('undefined' !== typeof Elements && elements instanceof Elements));var i = 0, j = elements.length;if (isCollectionTyped) {for (; i < j; i++) {callback(elements[i]);}} else {callback(elements);}} var ResizeSensor = function(element, callback) { function EventQueue() {var q = [];this.add = function(ev) {q.push(ev);};var i, j;this.call = function() {for (i = 0, j = q.length; i < j; i++) {q[i].call();}};this.remove = function(ev) {var newQueue = [];for(i = 0, j = q.length; i < j; i++) {if(q[i] !== ev) newQueue.push(q[i]);}q = newQueue;};this.length = function() {return q.length;};}function getComputedStyle(element, prop) {if (element.currentStyle) {return element.currentStyle[prop];}if (window.getComputedStyle) {return window.getComputedStyle(element, null).getPropertyValue(prop);}return element.style[prop];} function attachResizeEvent(element, resized) { if (element.resizedAttached) { element.resizedAttached.add(resized); return; } element.resizedAttached = new EventQueue(); element.resizedAttached.add(resized); element.resizeSensor = document.createElement('div'); element.resizeSensor.className = 'resize-sensor'; var style = 'position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;'; var styleChild = 'position: absolute; left: 0; top: 0; transition: 0s;'; element.resizeSensor.style.cssText = style; element.resizeSensor.innerHTML = '<div class="resize-sensor-expand" style="' + style + '">' + '<div style="' + styleChild + '"></div>' + '</div>' + '<div class="resize-sensor-shrink" style="' + style + '">' + '<div style="' + styleChild + ' width: 200%; height: 200%"></div>' + '</div>'; element.appendChild(element.resizeSensor);if (getComputedStyle(element, 'position') == 'static') {element.style.position = 'relative';}var expand = element.resizeSensor.childNodes[0];var expandChild = expand.childNodes[0];var shrink = element.resizeSensor.childNodes[1];var dirty, rafId, newWidth, newHeight;var lastWidth = element.offsetWidth;var lastHeight = element.offsetHeight;var reset = function() {expandChild.style.width = '100000px';expandChild.style.height = '100000px';expand.scrollLeft = 100000;expand.scrollTop = 100000;shrink.scrollLeft = 100000;shrink.scrollTop = 100000;};reset();var onResized = function() {rafId = 0;if (!dirty) return;lastWidth = newWidth;lastHeight = newHeight;if (element.resizedAttached) {element.resizedAttached.call();}};var onScroll = function() {newWidth = element.offsetWidth;newHeight = element.offsetHeight;dirty = newWidth != lastWidth || newHeight != lastHeight;if (dirty && !rafId) {rafId = requestAnimationFrame(onResized);}reset();};var addEvent = function(el, name, cb) {if (el.attachEvent) {el.attachEvent('on' + name, cb);} else {el.addEventListener(name, cb);}};addEvent(expand, 'scroll', onScroll);addEvent(shrink, 'scroll', onScroll);}forEachElement(element, function(elem){attachResizeEvent(elem, callback);}); this.detach = function(ev){ResizeSensor.detach(element, ev);};};ResizeSensor.detach=function(element,ev){forEachElement(element,function(elem){if(elem.resizedAttached&&typeof ev=="function"){elem.resizedAttached.remove(ev);if(elem.resizedAttached.length())return;} if(elem.resizeSensor){if(elem.contains(elem.resizeSensor)){elem.removeChild(elem.resizeSensor);} delete elem.resizeSensor;delete elem.resizedAttached;}});};return ResizeSensor;}));
 /**************************************************************************************/
 /*************************************ResizeSensor*************************************/
+/**************************************************************************************/
+
+/**************************************************************************************/
+/***********************************Date prototype JS**********************************/
+/**************************************************************************************/
+
+    /**
+     * Date format able to format js date and time,
+     * separate two format with two blanc spaces
+     */
+    Date.prototype.format = function(format){
+        var format = format.split("&br;");
+        return {date:this.formatDate(format[0]),time:this.formatTime(format[1])};
+    }
+
+    /**
+     * Format Date values
+     * DD -> Month Day 2 digits
+     * D -> Month Day
+     * DDD -> Month Day Text short
+     * DDDD -> Month Day Text Full
+     * MM -> Month Number 2 digits
+     * M -> Month Number
+     * MMM -> Month Name short
+     * MMMM -> Month Name Long
+     * Y -> Year
+     * YY -> Year only 2 digits
+     */
+    Date.prototype.formatDate = function(formatDate){
+        var date = "";
+        var days = this.getDate();
+        var month = this.getMonth();
+        var year = this.getFullYear();
+
+        var formatChars = Array("DD","D","MM","M","YY","Y");
+        for(var i = 0; i < formatChars.length; i++){
+            if(formatDate.indexOf(formatChars[i]) > -1){
+                if(formatChars[i] == "DD" || formatChars[i] == "D"){
+                    days = (days < 10 && formatChars[i] == "DD")? "0"+days : days;                    
+                    formatDate = formatDate.replace(formatChars[i],days);
+                }else if(formatChars[i] == "MM" || formatChars[i] == "M"){
+                    month = (month < 10 && formatChars[i] == "MM")? "0"+month : month;                    
+                    formatDate = formatDate.replace(formatChars[i],month);
+                }else if(formatChars[i] == "Y" || formatChars[i] == "YY"){
+                    year += "";
+                    year = (formatChars[i] == "YY")? year.substring(year.length,year.length - formatChars[i].length)  : year;  
+                    year = (Number(year) < 10 && formatChars[i] != "Y")? "0"+year : year;
+
+                    formatDate = formatDate.replace(formatChars[i],year);
+                }
+            }
+        }
+
+        return formatDate;         
+    }
+
+    /**
+     * Format time values
+     * HH -> 24 hours always 2 digit
+     * H -> 24 hours
+     * hh -> 12 hours 2 digits
+     * h -> 12 hours
+     * mm -> minutes 2 digit
+     * m -> minutes
+     * ss -> seconds 2 digits
+     * s -> seconds
+     */
+    Date.prototype.formatTime = function(formatTime){
+        var time = "";
+        var h = this.getHours();
+        var m = this.getMinutes();
+        var s = this.getSeconds();
+        var meridian = "";
+        var formatChars = Array("HH","H","hh","h","mm","m","ss","s");
+
+        for(var i = 0; i < formatChars.length; i++){
+            if(formatTime.indexOf(formatChars[i]) > -1){
+
+                if(formatChars[i] == "HH" || formatChars[i] == "H" || formatChars[i] == "hh" || formatChars[i] == "h"){
+                    meridian = (formatChars[i] == "hh" || formatChars[i] == "h")? ((h > 12)? ".pm":".am") : "";
+                    if(formatChars[i] == "hh" || formatChars[i] == "h" && h > 12) h = h - 12;
+                    if(formatChars[i] == "HH" || formatChars[i] == "hh" && h < 10) h = "0"+h; 
+                    formatTime = formatTime.replace(formatChars[i],h);
+                }else if(formatChars[i] == "mm" || formatChars[i] == "m"){ 
+                    m = (m < 10 && formatChars[i] == "mm") ? "0"+m : m;
+                    formatTime = formatTime.replace(formatChars[i],m);
+                }else if(formatChars[i] == "ss" || formatChars[i] == "s"){ 
+                    s = (s < 10) ? "0"+s : s;
+                    formatTime = formatTime.replace(formatChars[i],s);
+                }
+            }
+        }
+        
+        formatTime += meridian;
+        return formatTime; 
+    }
+
+    Date.prototype.incrementTime = function(seconds){
+        var h = this.getHours();
+        var m = this.getMinutes();
+        var s = this.getSeconds();
+
+        
+        console.log("s:"+s);
+        s += seconds;
+        console.log("s1:"+s);
+        if(s > 59){            
+            s = s - 60;
+            s = (s < 0)? 0 : s;
+        }
+        //this.setHours();
+        console.log("s2:"+s);
+    }
+    
+    
+/**************************************************************************************/
+/***********************************Date prototype JS**********************************/
 /**************************************************************************************/
