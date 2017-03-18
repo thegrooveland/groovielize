@@ -1,16 +1,16 @@
 @font-face {
   font-family: 'groovie';
-  src: url('./groovie.eot');
-  src: url('./groovie.eot#iefix') format('embedded-opentype'),
-       url('./groovie.woff') format('woff'),
-       url('./groovie.ttf') format('truetype'),
-       url('./groovie.svg') format('svg');
+  src: url('./groovie.eot?jf8pvt');
+  src: url('./groovie.eot?jf8pvt#iefix') format('embedded-opentype'),
+       url('./groovie.woff?jf8pvt') format('woff'),
+       url('./groovie.ttf?jf8pvt') format('truetype'),
+       url('./groovie.svg?jf8pvt#groovie') format('svg');
   font-weight: normal;
   font-style: normal;
 }
 
 [class^="gl-"]:before, [class*=" gl-"]:before {
-    font-family: "groovie";
+    font-family: "groovie" !important;
     font-style: normal;
     font-weight: normal;
     speak: none;
@@ -18,7 +18,6 @@
     display: inline-block;
     text-decoration: inherit;
     width: 1em;
-    margin-right: .2em;
     text-align: center;
     /* opacity: .8; */
  
@@ -31,7 +30,8 @@
  
     /* Animation center compensation - margins should be symmetric */
     /* remove if not needed */
-    margin-left: .2em;
+   /* margin-left: .2em;*/
+    /*margin-right: .2em;*/
  
     /* you can be more comfortable with increased icons size */
     /* font-size: 120%; */
@@ -44,154 +44,219 @@
     /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
 }
 
-.gl-grooveland:before {
-  content: "\e000";
-}
-.gl-softland:before {
-  content: "\e001";
-}
-.gl-soundland:before {
-  content: "\e002";
-}
-.gl-strokeland:before {
-  content: "\e003";
-}
-.gl-audio_off:before {
-  content: "\e004";
-}
-.gl-audio_medium:before {
-  content: "\e005";
-}
-.gl-audio_full:before {
-  content: "\e006";
-}
-.gl-previous_video:before {
-  content: "\e907";
-}
-.gl-play:before {
-  content: "\e008";
-}
-.gl-pausa:before {
-  content: "\e009";
-}
-.gl-next_video:before {
-  content: "\e00a";
-}
-.gl-screen_big:before {
-  content: "\e00b";
-}
-.gl-screen_full:before {
-  content: "\e00c";
-}
-.gl-star_empty:before {
-  content: "\e00d";
-}
-.gl-star_half:before {
-  content: "\e00e";
-}
-.gl-star_full:before {
-  content: "\e00f";
-}
-.gl-check:before {
-  content: "\e010";
-}
 .gl-add:before,
 .gl-plus:before {
-  content: "\e011";
-}
-.gl-close:before {
-  content: "\e012";
-}
-.gl-delete:before {
-  content: "\e013";
-}
-.gl-delete_solid:before {
-  content: "\e014";
-}
-.gl-edit:before {
-  content: "\e015";
-}
-.gl-first:before {
-  content: "\e016";
-}
-.gl-previus:before {
-  content: "\e017";
-}
-.gl-next:before {
-  content: "\e018";
-}
-.gl-last:before {
-  content: "\e019";
-}
-.gl-logout:before {
-  content: "\e01a";
-}
-.gl-login:before {
-  content: "\e01b";
-}
-.gl-menu:before {
-  content: "\e01c";
-}
-.gl-show:before {
-  content: "\e01d";
-}
-.gl-show_options:before {
-  content: "\e01e";
-}
-.gl-upload:before {
-  content: "\e01f";
-}
-.gl-user:before {
-  content: "\e020";
-}
-.gl-users:before {
-  content: "\e021";
+  content: "\e900";
 }
 .gl-alert:before {
-  content: "\e022";
+  content: "\e901";
 }
-.gl-alert_solid:before {
-  content: "\e023";
+.gl-alert-solid:before {
+  content: "\e902";
 }
-.gl-error:before {
-  content: "\e024";
+.gl-audio-full:before {
+  content: "\e903";
 }
-.gl-error_solid:before {
-  content: "\e025";
+.gl-audio-medium:before {
+  content: "\e904";
 }
-.gl-like:before {
-  content: "\e026";
+.gl-audio-no:before {
+  content: "\e905";
 }
-.gl-like_solid:before {
-  content: "\e027";
+.gl-bills:before {
+  content: "\e906";
+}
+.gl-box-check:before {
+  content: "\e907";
+}
+.gl-box-empty:before {
+  content: "\e908";
+}
+.gl-buy:before {
+  content: "\e909";
+}
+.gl-category:before {
+  content: "\e90a";
 }
 .gl-chat:before {
-  content: "\e028";
+  content: "\e90b";
 }
-.gl-chat_solid:before {
-  content: "\e029";
+.gl-chat-solid:before {
+  content: "\e90c";
 }
-.gl-shopping_cart:before {
-  content: "\e02a";
+.gl-check:before {
+  content: "\e90d";
 }
-.gl-box_empty:before {
-  content: "\e02b";
-}
-.gl-box_check:before {
-  content: "\e02c";
-}
-.gl-compass_solid:before {
-  content: "\e02d";
+.gl-close:before {
+  content: "\e90e";
 }
 .gl-compass:before {
-  content: "\e02e";
+  content: "\e90f";
 }
-.gl-location:before {
-  content: "\e02f";
+.gl-compass-solid:before {
+  content: "\e910";
+}
+.gl-down:before {
+  content: "\e911";
+}
+.gl-edit:before {
+  content: "\e912";
+}
+.gl-erease:before {
+  content: "\e913";
+}
+.gl-erease-solid:before {
+  content: "\e914";
+}
+.gl-error:before {
+  content: "\e915";
+}
+.gl-error-solid:before {
+  content: "\e916";
 }
 .gl-filter:before {
-  content: "\e030";
+  content: "\e917";
+}
+.gl-first:before {
+  content: "\e918";
+}
+.gl-kitchen:before {
+  content: "\e919";
+}
+.gl-last:before {
+  content: "\e91a";
+}
+.gl-left:before {
+  content: "\e91b";
+}
+.gl-location:before {
+  content: "\e91c";
+}
+.gl-log-in:before {
+  content: "\e91d";
+}
+.gl-log-out:before {
+  content: "\e91e";
+}
+.gl-love:before {
+  content: "\e91f";
+}
+.gl-love-solid:before {
+  content: "\e920";
+}
+.gl-menu-burger:before,
+.gl-menu-button:before{
+  content: "\e921";
+}
+.gl-money:before {
+  content: "\e922";
+}
+.gl-next:before {
+  content: "\e923";
+}
+.gl-next-song:before {
+  content: "\e924";
+}
+.gl-options-dots:before {
+  content: "\e925";
+}
+.gl-pausa:before {
+  content: "\e926";
+}
+.gl-play:before {
+  content: "\e927";
+}
+.gl-previous-song:before {
+  content: "\e928";
+}
+.gl-right:before {
+  content: "\e929";
+}
+.gl-save:before {
+  content: "\e92a";
+}
+.gl-screen-full:before {
+  content: "\e92b";
+}
+.gl-screen-medium:before {
+  content: "\e92c";
 }
 .gl-search:before {
-  content: "\e031";
+  content: "\e92d";
 }
+.gl-star-empty:before {
+  content: "\e92e";
+}
+.gl-star-full:before {
+  content: "\e92f";
+}
+.gl-star-medium:before {
+  content: "\e930";
+}
+.gl-up:before {
+  content: "\e931";
+}
+.gl-upload:before {
+  content: "\e932";
+}
+.gl-user:before {
+  content: "\e933";
+}
+.gl-users:before {
+  content: "\e934";
+}
+.gl-view:before {
+  content: "\e935";
+}
+.gl-back:before {
+  content: "\e936";
+}
+.gl-grooveland:before {
+  content: "\e937";
+}
+.gl-linkedin:before {
+  content: "\e938";
+}
+.gl-whatsapp:before {
+  content: "\e939";
+}
+.gl-vimeo:before {
+  content: "\e93a";
+}
+.gl-twtich:before {
+  content: "\e93b";
+}
+.gl-tmblur:before {
+  content: "\e93c";
+}
+.gl-soundcloud:before {
+  content: "\e93d";
+}
+.gl-youtube:before {
+  content: "\e93e";
+}
+.gl-twitter:before {
+  content: "\e93f";
+}
+.gl-pinterest:before {
+  content: "\e940";
+}
+.gl-google+:before {
+  content: "\e941";
+}
+.gl-blogger:before {
+  content: "\e942";
+}
+.gl-skype:before {
+  content: "\e943";
+}
+.gl-facebook:before {
+  content: "\e944";
+}
+.gl-behance:before {
+  content: "\e945";
+}
+.gl-instagram:before {
+  content: "\e946";
+}
+

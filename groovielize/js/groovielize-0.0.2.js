@@ -164,7 +164,30 @@ $(document).ready(function(){
                 item.find("#taskbar-time span").addClock(dateFormat+"&br;"+timeFormat, updateTime);
             }
 
-            item.append("<button class='gl-menu-button'></button>")
+            menu = item.children(".gl-menu-container");
+            if(menu.length > 0){               
+                for(var i = 1; i < menu.length; i++){
+                    menu.eq(i).remove();
+                }
+
+                menu = menu.eq(0);
+                var title = (menu.attr("data-title"))? menu.attr("data-title") : null;
+                var img = (menu.attr("data-img"))? menu.attr("data-img") : null;
+                
+                if(title != null){
+                    
+                    menu.prepend("<div class='header'><div><div class='img'><img src='"+img+"' alt='"+title+"' title='"+title+"'></div></div></div>")
+                }
+
+                item.append("<button class='gl-menu-button'></button>")
+                item.children(".gl-menu-button").click(function(){                    
+                    height = (menu.height() <= 0)? 500 : 0;
+                    menu.transition({
+                            height: height+"px",
+                            top: "-"+height+"px",
+                        },300, "easeInOutQuad");
+                    });
+            }
 
             $(window).resize();
         }
@@ -193,7 +216,7 @@ $(document).ready(function(){
                 var actions = item.children(".actions");
 
                 if(actions.length == 1){
-                    actions.prev().append("<button class='gl-coll-btn'>...</button>")
+                    actions.prev().append("<button class='gl-coll-btn gl-options-dots'></button>")
                     actions.children().addClass("gl-btn").click();
                     var btn = actions.prev().children(".gl-coll-btn");
                     btn.click(function(){
