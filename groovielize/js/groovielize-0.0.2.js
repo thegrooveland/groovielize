@@ -76,7 +76,7 @@ $(document).ready(function(){
             this.each(function(){
                 var $this = $(this);
                 var naturalwidth = this.naturalWidth, naturalheight = this.naturalHeight;
-                $this.addClass((naturalwidth/naturalheight > 1)?"wide":"tall")
+                $this.addClass((naturalwidth/naturalheight > 1)?"tall":"wide")
             })
         }
     /********************************resize event********************************/
@@ -108,6 +108,7 @@ $(document).ready(function(){
         };
 
         $.fn.click = function(callback){
+            $(this).css("cursor","pointer");
             if(typeof callback == "function"){
                 $(this).bind("Click",callback);
             }else{
@@ -160,8 +161,8 @@ $(document).ready(function(){
             item.removeAttr("data-time-format data-date-format data-update-time");
 
             if(timeFormat != null || dateFormat != null){
-                item.prepend("<div id='taskbar-time'><span></span></div>");
-                item.find("#taskbar-time span").addClock(dateFormat+"&br;"+timeFormat, updateTime);
+                item.append("<div id='gl-taskbar-time'><span></span></div>");
+                item.find("#gl-taskbar-time span").addClock(dateFormat+"&br;"+timeFormat, updateTime);
             }
 
             menu = item.children(".gl-menu-container");
@@ -175,11 +176,17 @@ $(document).ready(function(){
                 var img = (menu.attr("data-img"))? menu.attr("data-img") : null;
                 
                 if(title != null){
-                    
-                    menu.prepend("<div class='header'><div><div class='img'><img src='"+img+"' alt='"+title+"' title='"+title+"'></div></div></div>")
+                    if(title.length > 48){
+                        title = title.substr(0,46)+"...";
+                    }
+
+                    menu.prepend("<div class='header'><div><div class='img'><img src='"+img+"' alt='"+title+"' title='"+title+"'></div><div class='title'><p>"+title+"</p></div></div></div>")
+                    menu.find(".img img").coverImg();
+
+                    menu.removeAttr("data-img data-title");
                 }
 
-                item.append("<button class='gl-menu-button'></button>")
+                item.prepend("<button class='gl-menu-button'></button>")
                 item.children(".gl-menu-button").click(function(){                    
                     height = (menu.height() <= 0)? 500 : 0;
                     menu.transition({
@@ -188,6 +195,21 @@ $(document).ready(function(){
                         },300, "easeInOutQuad");
                     });
             }
+
+            var actions = item.children(".actions");
+            if(actions.length > 0){
+                for(var i = 1; i < actions.length; i++){
+                    actions.eq(i).remove();
+                }
+                actions = actions.eq(0);
+                var btns = actions.children();
+                btns.addClass("gl-btn");
+                for(var i = 0; i < btns.length; i++){
+                    if(btns.eq(i).children().length == 2){
+                        btns.eq(i).addClass("labeled").html("<aside>"+btns.eq(i).html()+"</aside>");
+                    }
+                }
+            }     
 
             $(window).resize();
         }
@@ -286,7 +308,6 @@ $(document).ready(function(){
 
             if(item.element.hasClass("open")){
                 item.element.removeClass("open");
-                console.log(item.width)
                 if(item.width > 350){
                     new_width = content.width + action.outerWidth;
                     new_height = content.outerHeight;                    
