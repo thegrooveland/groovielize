@@ -34,6 +34,9 @@ clearfix hack
 */
 [class$="-layout"]:after,
 .grid-layout:after,
+[class*="hd-"]:after,
+[class*="md-"]:after,
+[class*="ld-"]:after,
 .gl-taskbar > .actions:after{
     visibility: hidden;
     display: block;
@@ -44,6 +47,9 @@ clearfix hack
 }
 [class$="-layout"],
 .grid-layout,
+[class*="hd-"],
+[class*="md-"],
+[class*="ld-"],
 .gl-taskbar > .actions{
     display: inline-table; 
 }
@@ -51,12 +57,18 @@ clearfix hack
 /* Hides from IE-mac \*/
 * html [class$="-layout"],
 * html .grid-layout,
-.gl-taskbar > .actions{
+* html [class*="hd-"],
+* html [class*="md-"],
+* html [class*="ld-"]
+* html .gl-taskbar > .actions{
     height: 1%; 
 }
 
 [class$="-layout"],
 .grid-layout,
+[class*="hd-"],
+[class*="md-"],
+[class*="ld-"],
 .gl-taskbar > .actions{
     display: block; 
 }
@@ -340,11 +352,11 @@ img.wide{
     display: block; 
 }
 
-.gl-taskbar .gl-menu-button{
+.gl-taskbar .gl-menu-btn{
     float: left;
-    height: 40px;
-    width: 40px;
-    margin: 5px 20px 5px 30px;
+    height: 50px;
+    width: 50px;
+    margin: 0 20px 0 30px;
     font-size:22pt;
     text-align: center;
     padding: 0;
@@ -474,6 +486,7 @@ img.wide{
     border-radius: 0;
     line-height: 1em;
     text-align: center;
+    background-color: inherit;
 }
 .gl-taskbar > .actions > .gl-btn > *{    
     color: inherit;
@@ -496,6 +509,11 @@ img.wide{
 .gl-taskbar > .actions > .gl-btn.labeled > aside *{
     display: block;
     color: inherit;
+}
+
+.gl-taskbar > .actions > .gl-btn:hover,
+.gl-taskbar > .actions > .gl-btn.clickedGl{
+    box-shadow: none !important;
 }
 
 /****************************************************************************************************************************************************************/
@@ -571,8 +589,7 @@ img.wide{
 }
 
 .gl-btn:hover,
-.gl-btn.clickedGl,
-not(.gl-taskbar > .actions > button.gl-btn){
+.gl-btn.clickedGl{
     box-shadow: 0px 2px 3px -1px rgba(0,0,0,0.57) !important;
 }
 
@@ -751,6 +768,7 @@ not(.gl-taskbar > .actions > button.gl-btn){
     right: 10px;
     left: auto;
     cursor: pointer;
+    color: inherit;
 }
 
 .gl-coll .gl-coll-itemSpec > .actions{

@@ -66,6 +66,27 @@ $(document).ready(function(){
 
     }
 
+    /*
+    *GetBackgroundColor
+    */
+    function getBackground(jqueryElement) {
+        // Is current element's background color set?
+        var color = jqueryElement.css("background-color");
+        if (color !== 'rgba(0, 0, 0, 0)' && color !== 'transparent') {
+            // if so then return that color
+            return color;
+        }
+
+        // if not: are you at the body element?
+        if (jqueryElement.is("body")) {
+            // return known 'false' value
+            return false;
+        } else {
+            // call getBackground with parent item
+            return getBackground(jqueryElement.parent());
+        }
+    }
+
 /*CUSTOM FUNCTIONS*/
 
 
@@ -89,7 +110,7 @@ $(document).ready(function(){
                     event.stopPropagation();
                     event.preventDefault();
         
-                    if($(this).hasClass("gl-btn")){
+                    if($(this).hasClass("gl-btn") || $(this).hasClass("gl-menu-btn")){
                         clickButtons($(this));
                     }else{
                         $(this).trigger('Click');
@@ -118,22 +139,42 @@ $(document).ready(function(){
 
         var clickButtons = function(element,callback) {
             var _class = "clickedGl";
-            if((element.hasClass("gl-btn") || element.hasClass("groovie-btn")) && !element.hasClass(_class)){
+            var _opened = "openedGL";
+            var timed = 400;
+            if((element.hasClass("gl-btn") || element.hasClass("gl-state-btn")) && !element.hasClass(_class)){
                 element.addClass(_class)
-                var color = new Color(element.css("background-color"));
+
+                var color = new Color(getBackground(element));//css("background-color"));
 
                 var ascent = (element.attr("data-ascent") != undefined)? element.attr("data-ascent") : "";
                 if(ascent == ""){
                     ascent = color.modifyColor(.75,1).hex;
                 }
+                               
+                if(element.hasClass("gl-state-btn")){
+                    if(!element.attr("data-bgcolor")){
+                        element.attr("data-bgcolor",color.hex);
+                    }
+                    timed = 200;
+                    element.toggleClass(_opened);
+                    var _color = element.attr("data-bgcolor");
+                    if(element.hasClass(_opened)) _color =  ascent;
+                    element.transition({
+                        "background-color" : _color
+                    },200,"easeInOutQuad");
+                    
+                }else{
+                    element.transition({
+                        "background-color" :  ascent
+                    },200,"easeInOutQuad").transition({
+                        "background-color" : color.hex
+                    },200,"easeInOutQuad")
+                }
+
                 setTimeout(function(){
                     element.removeClass(_class);
-                },400)
-                element.transition({
-                    "background-color" :  ascent
-                },200,"easeInOutQuad").transition({
-                    "background-color" : color.hex
-                },200,"easeInOutQuad")
+                    element.trigger("Click");
+                },timed)
             }
         };
 
@@ -186,8 +227,8 @@ $(document).ready(function(){
                     menu.removeAttr("data-img data-title");
                 }
 
-                item.prepend("<button class='gl-menu-button'></button>")
-                item.children(".gl-menu-button").click(function(){                    
+                item.prepend("<button class='gl-menu-btn gl-state-btn'></button>")
+                item.children(".gl-menu-btn").click(function(){                 
                     height = (menu.height() <= 0)? 500 : 0;
                     menu.transition({
                             height: height+"px",
@@ -630,7 +671,7 @@ $(document).ready(function(){
     Date.prototype.formatDate = function(formatDate){
         var date = "";
         var days = this.getDate();
-        var month = this.getMonth();
+        var month = this.getMonth()+1;
         var year = this.getFullYear();
 
         var formatChars = Array("DD","D","MM","M","YY","Y");
@@ -679,8 +720,8 @@ $(document).ready(function(){
 
                 if(formatChars[i] == "HH" || formatChars[i] == "H" || formatChars[i] == "hh" || formatChars[i] == "h"){
                     meridian = (formatChars[i] == "hh" || formatChars[i] == "h")? ((h > 12)? ".pm":".am") : "";
-                    if(formatChars[i] == "hh" || formatChars[i] == "h" && h > 12) h = h - 12;
-                    if(formatChars[i] == "HH" || formatChars[i] == "hh" && h < 10) h = "0"+h; 
+                    if((formatChars[i] == "hh" || formatChars[i] == "h") && h > 12) h = h - 12;
+                    if((formatChars[i] == "HH" || formatChars[i] == "hh") && h < 10) h = "0"+h; 
                     formatTime = formatTime.replace(formatChars[i],h);
                 }else if(formatChars[i] == "mm" || formatChars[i] == "m"){ 
                     m = (m < 10 && formatChars[i] == "mm") ? "0"+m : m;

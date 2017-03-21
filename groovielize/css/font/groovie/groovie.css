@@ -145,7 +145,7 @@
   content: "\e920";
 }
 .gl-menu-burger:before,
-.gl-menu-button:before{
+.gl-menu-btn:before{
   content: "\e921";
 }
 .gl-money:before {
