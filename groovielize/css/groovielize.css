@@ -79,7 +79,7 @@ No select text
 .noselect,
 .gl-coll-item,
 .gl-coll-itemSpec,
-.gl-title,
+.gl-float-title,
 .gl-taskbar #gl-taskbar-time,
 .gl-taskbar .header{
     -webkit-touch-callout: none;
@@ -124,12 +124,12 @@ Remove :focus
 /****************************************************************************************************************************************************************/
 
 img.tall{
-    width: auto;
-    height: 100%;
+    width: 100% !important;
+    height: auto !important;
 }
 img.wide{
-    width: 100%;
-    height: auto;
+    width: auto !important;
+    height: 100% !important;
 }
 
 /****************************************************************************************************************************************************************/
@@ -318,6 +318,7 @@ img.wide{
 [class*="gl"]{
     font-family: "alte_haas_regular", Arial;
     color: #303030;
+    font-size: 11pt;
 }
 
 /****************************************************************************************************************************************************************/
@@ -474,8 +475,12 @@ img.wide{
 }
 
 .gl-taskbar > .actions > .gl-btn{
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    align-items: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
     height: 100%;
     min-width: 70px;
     font-family: inherit !important;
@@ -487,10 +492,12 @@ img.wide{
     line-height: 1em;
     text-align: center;
     background-color: inherit;
+    font-size: 24pt !important;
 }
 .gl-taskbar > .actions > .gl-btn > *{    
     color: inherit;
     margin: 0 auto;
+    font-size: inherit;
 }
 
 .gl-taskbar > .actions > .gl-btn.labeled{
@@ -509,6 +516,7 @@ img.wide{
 .gl-taskbar > .actions > .gl-btn.labeled > aside *{
     display: block;
     color: inherit;
+    font-size: inherit;
 }
 
 .gl-taskbar > .actions > .gl-btn:hover,
@@ -522,16 +530,16 @@ img.wide{
 /****************************************************************************************************************************************************************/
 /****************************************************************************************************************************************************************/
 
-.gl-title{
+.gl-float-title{
     display: block !important;
     margin: 20px auto 30px auto;
     color: #FFF;
     text-align: center;
 }
-.gl-title span{
+.gl-float-title span{
     display: inline-block !important;
-    padding: 5px 10px;
-    font-size: 16pt;
+    padding: 5px 22px;
+    font-size: 14pt;
     text-align: center;
     border-radius: 18px;
     background-color:#0097FF;
@@ -544,7 +552,7 @@ img.wide{
 /****************************************************************************************************************************************************************/
 
 .gl-badge{
-    display: inline-block !important;
+    display: block !important;
     height: 20px;
     width: 30px;
     line-height: 20px;
@@ -553,7 +561,8 @@ img.wide{
     border-radius: 6px;
     background-color:#0097FF;
     margin-right: 10px;
-    font-size:10pt;
+    font-size:8pt;
+    float: left;
 }
 
 
@@ -564,7 +573,6 @@ img.wide{
 /****************************************************************************************************************************************************************/
 
 .gl-btn{
-    font-family: "alte_haas_bold", Arial !important;
     display: block;
     float: left;
     margin: 0 5px 0 0;
@@ -572,9 +580,9 @@ img.wide{
     overflow: hidden;
     border: none;
     border-radius: 6px;
-    height: 36px;
-    line-height: 36px;
-    padding: 0 8px;
+    height: 30px;
+    line-height: 30px;
+    padding: 0 9px;
     vertical-align: middle;
     -webkit-tap-highlight-color: transparent;    
     color: #FFF;
@@ -583,12 +591,17 @@ img.wide{
     -webkit-transition: box-shadow 0.2s ease-in-out;
     transition: box-shadow 0.2s ease-in-out;
 }
-
-.gl-btn > [class*="gl"]{
-    color: #FFF;
+.gl-btn.gl-disabled{
+    background-color: #E6E6E6 !important;;
+    color: #B3B3B3 !important;
+    cursor: default !important;
 }
 
-.gl-btn:hover,
+.gl-btn > [class*="gl"]{
+    color: inherit;
+}
+
+.gl-btn:not(.gl-disabled):hover,
 .gl-btn.clickedGl{
     box-shadow: 0px 2px 3px -1px rgba(0,0,0,0.57) !important;
 }
@@ -632,6 +645,7 @@ img.wide{
     text-decoration: none;
     height: 20px;
     padding-right: 35px;
+    line-height: 20px;
 }
 
 .gl-coll .gl-coll-item > a{
@@ -753,7 +767,7 @@ img.wide{
 
 .gl-coll .gl-coll-itemSpec > :first-child > .gl-content .gl-header{ 
     display: block;
-    font-size: 14pt;
+    font-size: 12pt;
 }
 
 .gl-coll .gl-coll-itemSpec > :first-child > button{
@@ -797,13 +811,13 @@ img.wide{
 
 .gl-table{
     width: 100%;
-    border: 0;
     margin:10px 0;
+    overflow: hidden;
 }
 
 .gl-table, .gl-table th, .gl-table td {
     border: none;
-    border-collapse: collapse;
+    border-collapse: separate;
     border-spacing: 0;
 }
 
@@ -812,10 +826,37 @@ img.wide{
     height: 36px;
     padding: 0 10px;
     color: #FFF;
-    font-size: 15pt;
-    background-color: #0097FF;
+    font-size: 13pt;
+    /*background-color: #0097FF;*/
     vertical-align: middle;
 }
+
+.gl-table tr th{
+    background-color: #0097FF;
+    border-top: 1px solid inherit;
+}
+.gl-table tr td,.gl-table tr th{
+    border-right: 1px solid inherit;
+    border-bottom: 1px solid inherit
+}
+.gl-table tr td:first-child,.gl-table tr th:first-child{
+    border-left: 1px solid inherit;
+}
+
+.gl-table tr:first-child th:last-child {
+  border-top-right-radius: 6px;
+}
+.gl-table tr:first-child th:first-child {
+  border-top-left-radius: 6px;
+}
+.gl-table tr:last-child td:last-child {
+  border-bottom-right-radius: 6px;
+}
+.gl-table tr:last-child td:first-child {
+  border-bottom-left-radius: 6px;
+}
+
+
 
 .gl-table tbody,
 .gl-table tbody *{
@@ -823,8 +864,7 @@ img.wide{
     padding: 5px 10px;
 }
 
-.gl-table.striped > tbody tr:nth-child(2n+0),
-.gl-table.striped > tr:nth-child(2n+0){
+.gl-table.striped tr:nth-child(2n+0) td{
     background-color: #f3f3f3;
 }
 
@@ -850,6 +890,132 @@ img.wide{
 
 /****************************************************************************************************************************************************************/
 /****************************************************************************************************************************************************************/
-/****************************************************************************TABLES******************************************************************************/
+/****************************************************************************CARDS*******************************************************************************/
 /****************************************************************************************************************************************************************/
 /****************************************************************************************************************************************************************/
+
+.gl-card,
+.gl-card-v{
+    width: 270px;
+    overflow: hidden;
+    border-radius: 5px;
+    position: relative;
+    padding: 10px;
+    float: left;
+    color: #95989A;
+}
+
+.gl-card-v{
+    width: 410px;
+}
+
+.gl-card .header,
+.gl-card-v .header{
+    position: absolute;
+    width: 100%;
+    height: 48px;
+    border-radius: inherit;
+    overflow: hidden;    
+    box-shadow: 0px 2px 5px -1px rgba(0,0,0,0.30) !important;
+    top: 10px;
+    z-index: 10;
+    background-color: #FAFAFA;
+}
+
+.gl-card.has-img .header{
+    top: 235px;
+}
+
+.gl-card .header > .img,
+.gl-card-v .header > .img{
+    width: 40px;
+    height: 40px;
+    margin: 4px 0px 4px 10px;
+    overflow: hidden;
+    border-radius: 100%;
+    float: left;
+    position: relative;
+}
+
+.gl-card .header > .title,
+.gl-card-v .header > .title{
+    height: 40px;
+    margin: 8px 12px;
+    display: block;
+    float: left;
+    color:inherit;
+    font-size: 10pt;
+}
+
+.gl-card .header > .title span,
+.gl-card-v .header > .title span{
+    display: block;
+    font-size: 12pt;
+    color: #555454;
+}
+
+.gl-card .img img,
+.gl-card-v .img img{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.gl-card > .img,
+.gl-card-v > .img{
+    width: 270px;
+    height: 270px;
+    overflow: hidden;
+    border-radius: inherit;
+    position: relative;
+    box-shadow: 0px 2px 5px -1px rgba(0,0,0,0.30) !important;
+    position: relative;
+    z-index: 2;
+}
+
+.gl-card-v > .img{
+    width: 190px;
+    float: left;
+}
+
+.gl-card .body,
+.gl-card-v .body{
+    position: relative;
+    width: 100%;
+    height: 140px;
+    overflow: hidden;
+    border-radius: inherit;    
+    background-color: #FAFAFA;
+    box-shadow: 0px 2px 5px -1px rgba(0,0,0,0.30) !important;
+    z-index: 1;
+}
+.gl-card-v .body{
+    float: left;
+    width: 220px;
+    height: 270px;
+}
+
+.gl-card .body > *:not(.actions),
+.gl-card-v .body > *:not(.actions){
+    margin: 20px 15px;
+    height: 60px;
+    color:inherit;
+}
+.gl-card-v .body > *:not(.actions){
+    height: 116px;
+    margin: 77px 15px 38px 15px;
+}
+
+.gl-card .body > .actions,
+.gl-card-v .body > .actions{
+    display: block;
+    float: right;
+    margin: 5px 15px 0 15px;
+}
+
+.gl-card .body > .actions .gl-btn,
+.gl-card-v .body > .actions .gl-btn{
+    height: 24px;
+    line-height: 24px;
+}

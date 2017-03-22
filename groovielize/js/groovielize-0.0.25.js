@@ -6,7 +6,8 @@ $(document).ready(function(){
     taskbar();
     $(".gl-btn").click()//onClick();
     collections();
-    $(".gl-title").addTitle();
+    $(".gl-float-title").addTitle();
+    cards();
 });
 
 /*****************************CUSTOM ELEMENTS*****************************/
@@ -29,6 +30,14 @@ $(document).ready(function(){
             }
         }
         return elements.eq(0).addTaskbar();
+    }
+
+    function cards(){
+        var elements = $(".gl-card, .gl-card-v");
+        for(var i = 0; i < elements.length; i++){
+            var element = elements.eq(i);
+            element.addCard();
+        }
     }
 /*****************************CUSTOM ELEMENTS*****************************/
 
@@ -94,10 +103,13 @@ $(document).ready(function(){
     var attachEvent = document.attachEvent;
     /********************************resize event********************************/
         $.fn.coverImg = function(){
-            this.each(function(){
-                var $this = $(this);
-                var naturalwidth = this.naturalWidth, naturalheight = this.naturalHeight;
-                $this.addClass((naturalwidth/naturalheight > 1)?"tall":"wide")
+            this.each(function(){                
+                var $this = $(this);                
+                $this.on("load",function(){
+                    var naturalwidth = this.naturalWidth, naturalheight = this.naturalHeight;
+                    var _class = (naturalwidth/naturalheight > 1)?"wide":"tall";
+                    $this.addClass(_class);
+                });                
             })
         }
     /********************************resize event********************************/
@@ -141,7 +153,7 @@ $(document).ready(function(){
             var _class = "clickedGl";
             var _opened = "openedGL";
             var timed = 400;
-            if((element.hasClass("gl-btn") || element.hasClass("gl-state-btn")) && !element.hasClass(_class)){
+            if(((element.hasClass("gl-btn") || element.hasClass("gl-state-btn")) && !element.hasClass(_class)) && !element.hasClass("gl-disabled")){
                 element.addClass(_class)
 
                 var color = new Color(getBackground(element));//css("background-color"));
@@ -418,7 +430,7 @@ $(document).ready(function(){
     /*********************************TITLES*********************************/
         $.fn.addTitle = function(){
             element = $(this);
-            if(element.hasClass("gl-title")){
+            if(element.hasClass("gl-float-title")){
                 for(var i = 0;i < element.length; i++){
                     var text = element.eq(i).text();
                     element.eq(i).html("<span>"+text+"</span>");
@@ -478,6 +490,86 @@ $(document).ready(function(){
             }
         }
     /********************************BADGES*********************************/
+
+    /*********************************CARDS*********************************/
+        $.fn.addCard = function(style = "horizontal"){
+            var item = $(this);
+            if(!item.hasClass("gl-card") && !item.hasClass("gl-card-v")){
+                item.addClass("gl-card");
+            }
+            
+            var img = item.eq(0).children(".img");
+            if(img.length > 0){
+                if(img.length > 1){
+                    for(var i = 1; i < img.length; I++){    
+                        img.eq(i).remove();
+                    }
+                }
+                
+                var imgUrl = (img.eq(0).attr("data-img") != "")? img.eq(0).attr("data-img") : null;
+                var imgAlt = (img.eq(0).attr("data-alt") != "")? img.eq(0).attr("data-alt") : "";
+
+                if(imgUrl != null){
+                    img.eq(0).append("<img src='"+imgUrl+"' alt='"+imgAlt+"'>").removeAttr("data-img data-alt");
+                    img.children("img").eq(0).coverImg();  
+                    item.addClass("has-img")
+                }else if(item.hasClass("gl-card")){
+                    img.eq(0).remove();                    
+                    item.css("padding-top","58px");
+                    img = false;
+                }else{
+                    img = false;
+                }
+            }else if(item.hasClass("gl-card")){
+                item.css("padding-top","58px");
+                img = false;
+            }else{
+                img = false;
+            }
+
+            if(!img){
+                item.width(item.children(".body").width());
+            }
+
+            var header = item.eq(0).children(".header");
+            if(header.length > 0){
+                if(header.length > 1){
+                    for(var i = 1; i < header.length; I++){    
+                        header.eq(i).remove();
+                    }
+                }
+
+                var title = (header.eq(0).attr("data-title") != "")? header.eq(0).attr("data-title") : null;
+                var subtitle = (header.eq(0).attr("data-subtitle") != "")? header.eq(0).attr("data-subtitle") : "";
+                if(title != null){
+                    header.width(item.width());
+                    header.eq(0).append("<h3 class='title'><span>"+title+"</span>"+subtitle+"</h3>")
+
+                    var imgUrl = (header.eq(0).attr("data-img") != "")? header.eq(0).attr("data-img") : null;
+                    var imgAlt = (header.eq(0).attr("data-alt") != "")? header.eq(0).attr("data-alt") : "";
+
+                    if(imgUrl != null){
+                        header.eq(0).prepend("<aside class='img'><img src='"+imgUrl+"' alt='"+imgAlt+"'></aside>").removeAttr("data-img data-alt");
+                        var hImg = header.children(".img");
+                        if(hImg.length > 1){
+                            for(var i = 1;i < hImg.length; i++){
+                                hImg.eq(i).remove();
+                            }
+                        }
+                        hImg.eq(0).children("img").eq(0).coverImg();
+                    }
+                }else{
+                    header.remove();
+                    item.css("padding-top","10px");
+                }
+
+            }else{
+                item.css("padding-top","10px");
+            }
+
+            //<h3 class="title"><span>Title</span>Sub title</h3>
+        }
+    /*********************************CARDS*********************************/
 
 /*****************************CUSTOM ELEMENTS*****************************/
 
@@ -560,7 +652,7 @@ $(document).ready(function(){
             var h,s,v = max;
             var delta = max-min;
             s = (max == 0)? 0 : delta/max;
-
+            
             if(max == min){
                 h = 0;   
             }else{
