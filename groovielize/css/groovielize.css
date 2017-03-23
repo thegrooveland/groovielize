@@ -81,7 +81,11 @@ No select text
 .gl-coll-itemSpec,
 .gl-float-title,
 .gl-taskbar #gl-taskbar-time,
-.gl-taskbar .header{
+.gl-taskbar .header,
+.gl-card .header,
+.gl-card-v .header,
+.gl-simple-card .action,
+.gl-simple-card-s .action{
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -811,7 +815,7 @@ img.wide{
 
 .gl-table{
     width: 100%;
-    margin:10px 0;
+    margin: 10px 0;
     overflow: hidden;
 }
 
@@ -827,8 +831,11 @@ img.wide{
     padding: 0 10px;
     color: #FFF;
     font-size: 13pt;
-    /*background-color: #0097FF;*/
-    vertical-align: middle;
+    vertical-align: middle;    
+}
+
+.gl-table :not(tbody) tr:first-child{
+    box-shadow: 0px 2px 5px -1px rgba(0,0,0,0.30);
 }
 
 .gl-table tr th{
@@ -895,7 +902,9 @@ img.wide{
 /****************************************************************************************************************************************************************/
 
 .gl-card,
-.gl-card-v{
+.gl-card-v,
+.gl-simple-card,
+.gl-simple-card-s{
     width: 270px;
     overflow: hidden;
     border-radius: 5px;
@@ -906,11 +915,18 @@ img.wide{
 }
 
 .gl-card-v{
-    width: 410px;
+    width: 340px;
+    padding-top: 58px;
+}
+
+.gl-simple-card-s{
+    width: 150px;
 }
 
 .gl-card .header,
-.gl-card-v .header{
+.gl-card-v .header,
+.gl-simple-card .action,
+.gl-simple-card-s .action{
     position: absolute;
     width: 100%;
     height: 48px;
@@ -920,6 +936,37 @@ img.wide{
     top: 10px;
     z-index: 10;
     background-color: #FAFAFA;
+}
+
+.gl-simple-card .action,
+.gl-simple-card-s .action{
+    top: auto;
+    padding: 0 15px;
+    line-height: 48px;
+    bottom: 10px;
+    font-size: 20pt;
+    text-align: right;
+    color: inherit;
+}
+.gl-simple-card-s .action{
+    text-align: center;
+}
+
+.gl-simple-card .action > *,
+.gl-simple-card-s .action > *{
+    color:inherit;    
+    transition: color 0.5s ease;
+}
+
+.gl-simple-card .action > *:hover,
+.gl-simple-card-s .action > *:hover{
+    color:#0097FF;
+}
+
+.gl-simple-card .action [class^="gl-"],
+.gl-simple-card-s .action [class^="gl-"]{
+    font-size: inherit;    
+    color:inherit;
 }
 
 .gl-card.has-img .header{
@@ -955,7 +1002,9 @@ img.wide{
 }
 
 .gl-card .img img,
-.gl-card-v .img img{
+.gl-card-v .img img,
+.gl-simple-card .img img,
+.gl-simple-card-s .img img{
     position: absolute;
     top: 50%;
     left: 50%;
@@ -963,7 +1012,9 @@ img.wide{
 }
 
 .gl-card > .img,
-.gl-card-v > .img{
+.gl-card-v > .img,
+.gl-simple-card > .img,
+.gl-simple-card-s > .img{
     width: 270px;
     height: 270px;
     overflow: hidden;
@@ -972,11 +1023,31 @@ img.wide{
     box-shadow: 0px 2px 5px -1px rgba(0,0,0,0.30) !important;
     position: relative;
     z-index: 2;
+    background-color: #FAFAFA;
 }
 
+.gl-card > .img [class^="gl-"],
+.gl-card-v > .img [class^="gl-"],
+.gl-simple-card > .img [class^="gl-"],
+.gl-simple-card-s > .img [class^="gl-"]{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -65%);
+    font-size: 50pt;
+    color: #DADADA
+}
+
+
 .gl-card-v > .img{
-    width: 190px;
+    width: 152px;
+    height: 152px;
     float: left;
+}
+
+.gl-simple-card-s > .img{
+    width: 150px;
+    height: 150px;
 }
 
 .gl-card .body,
@@ -992,8 +1063,8 @@ img.wide{
 }
 .gl-card-v .body{
     float: left;
-    width: 220px;
-    height: 270px;
+    width: 188px;
+    height: 152px;
 }
 
 .gl-card .body > *:not(.actions),
@@ -1003,8 +1074,8 @@ img.wide{
     color:inherit;
 }
 .gl-card-v .body > *:not(.actions){
-    height: 116px;
-    margin: 77px 15px 38px 15px;
+    height: 100px;
+    margin: 15px 15px 0px 15px;
 }
 
 .gl-card .body > .actions,
@@ -1012,6 +1083,9 @@ img.wide{
     display: block;
     float: right;
     margin: 5px 15px 0 15px;
+}
+.gl-card-v .body > .actions{
+    margin: 6px 8px 0 0;
 }
 
 .gl-card .body > .actions .gl-btn,

@@ -33,10 +33,13 @@ $(document).ready(function(){
     }
 
     function cards(){
-        var elements = $(".gl-card, .gl-card-v");
+        var elements = $(".gl-card, .gl-card-v, .gl-simple-card, .gl-simple-card-s");
         for(var i = 0; i < elements.length; i++){
             var element = elements.eq(i);
-            element.addCard();
+            if(element.hasClass("gl-card") || element.hasClass("gl-card-v"))
+                element.addCard();
+            else if(element.hasClass("gl-simple-card") || element.hasClass("gl-simple-card-s"))
+                element.addSimpleCard();
         }
     }
 /*****************************CUSTOM ELEMENTS*****************************/
@@ -495,7 +498,7 @@ $(document).ready(function(){
         $.fn.addCard = function(style = "horizontal"){
             var item = $(this);
             if(!item.hasClass("gl-card") && !item.hasClass("gl-card-v")){
-                item.addClass("gl-card");
+                item.addClass("gl-card"+((style == "vertical")?"-v":""));
             }
             
             var img = item.eq(0).children(".img");
@@ -568,6 +571,44 @@ $(document).ready(function(){
             }
 
             //<h3 class="title"><span>Title</span>Sub title</h3>
+        }
+
+        $.fn.addSimpleCard = function(style = "large"){
+            var item = $(this);
+            if(!item.hasClass("gl-simple-card") && !item.hasClass("gl-simple-card-s")){
+                item.addClass("gl-simple-card"+((style == "small")?"-s":""));
+            }
+
+            var img = item.eq(0).children(".img");
+            if(img.length > 0){
+                if(img.length > 1){
+                    for(var i = 1; i < img.length; I++){    
+                        img.eq(i).remove();
+                    }
+                }
+                
+                var imgUrl = (img.eq(0).attr("data-img") != "")? img.eq(0).attr("data-img") : null;
+                var imgAlt = (img.eq(0).attr("data-alt") != "")? img.eq(0).attr("data-alt") : "";
+
+                if(imgUrl != null){
+                    img.eq(0).append("<img src='"+imgUrl+"' alt='"+imgAlt+"'>").removeAttr("data-img data-alt");
+                    img.children("img").eq(0).coverImg();  
+                    item.addClass("has-img")
+                }else{
+                    img.eq(0).html("<i class='gl-error'></i>")
+                }
+            }else{
+                item.prepend("<aside class='img'><i class='gl-error'></i></img>")
+            }
+
+            var action = item.eq(0).children(".action");
+            if(action.length > 0){
+                for(var i = 1; i < action.length; I++){    
+                    action.eq(i).remove();
+                }
+                
+                action.width(item.width()-30);
+            }
         }
     /*********************************CARDS*********************************/
 
