@@ -85,7 +85,8 @@ No select text
 .gl-card .header,
 .gl-card-v .header,
 .gl-simple-card .action,
-.gl-simple-card-s .action{
+.gl-simple-card-s .action,
+[class^="gl-"] .placeholder{
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -116,7 +117,8 @@ Remove :focus
 .gl-coll .gl-coll-item > :first-child > button:active,
 .gl-coll .gl-coll-item > :first-child > button:focus,
 .gl-coll .gl-coll-itemSpec > :first-child > button:active,
-.gl-coll .gl-coll-itemSpec > :first-child > button:focus{
+.gl-coll .gl-coll-itemSpec > :first-child > button:focus,
+[class^="gl-"] > input{
     outline: none;
     border: none;
 }
@@ -606,6 +608,7 @@ img.wide{
 }
 
 .gl-btn:not(.gl-disabled):hover,
+.gl-btn:focus,
 .gl-btn.clickedGl{
     box-shadow: 0px 2px 3px -1px rgba(0,0,0,0.57) !important;
 }
@@ -1092,4 +1095,103 @@ img.wide{
 .gl-card-v .body > .actions .gl-btn{
     height: 24px;
     line-height: 24px;
+}
+
+
+/****************************************************************************************************************************************************************/
+/****************************************************************************************************************************************************************/
+/****************************************************************************TEXT********************************************************************************/
+/****************************************************************************************************************************************************************/
+/****************************************************************************************************************************************************************/
+
+.gl-text{
+    float: left;
+    width: 300px;
+    height: 58px;
+    position: relative;    
+    color:#B3B3B3;
+    margin: 10px 10px 15px 0;
+}
+.gl-text.focus{
+    color: #555454;
+}
+
+.gl-text .placeholder{
+    position: absolute;
+    top:29px;
+    margin: 0 15px;
+    z-index: 4;
+    color: inherit;
+    font: inherit;
+    transition: top 0.3s ease, color 0.3s ease;
+}
+.gl-text.focus .placeholder{
+    top: 0px;
+    color: #0097FF;
+}
+.gl-text.fill .placeholder{
+    top: 0;
+}
+
+.gl-text hr{
+    position: relative;
+    z-index: 4;
+    display: block;
+    border: none;
+    background-color: transparent
+    border-radius: 6px;    
+    height: 2px;
+    overflow: hidden;
+    margin: 20px 6px 0 6px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    color:inherit;
+}
+
+.gl-text.focus hr{
+    background-color: #0097FF;
+}
+
+.gl-text input{
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    height: 36px;
+    padding-left: 15px;
+    padding-right: 15px;
+    background-color: #F2F2F2;
+    border-radius: 6px;
+    position: relative;
+    z-index: 3;
+    color: inherit;
+    font: inherit;
+    margin-top: -2px;
+    transition: box-shadow 0.3s ease;
+}
+
+.gl-text input:hover,
+.gl-text.focus input{
+    box-shadow: 0px 2px 5px -1px rgba(0,0,0,0.30) !important;
+}
+.gl-text.focus input{
+    cursor:text !important;
+}
+
+.gl-text.required .alert{
+    position: absolute;
+    height: 30px;
+    width: 100%;
+    box-sizing: border-box;
+    line-height: 42px;
+    padding: 0 15px;
+    background-color: #FF5578;
+    border-radius: 6px;
+    z-index: 2;
+    top: 25px;
+    font-size: 8pt;
+    color: #FFFFFF;
+    transition: top 0.3s ease;
+}
+
+.gl-text.required .alert.show{
+    top: 43px;
 }

@@ -2,12 +2,20 @@ var groovie, gl;
 
 $(document).ready(function(){
 
+    $("html").click(function(){
+        $("[class^='gl-'].focus").removeClass("focus");
+    });
+
+    //$("html").keydown(focused);
+    
+
     $(".fullscreen").fullscreen();
     taskbar();
     $(".gl-btn").click()//onClick();
     collections();
     $(".gl-float-title").addTitle();
     cards();
+    inputs();
 });
 
 /*****************************CUSTOM ELEMENTS*****************************/
@@ -42,6 +50,21 @@ $(document).ready(function(){
                 element.addSimpleCard();
         }
     }
+
+    function inputs(){
+        $(".gl-text").each(function(){
+            $(this).addText();
+        })
+    }
+
+    function focused(event){
+        if(event.keyCode === 9){
+            console.log($(curren))
+            var element = $(document.activeElement);
+            if(element.tagName() == "input")
+                console.log(element.parent());
+        }
+    }
 /*****************************CUSTOM ELEMENTS*****************************/
 
 (function($){
@@ -72,6 +95,20 @@ $(document).ready(function(){
     }
 
     /*
+    *Tag Name
+    */
+    $.fn.tagName = function(upper = false){
+        tagname = undefined;
+        this.each(function(){
+            tagname = this.tagName;
+            if(!upper)
+                tagname = tagname.toLowerCase();
+        })
+
+        return tagname;
+    }
+
+    /*
     *Add new ELEMENTS
     */
     $.fn.Add = function(){
@@ -98,6 +135,18 @@ $(document).ready(function(){
             return getBackground(jqueryElement.parent());
         }
     }
+
+    /*
+    *isEmpty()
+    */
+    $.fn.isEmpty = function(){
+        if($(this).tagName() == "input" || $(this).tagName() == "textarea"){
+            return ($(this).val() != "")? false : true;
+        }
+
+        return undefined
+    }
+
 
 /*CUSTOM FUNCTIONS*/
 
@@ -139,12 +188,15 @@ $(document).ready(function(){
             },
             
             _default: function(event){
-                $(event.target).css("cursor","pointer");        
+                if($(event.target).tagName() != "body" && $(event.target).tagName() != "html")
+                    $(event.target).css("cursor","pointer");        
             }
         };
 
         $.fn.click = function(callback){
-            $(this).css("cursor","pointer");
+            if($(this).tagName() != "body" && $(this).tagName() != "html")
+                $(this).css("cursor","pointer");
+
             if(typeof callback == "function"){
                 $(this).bind("Click",callback);
             }else{
@@ -194,6 +246,14 @@ $(document).ready(function(){
         };
 
     /*******************************Click Function*******************************/
+
+    /********************************CHARS COUNTER*******************************/
+        $.fn.inputMaxlenght = function(){
+            if($(this).tagName() == "input" || $(this).tagName() == "textarea"){
+                
+            }
+        }
+    /********************************CHARS COUNTER*******************************/
 
 /*CUSTOM EVENTS*/
 
@@ -611,6 +671,75 @@ $(document).ready(function(){
             }
         }
     /*********************************CARDS*********************************/
+
+    /******************************TEXT INPUT*******************************/
+        $.fn.addText = function(){
+            if($(this).tagName() == "input"){
+                $this = $(this);
+
+                container = $("<div class='gl-text'></div>");                
+                placeHolder = ($this.attr("placeHolder"))? "<span class='placeholder'>"+$this.attr("placeHolder")+"</span><hr>" : "";
+
+                input = $this.clone().removeClass("gl-text").removeAttr("placeHolder");
+
+                container.append(placeHolder);
+                container.append(input);
+                $this.replaceWith(container);
+
+                if(input.attr("required")){
+                    container.addClass("required");
+                    requireText = (input.attr("data-required") && input.attr("data-required") != "")? input.attr("data-required") : "This field is required.";
+                    container.append("<aside class='alert'>"+requireText+"</aside>");
+                    input.removeAttr("required data-required");
+                }
+
+                if(input.attr("maxlength") && Number(input.attr("maxlength")) != NaN){
+                    container.append("<aside class='counter'><span>0</span>/"+ Number(input.attr("maxlength"))+"</aside>");
+                    input.removeAttr("maxlength");
+                    input.keyup(maxlength).keydown(maxlength);
+                }
+
+                function maxlength(event){
+                    allowedKeys = [8,9,13,16,17,18,19,27,33,34,35,36,37,38,39,40,45,46,91,93,110,112,113,114,115,116,117,118,119,120,121,122,123,144,145,190]
+                    counter = $(this).siblings(".counter");
+                    maxL = counter.text().split("/")[1];
+                    counter.children("span").text($(this).val().length);
+                    if(maxL <= $(this).val().length && allowedKeys.indexOf(event.keyCode) == -1 && !event.ctrlKey){
+                        event.preventDefault();
+                    }
+                }
+
+                container.children().click(function(event){
+                    event.stopPropagation();
+                    parent = $(this).parent();
+                    if(!parent.hasClass("focus")) parent.addClass("focus");
+                    parent.children("input").focus();
+                });
+
+                input.focus( function(event) { 
+                    event.stopPropagation();
+                    $(".focus").removeClass("focus");
+                    $(this).parent().addClass("focus");
+
+                    if($(this).parent().hasClass("required")){
+                        $(this).siblings(".alert").removeClass("show");
+                    }
+
+                }).focusout(function(event){
+                    event.stopPropagation();
+                    $(".focus").removeClass("focus");
+                    $(this).parent().removeClass("fill");
+                    if(!$(this).isEmpty()){
+                        $(this).parent().addClass("fill");
+                    }else{
+                        if($(this).parent().hasClass("required")){
+                            $(this).siblings(".alert").addClass("show");
+                        }
+                    }
+                });
+            }
+        }
+    /******************************TEXT INPUT*******************************/
 
 /*****************************CUSTOM ELEMENTS*****************************/
 
