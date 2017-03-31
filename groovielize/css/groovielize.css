@@ -118,7 +118,8 @@ Remove :focus
 .gl-coll .gl-coll-item > :first-child > button:focus,
 .gl-coll .gl-coll-itemSpec > :first-child > button:active,
 .gl-coll .gl-coll-itemSpec > :first-child > button:focus,
-[class^="gl-"] > input{
+[class^="gl-"] > input,
+[class^="gl-"] > textarea{
     outline: none;
     border: none;
 }
@@ -549,6 +550,7 @@ img.wide{
     text-align: center;
     border-radius: 18px;
     background-color:#0097FF;
+    box-shadow: 0px 2px 5px -2px rgba(0,0,0,0.57) !important;
 }
 
 /****************************************************************************************************************************************************************/
@@ -958,6 +960,7 @@ img.wide{
 .gl-simple-card .action > *,
 .gl-simple-card-s .action > *{
     color:inherit;    
+    -webkit-transition: color 0.5s ease;    
     transition: color 0.5s ease;
 }
 
@@ -1011,7 +1014,8 @@ img.wide{
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
 }
 
 .gl-card > .img,
@@ -1036,7 +1040,8 @@ img.wide{
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -65%);
+    -webkit-transform: translate(-50%, -65%);
+            transform: translate(-50%, -65%);
     font-size: 50pt;
     color: #DADADA
 }
@@ -1107,7 +1112,7 @@ img.wide{
 .gl-text{
     float: left;
     width: 300px;
-    height: 58px;
+    min-height: 58px;
     position: relative;    
     color:#B3B3B3;
     margin: 10px 10px 15px 0;
@@ -1123,6 +1128,7 @@ img.wide{
     z-index: 4;
     color: inherit;
     font: inherit;
+    -webkit-transition: top 0.3s ease, color 0.3s ease;
     transition: top 0.3s ease, color 0.3s ease;
 }
 .gl-text.focus .placeholder{
@@ -1138,11 +1144,12 @@ img.wide{
     z-index: 4;
     display: block;
     border: none;
-    background-color: transparent
+    background-color: transparent;
     border-radius: 6px;    
     height: 2px;
     overflow: hidden;
     margin: 20px 6px 0 6px;
+    -webkit-transition: background-color 0.3s ease, color 0.3s ease;
     transition: background-color 0.3s ease, color 0.3s ease;
     color:inherit;
 }
@@ -1151,7 +1158,8 @@ img.wide{
     background-color: #0097FF;
 }
 
-.gl-text input{
+.gl-text input,
+.gl-text textarea{
     display: block;
     width: 100%;
     box-sizing: border-box;
@@ -1159,24 +1167,35 @@ img.wide{
     padding-left: 15px;
     padding-right: 15px;
     background-color: #F2F2F2;
+    border: none;
     border-radius: 6px;
     position: relative;
     z-index: 3;
     color: inherit;
     font: inherit;
     margin-top: -2px;
+    -webkit-transition: box-shadow 0.3s ease;
     transition: box-shadow 0.3s ease;
+}
+.gl-text textarea{
+    resize: none;
+    padding: 10px 15px;
+    height: 150px;
 }
 
 .gl-text input:hover,
-.gl-text.focus input{
+.gl-text.focus input,
+.gl-text textarea:hover,
+.gl-text.focus textarea{
     box-shadow: 0px 2px 5px -1px rgba(0,0,0,0.30) !important;
 }
-.gl-text.focus input{
+.gl-text.focus input,
+.gl-text.focus textarea{
     cursor:text !important;
 }
 
-.gl-text.required .alert{
+.gl-text.required .alert,
+.gl-text .counter{
     position: absolute;
     height: 30px;
     width: 100%;
@@ -1186,12 +1205,18 @@ img.wide{
     background-color: #FF5578;
     border-radius: 6px;
     z-index: 2;
-    top: 25px;
+    bottom: 4px;
     font-size: 8pt;
     color: #FFFFFF;
-    transition: top 0.3s ease;
+    -webkit-transition: bottom 0.3s ease;
+    transition: bottom 0.3s ease;
+}
+.gl-text .counter{
+    background-color: #29E89A;
+    text-align: right;
 }
 
+.gl-text.focus .counter,
 .gl-text.required .alert.show{
-    top: 43px;
+    bottom: -15px;
 }

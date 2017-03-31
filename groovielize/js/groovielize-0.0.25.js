@@ -674,7 +674,7 @@ $(document).ready(function(){
 
     /******************************TEXT INPUT*******************************/
         $.fn.addText = function(){
-            if($(this).tagName() == "input"){
+            if(($(this).tagName() == "input" && ($(this).attr("type") == "text" || $(this).attr("type") == "password")) || $(this.tagName() == "textarea")){
                 $this = $(this);
 
                 container = $("<div class='gl-text'></div>");                
@@ -696,7 +696,17 @@ $(document).ready(function(){
                 if(input.attr("maxlength") && Number(input.attr("maxlength")) != NaN){
                     container.append("<aside class='counter'><span>0</span>/"+ Number(input.attr("maxlength"))+"</aside>");
                     input.removeAttr("maxlength");
-                    input.keyup(maxlength).keydown(maxlength);
+                    input.keyup(maxlength).keydown(maxlength).bind('paste',function() {
+                        counter = $(this).siblings(".counter");
+                        maxL = counter.text().split("/")[1];
+                        $this = $(this);
+                        setTimeout(function() { 
+                            if($this.val().length >= maxL){
+                                $this.val($this.val().substring(0,maxL));
+                            }                            
+                            counter.children("span").text($this.val().length);
+                        },100);
+                    });
                 }
 
                 function maxlength(event){
@@ -704,16 +714,26 @@ $(document).ready(function(){
                     counter = $(this).siblings(".counter");
                     maxL = counter.text().split("/")[1];
                     counter.children("span").text($(this).val().length);
-                    if(maxL <= $(this).val().length && allowedKeys.indexOf(event.keyCode) == -1 && !event.ctrlKey){
-                        event.preventDefault();
+                    selection = false;
+                    if (typeof this.selectionStart == "number") {
+                        selection = this.selectionStart < this.selectionEnd;   
                     }
+                    
+                    if(maxL <= $(this).val().length && allowedKeys.indexOf(event.keyCode) == -1 && !event.ctrlKey && !selection){
+                        event.preventDefault();
+                    }else if(event.ctrlKey && event.keyCode == 86){
+                        if($(this).val().length >= maxL){
+                            $(this).val($(this).val().substring(0,maxL));
+                        }
+                    }        
+         
                 }
 
                 container.children().click(function(event){
                     event.stopPropagation();
                     parent = $(this).parent();
                     if(!parent.hasClass("focus")) parent.addClass("focus");
-                    parent.children("input").focus();
+                    parent.children("input, textarea").focus();
                 });
 
                 input.focus( function(event) { 
