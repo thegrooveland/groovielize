@@ -1,7 +1,6 @@
 var groovie, gl;
 
 $(document).ready(function(){
-
     $("html").click(function(){
         $("[class^='gl-'].focus").removeClass("focus");
     });
@@ -254,6 +253,75 @@ $(document).ready(function(){
             }
         }
     /********************************CHARS COUNTER*******************************/
+
+    /************************************AJAX************************************/
+        $.sendAjax = function(data,url,callback,method){
+            var ajaxFunctions = {
+                beforeSend: ((callback && ("beforeSend" in callback) && (typeof callback.beforeSend === "function"))? callback.beforeSend : function(){}),
+                complete: ((callback && ("complete" in callback) && (typeof callback.complete === "function"))? callback.complete : function(){}),
+                error: ((callback && ("error" in callback) && (typeof callback.error === "function"))? callback.error : function(){}),
+                success: ((callback && ("success" in callback) && (typeof callback.success === "function"))? callback.success : function(){}),
+            };
+
+            $.ajax({
+                url: url,
+                method: (method && method != "")? method : "get",
+                type: (method && method != "")? method : "get",
+                data: data,        
+                beforeSend: ajaxFunctions.beforeSend,
+                complete: ajaxFunctions.complete,
+                error: ajaxFunctions.error,
+                success: ajaxFunctions.success
+            });
+        }
+
+        $.fn.sendForm = function(callback){
+            if($(this).tagName() === "form"){
+                
+                var ajaxFunctions = {
+                    beforeSend: ((callback && ("beforeSend" in callback) && (typeof callback.beforeSend === "function"))? callback.beforeSend : function(){}),
+                    complete: ((callback && ("complete" in callback) && (typeof callback.complete === "function"))? callback.complete : function(){}),
+                    error: ((callback && ("error" in callback) && (typeof callback.error === "function"))? callback.error : function(){}),
+                    success: ((callback && ("success" in callback) && (typeof callback.success === "function"))? callback.success : function(){}),
+                };
+                
+                var data = new FormData(this[0]);
+                data.append("ajax",true);
+                            
+                var text = this.find(".groovie-text");
+                for(var i = 0; i < text.length; i++){
+                    if(text.eq(i).hasClass('focus')){
+                        text.eq(i).removeClass("focus");
+                        text.eq(i).checkInputText();
+                    }
+                }
+                this.find("input[type='password']").val("").parents(".groovie-text").removeClass("block");
+                
+                var file = this.find(".groovie-file");
+                for(var i = 0; i < file.length; i++){
+                file.eq(i).find("p").text(file.eq(i).find("p").attr("data-placeholder"));
+                }
+                this.find("input[type='file']").val("");
+                
+                $.ajax({
+                    url: this.attr("action"),
+                    method: this.attr("method"),
+                    type: this.attr("method"),
+                    data: data,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    beforeSend: ajaxFunctions.beforeSend,
+                    complete: ajaxFunctions.complete,
+                    error: ajaxFunctions.error,
+                    success: ajaxFunctions.success
+                });
+                
+            }else{
+                console.error("the tag element must be an form");
+            }
+        };
+    /************************************AJAX************************************/
 
 /*CUSTOM EVENTS*/
 
@@ -760,6 +828,102 @@ $(document).ready(function(){
             }
         }
     /******************************TEXT INPUT*******************************/
+
+    /********************************POPUPS*********************************/
+        /*
+         *popup show a dialog with minimun 1 actions maximun 3 actions
+         */
+        $.popup = function(title,body, _button1 = null, _button2 = null, _button3 = null){
+
+            buttons = "";
+
+            button1 = {text: ((_button1 != null && typeof _button1.title === 'string')? _button1.title : "Accept"), action: function(){
+                    $(this).parents(".gl-popup").removePopup();
+                    if(typeof _button1.action ==  "function") _button1.action($(this))
+                }
+            };
+            
+            buttons = "<button class='gl-btn'>"+button1.text+"</button>";
+
+            if(_button2 != null){
+                button2 = {text: ((_button2 != null && typeof _button2.title === 'string')? _button2.title : "Accept"), action: function(){
+                        $(this).parents(".gl-popup").removePopup();
+                        if(typeof _button2.action ==  "function") _button2.action($(this))
+                    }
+                };
+
+                buttons += "<button class='gl-btn'>"+button2.text+"</button>";
+            }
+
+            if(_button3 != null){
+                button3 = {text: ((_button3 != null && typeof _button3.title === 'string')? _button3.title : "Accept"), action: function(){
+                        $(this).parents(".gl-popup").removePopup();
+                        if(typeof _button3.action ==  "function") _button3.action($(this))
+                    }
+                };
+                
+                buttons += "<button class='gl-btn'>"+button3.text+"</button>";
+            }
+
+
+            html = "<aside class='gl-popup'>"+
+                        "<div class='middle'>"+
+                            "<div class='container'>"+
+                                "<div class='header'>"+
+                                    "<p>"+title+"</p>"+
+                                    "<hr>"+
+                                "</div>"+
+                                "<div class='body'>"+
+                                    "<p>"+body+"</p>"+
+                                "</div>"+
+                                "<div class='footer'>"+
+                                "</div>"+
+                            "</div>"+
+                        "</div>"+
+                    "</aside>"
+            $("body").append(html);
+
+            footer = $("body").find(".gl-popup > .middle > .container > .footer");
+            footer.append(buttons);
+            btns = footer.children(".gl-btn");
+
+            for(i = 0; i < btns.length; i++){
+                action = undefined;
+                if(i == 0){
+                    action = button1.action;
+                }else if(i == 1){
+                    action = button2.action;
+                }else if(i == 2){
+                    action = button3.action;
+                }
+
+                
+                btns.eq(i).click(action);
+            }
+
+            $(".gl-popup").click(function(event){
+                $(this).removePopup();
+            });
+
+            $(".gl-popup > .middle").find("*").click(function(event){
+                event.stopPropagation();
+            });
+
+            setTimeout(function(){
+                $("body").children(".gl-popup").addClass("show");
+            },150);
+        }
+
+        $.fn.removePopup = function(){
+            if($(this).hasClass("gl-popup")){
+                $this = $(this);
+                $this.removeClass("show");
+                setTimeout(function(){
+                    $this.remove();
+                },350);
+            }
+        }
+    /********************************POPUPS*********************************/
 
 /*****************************CUSTOM ELEMENTS*****************************/
 

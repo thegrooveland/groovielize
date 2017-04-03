@@ -37,7 +37,8 @@ clearfix hack
 [class*="hd-"]:after,
 [class*="md-"]:after,
 [class*="ld-"]:after,
-.gl-taskbar > .actions:after{
+.gl-taskbar > .actions:after,
+.gl-popup  > .middle > .container > .footer:after{
     visibility: hidden;
     display: block;
     font-size: 0;
@@ -50,7 +51,8 @@ clearfix hack
 [class*="hd-"],
 [class*="md-"],
 [class*="ld-"],
-.gl-taskbar > .actions{
+.gl-taskbar > .actions,
+.gl-popup  > .middle > .container > .footer{
     display: inline-table; 
 }
 
@@ -60,7 +62,8 @@ clearfix hack
 * html [class*="hd-"],
 * html [class*="md-"],
 * html [class*="ld-"]
-* html .gl-taskbar > .actions{
+* html .gl-taskbar > .actions,
+* html .gl-popup  > .middle > .container > .footer{
     height: 1%; 
 }
 
@@ -69,7 +72,8 @@ clearfix hack
 [class*="hd-"],
 [class*="md-"],
 [class*="ld-"],
-.gl-taskbar > .actions{
+.gl-taskbar > .actions,
+.gl-popup  > .middle > .container > .footer{
     display: block; 
 }
 
@@ -86,7 +90,8 @@ No select text
 .gl-card-v .header,
 .gl-simple-card .action,
 .gl-simple-card-s .action,
-[class^="gl-"] .placeholder{
+[class^="gl-"] .placeholder,
+.gl-popup > .middle > .container .header{
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -101,7 +106,8 @@ Truncate text with ellipsis
 .truncate,
 .gl-content,
 .gl-content *,
-.gl-coll-item :first-child{    
+.gl-coll-item :first-child,
+.gl-popup > .middle > .container .header{    
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -325,7 +331,7 @@ img.wide{
 [class*="gl"]{
     font-family: "alte_haas_regular", Arial;
     color: #303030;
-    font-size: 11pt;
+    font-size: 15px;
 }
 
 /****************************************************************************************************************************************************************/
@@ -345,7 +351,6 @@ img.wide{
 }
 
 .gl-taskbar #gl-taskbar-time{
-    font-size: 10pt;
     height: 50px;
     padding: 0 20px;
     float: right;
@@ -365,7 +370,7 @@ img.wide{
     height: 50px;
     width: 50px;
     margin: 0 20px 0 30px;
-    font-size:22pt;
+    font-size:25px;
     text-align: center;
     padding: 0;
     border: 0;
@@ -450,7 +455,6 @@ img.wide{
     line-height: 36px;
     padding: 0 25px;
     width: 100%;
-    font-size: 14pt;
     color: inherit;
     -webkit-transition: background-color 0.5s ease, color 0.5s ease;
     transition: background-color 0.5s ease, color 0.5s ease;
@@ -491,7 +495,6 @@ img.wide{
     height: 100%;
     min-width: 70px;
     font-family: inherit !important;
-    font-size: 22pt !important;
     padding: 0; 
     margin: 0;
     cursor: pointer;
@@ -499,7 +502,7 @@ img.wide{
     line-height: 1em;
     text-align: center;
     background-color: inherit;
-    font-size: 24pt !important;
+    font-size: 25px !important;
 }
 .gl-taskbar > .actions > .gl-btn > *{    
     color: inherit;
@@ -508,7 +511,7 @@ img.wide{
 }
 
 .gl-taskbar > .actions > .gl-btn.labeled{
-    font-size: 15pt !important;
+    font-size: 20px !important;
 }
 .gl-taskbar > .actions > .gl-btn.labeled > aside{
     display: inline-block;
@@ -516,9 +519,10 @@ img.wide{
     color: inherit;
 }
 .gl-taskbar > .actions > .gl-btn.labeled > aside *:last-child{
-    font-size: 10pt;
+    font-size: 13px;
     line-height: 0.9em;
     color: inherit;
+    margin-top: 4px;
 }
 .gl-taskbar > .actions > .gl-btn.labeled > aside *{
     display: block;
@@ -537,6 +541,11 @@ img.wide{
 /****************************************************************************************************************************************************************/
 /****************************************************************************************************************************************************************/
 
+.gl-title{
+    font-size: 20px;
+    color: #0097FF;
+}
+
 .gl-float-title{
     display: block !important;
     margin: 20px auto 30px auto;
@@ -546,7 +555,7 @@ img.wide{
 .gl-float-title span{
     display: inline-block !important;
     padding: 5px 22px;
-    font-size: 14pt;
+    font-size: 18px;
     text-align: center;
     border-radius: 18px;
     background-color:#0097FF;
@@ -569,7 +578,7 @@ img.wide{
     border-radius: 6px;
     background-color:#0097FF;
     margin-right: 10px;
-    font-size:8pt;
+    font-size:12px;
     float: left;
 }
 
@@ -583,7 +592,7 @@ img.wide{
 .gl-btn{
     display: block;
     float: left;
-    margin: 0 5px 0 0;
+    margin: 10px 5px 10px 0;
     position: relative;
     overflow: hidden;
     border: none;
@@ -620,7 +629,7 @@ img.wide{
 }
 
 .gl-btn:last-child{
-    margin: 0 !important;
+    margin-left: 0 !important;
 }
 /****************************************************************************************************************************************************************/
 /****************************************************************************************************************************************************************/
@@ -768,15 +777,14 @@ img.wide{
     display: block;
     width: calc(100% - 120px);
     min-height: 42px;
-    font-size: 10pt;
     height: 100%;
     min-width: 160px;
-    overflow-wrap: ;
+    font-size: 13px;
 }
 
 .gl-coll .gl-coll-itemSpec > :first-child > .gl-content .gl-header{ 
     display: block;
-    font-size: 12pt;
+    font-size: 16px;
 }
 
 .gl-coll .gl-coll-itemSpec > :first-child > button{
@@ -835,7 +843,7 @@ img.wide{
     height: 36px;
     padding: 0 10px;
     color: #FFF;
-    font-size: 13pt;
+    font-size: 18px;
     vertical-align: middle;    
 }
 
@@ -949,7 +957,7 @@ img.wide{
     padding: 0 15px;
     line-height: 48px;
     bottom: 10px;
-    font-size: 20pt;
+    font-size: 23px;
     text-align: right;
     color: inherit;
 }
@@ -997,13 +1005,13 @@ img.wide{
     display: block;
     float: left;
     color:inherit;
-    font-size: 10pt;
+    font-size: 12px;
 }
 
 .gl-card .header > .title span,
 .gl-card-v .header > .title span{
     display: block;
-    font-size: 12pt;
+    font-size: 15px;
     color: #555454;
 }
 
@@ -1042,7 +1050,7 @@ img.wide{
     left: 50%;
     -webkit-transform: translate(-50%, -65%);
             transform: translate(-50%, -65%);
-    font-size: 50pt;
+    font-size: 70px;
     color: #DADADA
 }
 
@@ -1093,13 +1101,14 @@ img.wide{
     margin: 5px 15px 0 15px;
 }
 .gl-card-v .body > .actions{
-    margin: 6px 8px 0 0;
+    margin: 2px 8px 0 0;
 }
 
 .gl-card .body > .actions .gl-btn,
 .gl-card-v .body > .actions .gl-btn{
     height: 24px;
-    line-height: 24px;
+    line-height: 0px;
+    margin-top: 0;
 }
 
 
@@ -1206,7 +1215,7 @@ img.wide{
     border-radius: 6px;
     z-index: 2;
     bottom: 4px;
-    font-size: 8pt;
+    font-size: 12px;
     color: #FFFFFF;
     -webkit-transition: bottom 0.3s ease;
     transition: bottom 0.3s ease;
@@ -1219,4 +1228,79 @@ img.wide{
 .gl-text.focus .counter,
 .gl-text.required .alert.show{
     bottom: -15px;
+}
+
+/****************************************************************************************************************************************************************/
+/****************************************************************************************************************************************************************/
+/****************************************************************************ALERT*******************************************************************************/
+/****************************************************************************************************************************************************************/
+/****************************************************************************************************************************************************************/
+
+.gl-popup{
+    position: fixed;
+    display: table;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,.5);
+    z-index: 9999999;
+    opacity: 0;
+    -webkit-transition: opacity 0.3s ease;
+    transition: opacity 0.3s ease;
+}
+
+.gl-popup.show{
+    opacity: 1;
+}
+
+.gl-popup > .middle{    
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.gl-popup > .middle > .container{
+    cursor: default !important;
+    width: 300px;
+    max-height: 200px;
+    margin: 0 auto;
+    padding: 15px;
+    box-sizing: border-box;
+    background-color: #FAFAFA;
+    border-radius: 6px;    
+    box-shadow: 0px 2px 5px -1px rgba(0,0,0,0.30) !important;
+}
+
+.gl-popup > .middle > .container *:not(.gl-btn){
+    cursor: initial !important;
+}
+
+.gl-popup > .middle > .container .header{
+    font-size: 18px;
+    color: #0097FF;
+    height: 36px;
+}
+
+.gl-popup > .middle > .container .header *{
+    cursor: default !important;
+}
+
+.gl-popup > .middle > .container .header hr{
+    display: block;
+    height: 2px;
+    margin: 9px 0 15px 0;
+    border:none;
+    border-radius: 6px;
+    background-color: #0097FF;
+}
+
+.gl-popup > .middle > .container > .body{
+    margin-top: 15px;
+}
+
+.gl-popup > .middle > .container > .footer .gl-btn{
+    float: right;
+    margin-bottom: 0;
 }

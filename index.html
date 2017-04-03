@@ -15,6 +15,7 @@
         <div class="grid-layout fullscreen">
             <section class="menu hd-4 md-4 ld-8">
                 <h1 class="logo">logo</h1>
+                <h2 class="gl-title">Groovielize</h2>
             </section>
             <section class="body hd-16 md-16 ld-12">
                 <div class="hd-20">
@@ -361,6 +362,7 @@
                     <input type="text" class="gl-text" placeholder="Text default required 2" required data-required="Campo obligatorio.">
                     <input type="text" class="gl-text" placeholder="Text default limit chars" maxlength="20">
                 </div>
+
                 <div class="hd-20">
                     <h2 class="gl-float-title">Password Input</h2>
                     <input type="password" class="gl-text" placeholder="Password default">
@@ -368,12 +370,21 @@
                     <input type="password" class="gl-text" placeholder="Password default required 2" required data-required="Campo obligatorio.">
                     <input type="password" class="gl-text" placeholder="Password default limit chars" maxlength="20">
                 </div>
+
                 <div class="hd-20">
                     <h2 class="gl-float-title">Text Area</h2>
                     <textarea class="gl-text" placeholder="Text Area default"></textarea>
                     <textarea class="gl-text" placeholder="Text Area default required" required></textarea>
                     <textarea class="gl-text" placeholder="Text Area default required 2" required data-required="Campo obligatorio."></textarea>
                     <textarea class="gl-text" placeholder="Text Area default limit chars" maxlength="160"></textarea>
+                </div>
+
+                <div class="hd-20">
+                    <h2 class="gl-float-title">Alerts</h2>
+                    <button class="gl-btn" id="popup0">Show default popup</button>
+                    <button class="gl-btn" id="popup1">Show custom1 popup</button>
+                    <button class="gl-btn" id="popup2">Show custom2 popup</button>
+                    <button class="gl-btn" id="popup3">Show custom3 popup</button>
                 </div>
             </section>
         </div>
@@ -403,5 +414,30 @@
                 </ul>
             </div>
         </nav>
+
+        <script>
+            $(document).ready(function(){
+                $("#popup0").click(function(){
+                    $.popup("Titulo","mensaje de prueba");
+                })
+                $("#popup1").click(function(){
+                    $.popup("Titulo","mensaje de prueba",{title: "Aceptar", action: function(){
+                        alert("hola");
+                    }});
+                })
+                $("#popup2").click(function(){
+                    $.popup("Titulo","mensaje de prueba",{title: "Aceptar", action: function(){
+                        alert("hola");
+                    }},{title: "Cancelar"});
+                })
+                $("#popup3").click(function(){
+                    $.popup("Titulo","mensaje de prueba",{title: "Aceptar", action: function(){
+                        alert("hola");
+                    }},{title: "Log",action: function(element){
+                        console.log(element);
+                    }},{title : "Cancelar"});
+                })
+            });
+        </script>
     </body>
 </html>
