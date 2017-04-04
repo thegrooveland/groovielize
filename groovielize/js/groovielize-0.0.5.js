@@ -171,9 +171,9 @@ $(document).ready(function(){
             setup: function(data){
                 $(this).bind("click", function(event){
                     event.stopPropagation();
-                    event.preventDefault();
         
-                    if($(this).hasClass("gl-btn") || $(this).hasClass("gl-menu-btn")){
+                    if($(this).hasClass("gl-btn") || $(this).hasClass("gl-menu-btn")){                        
+                        event.preventDefault();
                         clickButtons($(this));
                     }else{
                         $(this).trigger('Click');
@@ -188,7 +188,7 @@ $(document).ready(function(){
             
             _default: function(event){
                 if($(event.target).tagName() != "body" && $(event.target).tagName() != "html")
-                    $(event.target).css("cursor","pointer");        
+                    $(event.target).css("cursor","pointer"); 
             }
         };
 

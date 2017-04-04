@@ -1283,6 +1283,12 @@ img.wide{
     height: 36px;
 }
 
+.gl-popup > .middle > .container .header [class^="gl-"]{
+    color: inherit;
+    padding-right: 10px;
+    font-size: 18px;
+}
+
 .gl-popup > .middle > .container .header *{
     cursor: default !important;
 }
