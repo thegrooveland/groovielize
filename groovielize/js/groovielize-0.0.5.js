@@ -146,6 +146,21 @@ $(document).ready(function(){
         return undefined
     }
 
+    /*
+    *Cover imgae
+    */
+    $.fn.coverImg = function(){
+        this.each(function(){     
+            console.log($(this));           
+            var $this = $(this);                
+            $this.on("load",function(){
+                var naturalwidth = this.naturalWidth, naturalheight = this.naturalHeight;
+                var _class = (naturalwidth/naturalheight > 1)?"wide":"tall";
+                $this.addClass(_class);
+            });                
+        })
+    }
+
 
 /*CUSTOM FUNCTIONS*/
 
@@ -153,16 +168,7 @@ $(document).ready(function(){
 /*CUSTOM EVENTS*/
     var attachEvent = document.attachEvent;
     /********************************resize event********************************/
-        $.fn.coverImg = function(){
-            this.each(function(){                
-                var $this = $(this);                
-                $this.on("load",function(){
-                    var naturalwidth = this.naturalWidth, naturalheight = this.naturalHeight;
-                    var _class = (naturalwidth/naturalheight > 1)?"wide":"tall";
-                    $this.addClass(_class);
-                });                
-            })
-        }
+        
     /********************************resize event********************************/
 
     /*******************************Click Function*******************************/

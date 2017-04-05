@@ -452,6 +452,7 @@ img.wide{
 
 .gl-taskbar .gl-menu-container .body > *{
     height: 36px;
+    box-sizing: border-box;
     line-height: 36px;
     padding: 0 25px;
     width: 100%;
@@ -554,8 +555,10 @@ img.wide{
 }
 .gl-float-title span{
     display: inline-block !important;
-    padding: 5px 22px;
-    font-size: 18px;
+    height: 24px;
+    line-height: 24px;
+    padding: 0px 22px;
+    font-size: 16px;
     text-align: center;
     border-radius: 18px;
     background-color:#0097FF;
