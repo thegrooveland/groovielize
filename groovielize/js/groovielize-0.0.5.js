@@ -9,6 +9,7 @@ $(document).ready(function(){
     
 
     $(".fullscreen").fullscreen();
+    $(".fill-parent").fillParent();
     taskbar();
     $(".gl-btn").click()//onClick();
     collections();
@@ -81,16 +82,37 @@ $(document).ready(function(){
         var type = ((attr == "min" || attr == "max")? attr+"-" : "" )+"height";
         
         element.css(type,$window.height());            
-        $window.on("resize",function(event){              
+        $window.resize(function(event){              
             element.css(type,$window.height());         
-            taskbar = $(".gl-taskbar");
-            taskH = 0;
+            var taskbar = $(".gl-taskbar");
+            var taskH = 0;
             if(taskbar.length > 0){
                 taskH = taskbar.eq(0).height();
             }
             
             element.css(type,$window.height()-taskH);
-        });
+        }).resize();
+    }
+
+    /*
+    *Fill Parent
+    */
+    $.fn.fillParent = function(){
+        var $window = $(window);
+        var $this = $(this);
+        var parent = $this.parent();
+        var siblings = $this.siblings();
+
+        $window.resize(function(event){            
+            var siblingHeight = 0;
+            for($i = 0; $i < siblings.length; $i++){
+                siblingHeight += siblings.eq($i).outerHeight(true);
+            }
+
+            $this.css({
+                "min-height": parent.height() - siblingHeight
+            });
+        }).resize();        
     }
 
     /*
@@ -105,13 +127,6 @@ $(document).ready(function(){
         })
 
         return tagname;
-    }
-
-    /*
-    *Add new ELEMENTS
-    */
-    $.fn.Add = function(){
-
     }
 
     /*
@@ -150,12 +165,15 @@ $(document).ready(function(){
     *Cover imgae
     */
     $.fn.coverImg = function(){
-        this.each(function(){     
-            console.log($(this));           
-            var $this = $(this);                
+        this.each(function(){              
+            var $this = $(this);   
+            var parent = $this.parent();               
             $this.on("load",function(){
                 var naturalwidth = this.naturalWidth, naturalheight = this.naturalHeight;
-                var _class = (naturalwidth/naturalheight > 1)?"wide":"tall";
+                var imgS = naturalwidth/naturalheight, parentS = parent.width()/parent.height();
+                var _class = "tall";
+                if((parentS === 1 && imgS > 1) || (parentS < 1 && imgS > 1)) _class = "wide";
+
                 $this.addClass(_class);
             });                
         })
@@ -195,6 +213,13 @@ $(document).ready(function(){
             _default: function(event){
                 if($(event.target).tagName() != "body" && $(event.target).tagName() != "html")
                     $(event.target).css("cursor","pointer"); 
+                
+                if($(event.target).tagName() === "a"){
+                    setTimeout(function(){
+                        window.location.href = $(event.target).attr("href");
+                        //Location.href = $(event.target).attr("href");
+                    }, 10)
+                }
             }
         };
 
