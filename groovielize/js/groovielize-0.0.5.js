@@ -3,10 +3,7 @@ var groovie, gl;
 $(document).ready(function(){
     $("html").click(function(){
         $("[class^='gl-'].focus").removeClass("focus");
-    });
-
-    //$("html").keydown(focused);
-    
+    });    
 
     $(".fullscreen").fullscreen();
     $(".fill-parent").fillParent();
@@ -54,17 +51,13 @@ $(document).ready(function(){
     function inputs(){
         $(".gl-text").each(function(){
             $(this).addText();
-        })
+        });
+
+        $(".gl-dropdown").each(function(){
+            $(this).addDropdown();
+        });
     }
 
-    function focused(event){
-        if(event.keyCode === 9){
-            console.log($(curren))
-            var element = $(document.activeElement);
-            if(element.tagName() == "input")
-                console.log(element.parent());
-        }
-    }
 /*****************************CUSTOM ELEMENTS*****************************/
 
 (function($){
@@ -179,6 +172,29 @@ $(document).ready(function(){
         })
     }
 
+    /*
+    *function to get element value data
+    */
+    $.fn.jqVal = $.fn.val;
+    $.fn.val = function(data = null){
+        var tag = $(this).tagName();
+
+        if(tag !== "textarea" && tag !== "input" && tag !== "select"){   
+            if($(this).hasClass("gl-dropdown")){
+                value = $(this).dropdownVal(data);
+            }else{
+                if(typeof data !== "function" && data !== null)
+                    ($(this).attr("data-value") !== undefined)? $(this).attr("data-value",data) : $(this).text(data); 
+                value = (($(this).attr("data-value") !== undefined)? $(this).attr("data-value") : $(this).text());
+            }
+        }else{          
+            if(data !== null)
+                $(this).jqVal(data);
+            value = $(this).jqVal();
+        }
+        return value;
+    }
+
 
 /*CUSTOM FUNCTIONS*/
 
@@ -217,7 +233,6 @@ $(document).ready(function(){
                 if($(event.target).tagName() === "a"){
                     setTimeout(function(){
                         window.location.href = $(event.target).attr("href");
-                        //Location.href = $(event.target).attr("href");
                     }, 10)
                 }
             }
@@ -232,6 +247,8 @@ $(document).ready(function(){
             }else{
                 $(this).bind("Click",function(){});
             }
+
+            return this;
         };
 
         var clickButtons = function(element,callback) {
@@ -401,7 +418,7 @@ $(document).ready(function(){
                     menu.removeAttr("data-img data-title");
                 }
 
-                item.prepend("<button class='gl-menu-btn gl-state-btn'></button>")
+                item.prepend("<button class='gl-menu-btn gl-state-btn'><i class='gli-menu'></i></button>")
                 item.children(".gl-menu-btn").click(function(){                 
                     height = (menu.height() <= 0)? 500 : 0;
                     menu.transition({
@@ -453,7 +470,7 @@ $(document).ready(function(){
                 var actions = item.children(".actions");
 
                 if(actions.length == 1){
-                    actions.prev().append("<button class='gl-coll-btn gl-options-dots'></button>")
+                    actions.prev().append("<button class='gl-coll-btn'><i class='gli-options'></i></button>")
                     actions.children().addClass("gl-btn").click();
                     var btn = actions.prev().children(".gl-coll-btn");
                     btn.click(function(){
@@ -754,10 +771,10 @@ $(document).ready(function(){
                     img.children("img").eq(0).coverImg();  
                     item.addClass("has-img")
                 }else{
-                    img.eq(0).html("<i class='gl-error'></i>")
+                    img.eq(0).html("<i class='gli-error'></i>")
                 }
             }else{
-                item.prepend("<aside class='img'><i class='gl-error'></i></img>")
+                item.prepend("<aside class='img'><i class='gli-error'></i></img>")
             }
 
             var action = item.eq(0).children(".action");
@@ -859,6 +876,141 @@ $(document).ready(function(){
             }
         }
     /******************************TEXT INPUT*******************************/
+
+    /******************************DROP DOWN********************************/
+        $.fn.addDropdown = function(){
+            if(($(this).tagName() == "select")){
+                $this = $(this);
+                value = $this.val();
+                name = ($this.attr("name") !== undefined)? $this.attr("name") : "";
+                size = 6;
+
+                options = $("<ul></ul>");
+                container = $("<div></div>");
+                button = $("<button class='title'><b>"+value+"</b><i class='gli-arrow-down'></i></button>");
+                select = $("<input type='hidden' name='"+name+"' value='"+value+"'>").html($this.html())
+
+                $this.children("option").each(function(){
+                    var $this = $(this);
+                    var text = $this.text();
+                    var disabled = ($this.attr("disabled") != undefined)? "disabled" : false;
+                    var selected = ($this.attr("selected") != undefined)? "selected" : false;
+                    var value = ($this.attr("value") != undefined)? $this.attr("value") : false;
+                    var option = $("<li>"+text+"</li>");
+                    if(disabled)
+                        option.addClass(disabled);
+                    if(selected)
+                        option.addClass(selected);
+                    if(value)
+                        option.attr("data-value",value);
+                    options.append(option);
+
+                });
+
+                container.attr("class",$this.attr("class")).attr("id",$this.attr("id")).append(button).append(options).append(select);
+
+                $this.replaceWith(container);
+                $this = container;
+
+                options.children("li").click(function(event){
+                    event.stopPropagation(); 
+                    if(!$(this).hasClass("disabled")){
+                        var value = $(this).val();
+                        $(this).parents(".gl-dropdown").val(value);
+                    }
+                });
+
+
+                button.click(function(event){
+                    event.stopPropagation();
+                    var select = $(this).children("select");
+                    select.focus();
+                    toggle($(this).parent());
+                }).focusin(function(event) { 
+                    event.stopPropagation();
+                    $(this).parent().addClass("focus");
+                }).focusout(function(event){
+                    event.stopPropagation();        
+                    $(this).parent().removeClass("focus");
+                    toggle($(this).parent());
+                });
+                
+                function toggle(element){
+                    var options = element.children("ul");
+                    var transitions;
+
+                    if(element.hasClass("focus")){
+                        
+                        var length = options.children().length;
+                        var multiply = (length > size)? size : length;
+                        var height = options.css("line-height").replace("px","") * multiply;
+
+                        var elementHeight = height + element.outerHeight() + element.offset().top;
+
+                        if(elementHeight > $("body").height())
+                            options.addClass("upper");
+
+                        element.css("z-index","9999");
+                        if(length > size){
+                            options.css("overflow", "auto").scrollTop(0);
+                        }   
+                        
+                        if(options.hasClass("upper")){                            
+                            transitions = {
+                                "height" : height+12,
+                            }
+                            options.css({
+                                "bottom" : (element.outerHeight()-7)+"px"
+                            });
+                        }else{
+                            transitions = {
+                                "height" : height+12,
+                            }
+                            options.css({
+                                "top" : (element.outerHeight()-7)+"px"
+                            });
+                        }                        
+                        options.transition(transitions,300);
+                    }else{
+                        setTimeout(function(){
+                            element.removeAttr("style");
+                            options.removeAttr("style").removeAttr("class");
+                        },380)  
+                        setTimeout(function(){
+                            if(options.hasClass("upper")){                            
+                            transitions = {
+                                "height" : 0,
+                            }
+                            }else{
+                                transitions = {
+                                    "height" : 0,
+                                }
+                            } 
+                            
+                            options.transition(transitions,300);        
+                        },120);                                
+                    }
+
+                }
+            }
+        }
+
+        $.fn.dropdownVal = function(data = null){
+            $this = $(this);
+            if($this.hasClass("gl-dropdown")){
+                var values = $this.children("ul").children("li");
+                for(var i = 0; i < values.length; i++){    
+                    if(data == values.eq(i).val()){
+                        $this.children(".title").children().eq(0).val(data);
+                        return $this.children("input").val(data);
+                    }
+                }
+                $this.children(".title").children("span").val("undefined");
+                $this.children("input").val("undefined");
+            }
+            return undefined;
+        }
+    /******************************DROP DOWN********************************/
 
     /********************************POPUPS*********************************/
         /*

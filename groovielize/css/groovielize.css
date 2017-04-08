@@ -125,7 +125,14 @@ Remove :focus
 .gl-coll .gl-coll-itemSpec > :first-child > button:active,
 .gl-coll .gl-coll-itemSpec > :first-child > button:focus,
 [class^="gl-"] > input,
-[class^="gl-"] > textarea{
+[class^="gl-"] > textarea,
+[class^="gl-"] > button{
+    outline: none;
+    border: none;
+}
+
+:focus,
+::-moz-focus-inner{
     outline: none;
     border: none;
 }
@@ -381,6 +388,11 @@ img.wide{
     cursor: pointer;
 }
 
+.gl-taskbar .gl-menu-btn > [class^="gli-"]{
+    color: inherit;
+    font: inherit;
+}
+
 .gl-taskbar .gl-menu-container{
     width: 350px;
     height: 0px;
@@ -449,6 +461,7 @@ img.wide{
 
 .gl-taskbar .gl-menu-container .body{
     padding: 25px 0;    
+    background-color: inherit;
 }
 
 .gl-taskbar .gl-menu-container .body > *{
@@ -1008,8 +1021,8 @@ img.wide{
     color:#0097FF;
 }
 
-.gl-simple-card .action [class^="gl-"],
-.gl-simple-card-s .action [class^="gl-"]{
+.gl-simple-card .action [class^="gli-"],
+.gl-simple-card-s .action [class^="gli-"]{
     font-size: inherit;    
     color:inherit;
 }
@@ -1072,10 +1085,10 @@ img.wide{
     background-color: #FAFAFA;
 }
 
-.gl-card > .img [class^="gl-"],
-.gl-card-v > .img [class^="gl-"],
-.gl-simple-card > .img [class^="gl-"],
-.gl-simple-card-s > .img [class^="gl-"]{
+.gl-card > .img [class^="gli-"],
+.gl-card-v > .img [class^="gli-"],
+.gl-simple-card > .img [class^="gli-"],
+.gl-simple-card-s > .img [class^="gli-"]{
     position: absolute;
     top: 50%;
     left: 50%;
@@ -1155,7 +1168,7 @@ img.wide{
     min-height: 58px;
     position: relative;    
     color:#B3B3B3;
-    margin: 10px 10px 15px 0;
+    margin: 10px 15px 15px 0;
 }
 .gl-text.focus{
     color: #555454;
@@ -1173,7 +1186,7 @@ img.wide{
 }
 .gl-text.focus .placeholder{
     top: 0px;
-    color: #0097FF;
+    color: #4BB6FF;
 }
 .gl-text.fill .placeholder{
     top: 0;
@@ -1195,7 +1208,7 @@ img.wide{
 }
 
 .gl-text.focus hr{
-    background-color: #0097FF;
+    background-color: #4BB6FF;;
 }
 
 .gl-text input,
@@ -1263,6 +1276,103 @@ img.wide{
 
 /****************************************************************************************************************************************************************/
 /****************************************************************************************************************************************************************/
+/**************************************************************************DROPDOWN******************************************************************************/
+/****************************************************************************************************************************************************************/
+/****************************************************************************************************************************************************************/
+
+.gl-dropdown{
+    float: left;
+    margin: 10px 15px 15px 0;
+    min-width: 200px;
+    width: 300px;
+    height: 36px;
+    line-height: 36px;
+    background-color: #F2F2F2;
+    border:none;
+    border-radius: 6px;
+    color:#B3B3B3;
+    position: relative;
+    padding: 0;
+}
+
+.gl-dropdown:last-child{
+    margin-right: 0;
+}
+
+.gl-dropdown > .title{
+    text-align: left;
+    display: block;
+    position: relative;
+    padding: 0 15px;
+    box-sizing: border-box;
+    color: inherit;
+    font: inherit;
+    z-index: 1000;
+    width: 100%;
+    height: 100%;
+    background-color: inherit;
+    border-radius: inherit;  
+    -webkit-transition: box-shadow 0.3s ease;
+    -webkit-transition: box-shadow 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+    transition: box-shadow 0.3s ease, background-color 0.3s ease, color 0.3s ease;        
+}
+
+.gl-dropdown > .title i[class^="gli-"]{
+    float: right;
+    color: inherit;
+    -webkit-transition: inherit;
+    transition: inherit;
+}
+
+.gl-dropdown:hover > .title,
+.gl-dropdown.focus > .title{
+    box-shadow: 0px 2px 5px -1px rgba(0,0,0,0.30) !important;
+    background-color: #4BB6FF;
+    color: #FFF;
+}
+
+.gl-dropdown > ul{
+    width: inherit;
+    position: absolute;  
+    color: #4D4D4D;
+    height: 0;
+    box-sizing: border-box;
+    z-index: 999;
+    background-color: inherit;
+    border: inherit;
+    border-radius: inherit;       
+    overflow: hidden;
+    box-shadow: 0px 2px 5px -1px rgba(0,0,0,0.30) !important;
+} 
+.gl-dropdown > ul li{
+    cursor: default !important;
+    padding:0 15px;
+    -webkit-transition: background-color 0.3s ease, color 0.3s ease;
+    transition: background-color 0.3s ease, color 0.3s ease;   
+}
+
+.gl-dropdown > ul:not(.upper) li:first-child{
+    margin-top: 12px;
+}
+.gl-dropdown > ul.upper li:last-child{
+    margin-bottom: 12px;
+}
+
+.gl-dropdown > ul li.disabled{
+    color: #B3B3B3;
+}
+
+.gl-dropdown > ul li:nth-child(2n+0){
+    background-color: #FAFAFA;
+}
+
+.gl-dropdown > ul li:hover:not(.disabled){
+    background-color: #4BB6FF;
+    color: #FFF;
+}
+
+/****************************************************************************************************************************************************************/
+/****************************************************************************************************************************************************************/
 /****************************************************************************ALERT*******************************************************************************/
 /****************************************************************************************************************************************************************/
 /****************************************************************************************************************************************************************/
@@ -1314,7 +1424,7 @@ img.wide{
     height: 36px;
 }
 
-.gl-popup > .middle > .container .header [class^="gl-"]{
+.gl-popup > .middle > .container .header [class^="gli-"]{
     color: inherit;
     padding-right: 10px;
     font-size: 18px;
