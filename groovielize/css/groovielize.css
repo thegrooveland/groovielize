@@ -91,7 +91,8 @@ No select text
 .gl-simple-card .action,
 .gl-simple-card-s .action,
 [class^="gl-"] .placeholder,
-.gl-popup > .middle > .container .header{
+.gl-popup > .middle > .container .header,
+.gl-checkbox{
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -1370,6 +1371,122 @@ img.wide{
     background-color: #4BB6FF;
     color: #FFF;
 }
+
+/****************************************************************************************************************************************************************/
+/****************************************************************************************************************************************************************/
+/*********************************************************************CHECKBOX AND RADIO*************************************************************************/
+/****************************************************************************************************************************************************************/
+/****************************************************************************************************************************************************************/
+
+.gl-checkbox,
+.gl-radiobtn{
+    display: inline-block;
+    margin: 0 15px 15px 0;
+}
+
+.gl-checkbox > .action,
+.gl-radiobtn > .action{
+    padding: 0;
+    border: 0;
+    display: block;
+    float: left;
+    width: 18px;
+    height: 18px;
+    border-radius: 3px;
+    background-color: #E6E6E6;
+    line-height: 18px;
+    text-align: center;
+    font-size: 16px;
+    color:#E6E6E6;
+    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+.gl-radiobtn > .action{
+    border: 3px solid #E6E6E6;
+    border-radius: 100%;
+    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.gl-checkbox > .action > [class^="gli-"]{
+    color: inherit;
+    font-size: inherit;
+}
+
+.gl-checkbox:hover > .action,
+.gl-checkbox.focus > .action,
+.gl-radiobtn:hover > .action,
+.gl-radiobtn.focus > .action{    
+    box-shadow: 0px 3px 3px 0px rgba(0,0,0,0.3) !important;
+}
+
+.gl-checkbox.checked > .action{
+    color: #FFF;
+    background-color: #4BB6FF;
+}
+
+.gl-radiobtn.checked > .action{
+    border-color: #4BB6FF;
+    background-color: #0097FF;
+}
+
+.gl-checkbox > .text,
+.gl-radiobtn > .text{
+    display: block;
+    float: left;
+    margin-left: 8px;
+    font-size: 15px;
+    font-family: inherit;
+    color: inherit;
+}
+
+/****************************************************************************************************************************************************************/
+/****************************************************************************************************************************************************************/
+/**************************************************************************STATE BOX*****************************************************************************/
+/****************************************************************************************************************************************************************/
+/****************************************************************************************************************************************************************/
+
+.gl-statebox{
+    padding: 0;
+    border: none;
+    display: inline-block;
+    width: 30px;
+    height: 16px;
+    border-radius: 16px;
+    background-color: #B3B3B3;
+    position: relative;    
+    transition: background-color 0.3s ease;
+    margin: 0 15px 15px 0;
+}
+
+.gl-statebox:before{
+    position: absolute;
+    content: "";
+    display: block;
+    height: 16px;
+    width: 16px;
+    background-color: #FAFAFA;
+    border: 3px solid #E6E6E6;
+    border-radius: 100%;
+    top: -3px;
+    left: -3px;
+    transition: box-shadow 0.3s ease, background-color 0.3s ease, left 0.3s ease;
+}
+
+.gl-statebox:hover:before,
+.gl-statebox.focus:before{    
+    box-shadow: 0px 3px 3px 0px rgba(0,0,0,0.3) !important;
+}
+
+.gl-statebox.checked{
+    background-color: #4BB6FF;
+}
+.gl-statebox.checked:before{
+    background-color: inherit;
+    border-color: #0097FF;
+    left: 13px;
+}
+
 
 /****************************************************************************************************************************************************************/
 /****************************************************************************************************************************************************************/

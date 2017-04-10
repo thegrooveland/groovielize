@@ -56,6 +56,18 @@ $(document).ready(function(){
         $(".gl-dropdown").each(function(){
             $(this).addDropdown();
         });
+
+        $(".gl-checkbox").each(function(){
+            $(this).addCheckBox();
+        });
+
+        $(".gl-statebox").each(function(){
+            $(this).addStateBox();
+        });
+
+        $(".gl-radiobtn").each(function(){
+            $(this).addRadioBtn();
+        });
     }
 
 /*****************************CUSTOM ELEMENTS*****************************/
@@ -173,16 +185,38 @@ $(document).ready(function(){
     }
 
     /*
+    *is Groovie element
+    */
+    $.fn.isGroovie = function(){
+        var result = false;
+        $class = $(this).attr("class");
+        
+        if($class != undefined){
+            $class = $class.split(" ");
+            for(var i = 0; i < $class.length; i++){
+                if($class[i].match(/^(gl-)/g)){
+                    result = true;
+                    break;
+                }
+            }
+        }
+        return result;
+    }
+
+    /*
     *function to get element value data
     */
     $.fn.jqVal = $.fn.val;
     $.fn.val = function(data = null){
         var tag = $(this).tagName();
 
-        if(tag !== "textarea" && tag !== "input" && tag !== "select"){   
-            if($(this).hasClass("gl-dropdown")){
-                value = $(this).dropdownVal(data);
-            }else{
+        if(tag !== "textarea" && tag !== "input" && tag !== "select"){ 
+            value = undefined;
+            if($(this).isGroovie()){
+                value = $(this).glVal(data);
+            }
+
+            if(value == undefined){
                 if(typeof data !== "function" && data !== null)
                     ($(this).attr("data-value") !== undefined)? $(this).attr("data-value",data) : $(this).text(data); 
                 value = (($(this).attr("data-value") !== undefined)? $(this).attr("data-value") : $(this).text());
@@ -191,6 +225,20 @@ $(document).ready(function(){
             if(data !== null)
                 $(this).jqVal(data);
             value = $(this).jqVal();
+        }
+        return value;
+    }
+
+    $.fn.glVal = function(data = null){
+        value = undefined;
+        if($(this).hasClass("gl-dropdown")){
+            value = $(this).dropdownVal(data);
+        }else if($(this).hasClass("gl-checkbox")){
+            value = $(this).checkboxVal(data);
+        }else if($(this).hasClass("gl-statebox")){
+            value = $(this).stateboxVal(data);
+        }else if($(this).hasClass("gl-radiobtn")){
+            value = $(this).radiobtnVal(data);
         }
         return value;
     }
@@ -211,9 +259,13 @@ $(document).ready(function(){
             setup: function(data){
                 $(this).bind("click", function(event){
                     event.stopPropagation();
-        
-                    if($(this).hasClass("gl-btn") || $(this).hasClass("gl-menu-btn")){                        
-                        event.preventDefault();
+                    var submit = ($(this).attr("type") !== undefined)? $(this).attr("type") : "";
+
+                    if(($(this).tagName() == "button" || $(this).hasClass("gl-btn") || $(this).hasClass("gl-menu-btn")) && (submit !== "submit")){
+                            event.preventDefault()
+                    }
+                           
+                    if($(this).hasClass("gl-btn") || $(this).hasClass("gl-menu-btn")){  
                         clickButtons($(this));
                     }else{
                         $(this).trigger('Click');
@@ -998,6 +1050,7 @@ $(document).ready(function(){
         $.fn.dropdownVal = function(data = null){
             $this = $(this);
             if($this.hasClass("gl-dropdown")){
+                
                 var values = $this.children("ul").children("li");
                 for(var i = 0; i < values.length; i++){    
                     if(data == values.eq(i).val()){
@@ -1011,6 +1064,147 @@ $(document).ready(function(){
             return undefined;
         }
     /******************************DROP DOWN********************************/
+
+    /*******************************CHECK BOX*******************************/
+        $.fn.addCheckBox = function(){
+            $this = $(this);
+            if($this.tagName() == "input" && $this.attr("type") == "checkbox"){
+                var container = $("<div class='gl-checkbox'></div>");
+                if($this.prop("checked")) container.addClass("checked");
+
+                var input = $("<button class='action'><i class='gli-check'></i></button>");
+                var text = ($this.attr("data-text") != undefined)? $this.attr("data-text") : false;
+                if(text)
+                    container.append("<span class='text'>"+text+"</span>");
+
+                
+                input.append($this.clone().removeAttr("class").css("display", "none").removeAttr("data-text"));
+                container.prepend(input);
+                $this.replaceWith(container);
+
+                container.children(".text").click(function(event){
+                    $(this).prev().trigger("click");
+                });
+
+                input.click(function(event){
+                    var check = $(this).children("input[type='checkbox']");
+                    checked = ($(this).parent().val())? true : false
+                    $(this).parent().val(!checked);
+
+                }).focusin(function(event){
+                    $(this).parent().addClass("focus");
+                }).focusout(function(event){
+                    $(this).parent().removeClass("focus");
+                });
+            }
+        }
+
+        $.fn.checkboxVal = function(data = null){
+            $this = $(this);
+            if($this.hasClass("gl-checkbox")){
+                check = $this.children(".action").children("input[type='checkbox']");
+                if(typeof data === "boolean")
+                    check.prop("checked",data);
+
+                if(check.prop("checked"))
+                    $(this).addClass("checked");
+                else
+                    $(this).removeClass("checked");
+
+                return  (check.prop("checked"))? check.val() : false; 
+            }
+        };
+    /*******************************CHECK BOX*******************************/
+
+    /*******************************STATE BOX*******************************/
+        $.fn.addStateBox = function(){
+            $this = $(this);
+            if($this.tagName() == "input" && $this.attr("type") == "checkbox"){
+                var container = $("<button class='gl-statebox'></button>");
+                if($this.prop("checked")) container.addClass("checked");
+                
+                container.append($this.clone().removeAttr("class").css("display", "none"));
+                $this.replaceWith(container);
+
+                container.click(function(event){
+                    var checked = ($(this).val())? true : false;
+                    $(this).val(!checked);
+                }).focusin(function(event){
+                    $(this).addClass("focus");
+                }).focusout(function(event){
+                    $(this).removeClass("focus");
+                });
+            }
+        }
+
+        $.fn.stateboxVal = function(data = null){
+            $this = $(this);
+            if($this.hasClass("gl-statebox")){
+                check = $this.children("input[type='checkbox']");
+                if(typeof data === "boolean")
+                    check.prop("checked",data);
+                
+                if(check.prop("checked"))
+                    $(this).addClass("checked");
+                else
+                    $(this).removeClass("checked");
+
+                return  (check.prop("checked"))? check.val() : false; 
+            }
+        };
+    /*******************************STATE BOX*******************************/
+    /*******************************STATE BOX*******************************/
+        $.fn.addRadioBtn = function(){
+            $this = $(this);
+            if($this.tagName() == "input" && $this.attr("type") == "radio"){
+                var container = $("<div class='gl-radiobtn'></div>");
+                if($this.prop("checked")) container.addClass("checked");
+
+                var input = $("<button class='action'></button>");
+                var text = ($this.attr("data-text") != undefined)? $this.attr("data-text") : false;
+                if(text)
+                    container.append("<span class='text'>"+text+"</span>");
+
+                
+                input.append($this.clone().removeAttr("class").css("display", "none").removeAttr("data-text"));
+                container.prepend(input);
+                $this.replaceWith(container);
+
+                container.children(".text").click(function(event){
+                    $(this).prev().trigger("click");
+                });
+
+                input.click(function(event){
+                    var check = $(this).parent().children("input[type='radio']");
+                    var  checked = ($(this).parent().val())? true : false;
+                    $(this).parent().val(!checked);
+
+                }).focusin(function(event){
+                    $(this).parent().addClass("focus");
+                }).focusout(function(event){
+                    $(this).parent().removeClass("focus");
+                });
+            }
+        }
+
+        $.fn.radiobtnVal = function(data = null){
+            $this = $(this);
+            if($this.hasClass("gl-radiobtn")){                
+                var check = $this.children(".action").children("input[type='radio']");
+                var group = $(this).parents("form").find(".gl-radiobtn [name='"+check.attr("name")+"']");
+                group.parents(".gl-radiobtn").removeClass("checked");
+                if(typeof data === "boolean")
+                    check.prop("checked",data);
+                
+                if(check.prop("checked"))
+                    $(this).addClass("checked");
+                else
+                    $(this).removeClass("checked");
+
+                return  (check.prop("checked"))? check.val() : false; 
+            }
+        };
+    /*******************************STATE BOX*******************************/
 
     /********************************POPUPS*********************************/
         /*
