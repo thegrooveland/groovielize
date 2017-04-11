@@ -92,7 +92,8 @@ No select text
 .gl-simple-card-s .action,
 [class^="gl-"] .placeholder,
 .gl-popup > .middle > .container .header,
-.gl-checkbox{
+.gl-checkbox,
+.gl-file{
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -108,7 +109,8 @@ Truncate text with ellipsis
 .gl-content,
 .gl-content *,
 .gl-coll-item :first-child,
-.gl-popup > .middle > .container .header{    
+.gl-popup > .middle > .container .header,
+.gl-file > div{    
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -1297,18 +1299,19 @@ img.wide{
     line-height: 36px;
     background-color: #F2F2F2;
     border-radius: 6px;
-    padding: 0 15px 0 0;
+    padding: 0 15px 0 65px;
 }
 
 .gl-file .gl-btn{
-    margin: 0 15px 0 0;
+    margin: 0;
     padding: 0;
     width: 50px;
-    height: inherit;
+    height: 36px;
     line-height: inherit;
     background-color: #4BB6FF;
     color: #FFF;
     font-size: 25px;
+    position: absolute;
 }
 .gl-file .gl-btn [class^="gli-"]{
     font-size: inherit;

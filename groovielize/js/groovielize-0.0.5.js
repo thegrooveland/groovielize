@@ -926,10 +926,9 @@ $(document).ready(function(){
                 var text = ($(this).attr("data-default") !== undefined)? $(this).attr("data-default") : "Select a file...";
                 var container = $("<div class='gl-file'></div>");
                 var button = $("<button class='gl-btn'><i class='gli-add'></i></button>");
-                var fileBody = $("<div><b>"+text+"<b></div>");
+                var fileBody = $("<div>"+text+"</div>");
 
-                fileBody.prepend(button);
-                container.append(fileBody).append($this.clone().removeAttr("class").css("display","none"));
+                container.prepend(button).append(fileBody).append($this.clone().removeAttr("class").css("display","none"));
                 $this.replaceWith(container);
                 
                 var color = new Color(getBackground(button));
@@ -939,7 +938,7 @@ $(document).ready(function(){
                     $(this).parent().val();
                 });
                 button.click(function(){
-                    $(this).parent().siblings("input[type='file']").trigger("click");
+                    $(this).parent().children("input[type='file']").trigger("click");
                 });
             }
         }
@@ -948,11 +947,11 @@ $(document).ready(function(){
             $this = $(this);
             if($this.hasClass("gl-file")){
                 if(data != null){
-                    $this.find("div > b").val(data);
+                    $this.find("div").get(0).lastChild.nodeValue = data;
                     return $this.find("input[type='file']").val(data);
                 }else{
                     var value = $this.find("input[type='file']").val();
-                    $this.find("div > b").val(value);
+                    $this.find("div").get(0).lastChild.nodeValue = value;
                     return value;
                 }
             }
