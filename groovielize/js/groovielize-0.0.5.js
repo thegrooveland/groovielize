@@ -53,6 +53,10 @@ $(document).ready(function(){
             $(this).addText();
         });
 
+        $(".gl-file").each(function(){
+            $(this).addFileInput();
+        })
+
         $(".gl-dropdown").each(function(){
             $(this).addDropdown();
         });
@@ -230,16 +234,12 @@ $(document).ready(function(){
     }
 
     $.fn.glVal = function(data = null){
-        value = undefined;
-        if($(this).hasClass("gl-dropdown")){
-            value = $(this).dropdownVal(data);
-        }else if($(this).hasClass("gl-checkbox")){
-            value = $(this).checkboxVal(data);
-        }else if($(this).hasClass("gl-statebox")){
-            value = $(this).stateboxVal(data);
-        }else if($(this).hasClass("gl-radiobtn")){
-            value = $(this).radiobtnVal(data);
-        }
+        var value = undefined;
+        if($(this).hasClass("gl-dropdown"))         value = $(this).dropdownVal(data);
+        else if($(this).hasClass("gl-checkbox"))    value = $(this).checkboxVal(data);
+        else if($(this).hasClass("gl-statebox"))    value = $(this).stateboxVal(data);
+        else if($(this).hasClass("gl-radiobtn"))    value = $(this).radiobtnVal(data);
+        else if($(this).hasClass("gl-file"))        value = $(this).fileInputVal(data);
         return value;
     }
 
@@ -259,13 +259,12 @@ $(document).ready(function(){
             setup: function(data){
                 $(this).bind("click", function(event){
                     event.stopPropagation();
-                    var submit = ($(this).attr("type") !== undefined)? $(this).attr("type") : "";
 
-                    if(($(this).tagName() == "button" || $(this).hasClass("gl-btn") || $(this).hasClass("gl-menu-btn")) && (submit !== "submit")){
-                            event.preventDefault()
-                    }
-                           
-                    if($(this).hasClass("gl-btn") || $(this).hasClass("gl-menu-btn")){  
+                    if($(this).tagName() === "a" || $(this).tagName() === "button" || ($(this).tagName() === "input" && ($(this).attr("type") === "submit")))
+                        event.preventDefault();
+
+                    if($(this).hasClass("gl-btn") || $(this).hasClass("gl-menu-btn")){   
+                        event.preventDefault();                       
                         clickButtons($(this));
                     }else{
                         $(this).trigger('Click');
@@ -286,6 +285,11 @@ $(document).ready(function(){
                     setTimeout(function(){
                         window.location.href = $(event.target).attr("href");
                     }, 10)
+                }
+                
+                var submit = ($(event.target).attr("type") !== undefined)? $(event.target).attr("type") : "";
+                if(($(event.target).tagName() == "button" || $(event.target).hasClass("gl-btn") || $(event.target).hasClass("gl-menu-btn")) && (submit === "submit")){
+                    $(event.target).parents("form").submit();
                 }
             }
         };
@@ -310,7 +314,7 @@ $(document).ready(function(){
             if(((element.hasClass("gl-btn") || element.hasClass("gl-state-btn")) && !element.hasClass(_class)) && !element.hasClass("gl-disabled")){
                 element.addClass(_class)
 
-                var color = new Color(getBackground(element));//css("background-color"));
+                var color = new Color(getBackground(element));
 
                 var ascent = (element.attr("data-ascent") != undefined)? element.attr("data-ascent") : "";
                 if(ascent == ""){
@@ -334,7 +338,7 @@ $(document).ready(function(){
                         "background-color" :  ascent
                     },200,"easeInOutQuad").transition({
                         "background-color" : color.hex
-                    },200,"easeInOutQuad")
+                    },200,"easeInOutQuad");
                 }
 
                 setTimeout(function(){
@@ -387,21 +391,6 @@ $(document).ready(function(){
                 
                 var data = new FormData(this[0]);
                 data.append("ajax",true);
-                            
-                var text = this.find(".groovie-text");
-                for(var i = 0; i < text.length; i++){
-                    if(text.eq(i).hasClass('focus')){
-                        text.eq(i).removeClass("focus");
-                        text.eq(i).checkInputText();
-                    }
-                }
-                this.find("input[type='password']").val("").parents(".groovie-text").removeClass("block");
-                
-                var file = this.find(".groovie-file");
-                for(var i = 0; i < file.length; i++){
-                file.eq(i).find("p").text(file.eq(i).find("p").attr("data-placeholder"));
-                }
-                this.find("input[type='file']").val("");
                 
                 $.ajax({
                     url: this.attr("action"),
@@ -843,12 +832,12 @@ $(document).ready(function(){
     /******************************TEXT INPUT*******************************/
         $.fn.addText = function(){
             if(($(this).tagName() == "input" && ($(this).attr("type") == "text" || $(this).attr("type") == "password")) || $(this.tagName() == "textarea")){
-                $this = $(this);
+                var $this = $(this);
 
-                container = $("<div class='gl-text'></div>");                
-                placeHolder = ($this.attr("placeHolder"))? "<span class='placeholder'>"+$this.attr("placeHolder")+"</span><hr>" : "";
+                var container = $("<div class='gl-text'></div>");                
+                var placeHolder = ($this.attr("placeHolder"))? "<span class='placeholder'>"+$this.attr("placeHolder")+"</span><hr>" : "";
 
-                input = $this.clone().removeClass("gl-text").removeAttr("placeHolder");
+                var input = $this.clone().removeClass("gl-text").removeAttr("placeHolder");
 
                 container.append(placeHolder);
                 container.append(input);
@@ -929,19 +918,61 @@ $(document).ready(function(){
         }
     /******************************TEXT INPUT*******************************/
 
+    /******************************FILE INPUT*******************************/
+        $.fn.addFileInput = function(){
+            if($(this).tagName() == "input" && $(this).attr("type") == "file"){
+                var $this = $(this);
+
+                var text = ($(this).attr("data-default") !== undefined)? $(this).attr("data-default") : "Select a file...";
+                var container = $("<div class='gl-file'></div>");
+                var button = $("<button class='gl-btn'><i class='gli-add'></i></button>");
+                var fileBody = $("<div><b>"+text+"<b></div>");
+
+                fileBody.prepend(button);
+                container.append(fileBody).append($this.clone().removeAttr("class").css("display","none"));
+                $this.replaceWith(container);
+                
+                var color = new Color(getBackground(button));
+                button.attr("data-ascent", color.modifyColor(.5,1).hex);
+
+                container.children("input[type='file']").change(function(){
+                    $(this).parent().val();
+                });
+                button.click(function(){
+                    $(this).parent().siblings("input[type='file']").trigger("click");
+                });
+            }
+        }
+
+        $.fn.fileInputVal = function(data = null){
+            $this = $(this);
+            if($this.hasClass("gl-file")){
+                if(data != null){
+                    $this.find("div > b").val(data);
+                    return $this.find("input[type='file']").val(data);
+                }else{
+                    var value = $this.find("input[type='file']").val();
+                    $this.find("div > b").val(value);
+                    return value;
+                }
+            }
+            return undefined;
+        }
+    /******************************FILE INPUT*******************************/
+
     /******************************DROP DOWN********************************/
         $.fn.addDropdown = function(){
             if(($(this).tagName() == "select")){
                 $this = $(this);
-                value = $this.val();
+                value = ($this.attr("data-default") != undefined)? undefined : $this.val();
+                text = ($this.attr("data-default") != undefined)? $this.attr("data-default") : $this.val();
                 name = ($this.attr("name") !== undefined)? $this.attr("name") : "";
                 size = 6;
 
                 options = $("<ul></ul>");
                 container = $("<div></div>");
-                button = $("<button class='title'><b>"+value+"</b><i class='gli-arrow-down'></i></button>");
+                button = $("<button class='title'><b>"+text+"</b><i class='gli-arrow-down'></i></button>");
                 select = $("<input type='hidden' name='"+name+"' value='"+value+"'>").html($this.html())
-
                 $this.children("option").each(function(){
                     var $this = $(this);
                     var text = $this.text();
@@ -1054,7 +1085,7 @@ $(document).ready(function(){
                 var values = $this.children("ul").children("li");
                 for(var i = 0; i < values.length; i++){    
                     if(data == values.eq(i).val()){
-                        $this.children(".title").children().eq(0).val(data);
+                        $this.children(".title").children().eq(0).val(values.eq(i).text());
                         return $this.children("input").val(data);
                     }
                 }
@@ -1153,7 +1184,8 @@ $(document).ready(function(){
             }
         };
     /*******************************STATE BOX*******************************/
-    /*******************************STATE BOX*******************************/
+
+    /*******************************RADIO BTN*******************************/
         $.fn.addRadioBtn = function(){
             $this = $(this);
             if($this.tagName() == "input" && $this.attr("type") == "radio"){
@@ -1204,7 +1236,7 @@ $(document).ready(function(){
                 return  (check.prop("checked"))? check.val() : false; 
             }
         };
-    /*******************************STATE BOX*******************************/
+    /*******************************RADIO BTN*******************************/
 
     /********************************POPUPS*********************************/
         /*

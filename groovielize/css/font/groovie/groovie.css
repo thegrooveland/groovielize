@@ -210,10 +210,14 @@
 .gli-table:before{
   content: "\e952";
 }
-.gli-trash-solid:before{
+.gli-trash-solid:before,
+.gli-erease-solid:before,
+.gli-delete-solid:before{
   content: "\e953";
 }
-.gli-trash:before{
+.gli-trash:before,
+.gli-erease:before,
+.gli-delete:before{
   content: "\e954";
 }
 .gli-arrow-up:before{
