@@ -1173,6 +1173,10 @@ img.wide{
     margin: 10px 15px 15px 0;
     text-align: left;
 }
+.gl-text:last-child{
+    margin-right: 0;    
+}
+
 .gl-text.focus{
     color: #555454;
 }
@@ -1387,6 +1391,7 @@ img.wide{
     border-radius: inherit;       
     overflow: hidden;
     box-shadow: 0px 2px 5px -1px rgba(0,0,0,0.30) !important;
+    margin: 0 !important;
 } 
 .gl-dropdown > ul li{
     cursor: default !important;
