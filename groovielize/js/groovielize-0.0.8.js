@@ -163,11 +163,7 @@ $(document).ready(function(){
     *isEmpty()
     */
     $.fn.isEmpty = function(){
-        if($(this).tagName() == "input" || $(this).tagName() == "textarea"){
-            return ($(this).val() != "")? false : true;
-        }
-
-        return undefined
+        return ($(this).val() != "")? false : true;
     }
 
     /*
@@ -207,20 +203,32 @@ $(document).ready(function(){
         return result;
     }
 
+    $.fn.isTextInput = function(){
+        if($(this).hasClass("gl-text"))
+            return true;
+        return false;
+    }
+
+    /**
+     * Check if element is required
+     */
+    $.fn.isRequired = function(){
+        if($(this).isGroovie() && $(this).hasClass("required"))
+            return true;
+        return false;
+    }
+
     /*
     *function to get element value data
     */
     $.fn.jqVal = $.fn.val;
     $.fn.val = function(data = null){
         var tag = $(this).tagName();
-
         if(tag !== "textarea" && tag !== "input" && tag !== "select"){ 
-            value = undefined;
-            if($(this).isGroovie()){
+            value = undefined;            
+            if($(this).isGroovie()){    
                 value = $(this).glVal(data);
-            }
-
-            if(value == undefined){
+            }else if(value == undefined){
                 if(typeof data !== "function" && data !== null)
                     ($(this).attr("data-value") !== undefined)? $(this).attr("data-value",data) : $(this).text(data); 
                 value = (($(this).attr("data-value") !== undefined)? $(this).attr("data-value") : $(this).text());
@@ -235,13 +243,35 @@ $(document).ready(function(){
 
     $.fn.glVal = function(data = null){
         var value = undefined;
-        if($(this).hasClass("gl-dropdown"))         value = $(this).dropdownVal(data);
+
+        if($(this).hasClass("gl-text"))             value = $(this).textVal(data);
+        else if($(this).hasClass("gl-dropdown"))    value = $(this).dropdownVal(data);
         else if($(this).hasClass("gl-checkbox"))    value = $(this).checkboxVal(data);
         else if($(this).hasClass("gl-statebox"))    value = $(this).stateboxVal(data);
         else if($(this).hasClass("gl-radiobtn"))    value = $(this).radiobtnVal(data);
         else if($(this).hasClass("gl-file"))        value = $(this).fileInputVal(data);
         return value;
     }
+
+    /*
+    *Check all required inputs are filled
+    */
+    $.fn.checkRequired = function(){
+        var result = true;
+        var form = ($(this).tagName() == "form")? $(this) : $(this).parents("form");
+        var childrens = form.find(".required");
+        childrens.each(function(){
+            if($(this).isGroovie()){
+                if($(this).isEmpty()){
+                    $(this).find(".alert").addClass("show");
+                    result = false;
+                }else $(this).find(".alert").removeClass("show");    
+            }
+        });
+
+        return result;
+    }
+
 
 
 /*CUSTOM FUNCTIONS*/
@@ -381,7 +411,6 @@ $(document).ready(function(){
 
         $.fn.sendForm = function(callback){
             if($(this).tagName() === "form"){
-                
                 var ajaxFunctions = {
                     beforeSend: ((callback && ("beforeSend" in callback) && (typeof callback.beforeSend === "function"))? callback.beforeSend : function(){}),
                     complete: ((callback && ("complete" in callback) && (typeof callback.complete === "function"))? callback.complete : function(){}),
@@ -916,6 +945,24 @@ $(document).ready(function(){
                 });
             }
         }
+
+        $.fn.textVal = function(data = null){
+            $this = (this);
+            if($this.hasClass("gl-text")){
+                if(data != null){
+                    $this.find("input, textarea").val(data);
+                    if(!$this.find("input, textarea").isEmpty()){
+                        $this.addClass("fill");
+                    }else{
+                        $this.removeClass("fill");
+                    }
+                }
+                return $this.find("input, textarea").val();
+            }
+            return undefined;
+        }
+
+        
     /******************************TEXT INPUT*******************************/
 
     /******************************FILE INPUT*******************************/
@@ -929,6 +976,14 @@ $(document).ready(function(){
                 var fileBody = $("<div>"+text+"</div>");
 
                 container.prepend(button).append(fileBody).append($this.clone().removeAttr("class").css("display","none"));
+
+                if($this.attr("required")){
+                    container.addClass("required");
+                    requireText = ($this.attr("data-required") && $this.attr("data-required") != "")? $this.attr("data-required") : "This field is required.";
+                    container.append("<aside class='alert'>"+requireText+"</aside>");
+                    $this.removeAttr("required data-required");
+                }
+                
                 $this.replaceWith(container);
                 
                 var color = new Color(getBackground(button));
@@ -936,6 +991,10 @@ $(document).ready(function(){
 
                 container.children("input[type='file']").change(function(){
                     $(this).parent().val();
+                    if($(this).parent().hasClass("required")){
+                        if($(this).parent().isEmpty()) $(this).parent().find(".alert").addClass("show");
+                        else $(this).parent().find(".alert").removeClass("show");
+                    }  
                 });
                 button.click(function(){
                     $(this).parent().children("input[type='file']").trigger("click");
@@ -950,13 +1009,15 @@ $(document).ready(function(){
                     $this.find("div").get(0).lastChild.nodeValue = data;
                     return $this.find("input[type='file']").val(data);
                 }else{
-                    var value = $this.find("input[type='file']").val();
-                    $this.find("div").get(0).lastChild.nodeValue = value;
+                    var value = $this.find("input[type='file']").val();                    
+                    if(!$this.find("input[type='file']").isEmpty())         
+                        $this.find("div").get(0).lastChild.nodeValue = value;
                     return value;
                 }
             }
             return undefined;
         }
+
     /******************************FILE INPUT*******************************/
 
     /******************************DROP DOWN********************************/
@@ -966,9 +1027,9 @@ $(document).ready(function(){
                 value = ($this.attr("data-default") != undefined)? undefined : $this.val();
                 text = ($this.attr("data-default") != undefined)? $this.attr("data-default") : $this.val();
                 name = ($this.attr("name") !== undefined)? $this.attr("name") : "";
-                size = 6;
+                size = ($this.attr("size") !== undefined)? Number($this.attr("size")) : 6;
 
-                options = $("<ul></ul>");
+                options = $("<ul data-size='"+size+"' "+(($this.attr("data-default") != undefined)? "data-default='"+$this.attr("data-default")+"'" : "")+"></ul>");
                 container = $("<div></div>");
                 button = $("<button class='title'><b>"+text+"</b><i class='gli-arrow-down'></i></button>");
                 select = $("<input type='hidden' name='"+name+"' value='"+value+"'>").html($this.html())
@@ -991,6 +1052,13 @@ $(document).ready(function(){
 
                 container.attr("class",$this.attr("class")).attr("id",$this.attr("id")).append(button).append(options).append(select);
 
+                if($this.attr("required")){
+                    container.addClass("required");
+                    requireText = ($this.attr("data-required") && $this.attr("data-required") != "")? $this.attr("data-required") : "This field is required.";
+                    container.append("<aside class='alert'>"+requireText+"</aside>");
+                    $this.removeAttr("required data-required");
+                }
+
                 $this.replaceWith(container);
                 $this = container;
 
@@ -999,6 +1067,12 @@ $(document).ready(function(){
                     if(!$(this).hasClass("disabled")){
                         var value = $(this).val();
                         $(this).parents(".gl-dropdown").val(value);
+                    }
+
+                    
+                    if($(this).parents(".gl-dropdown").hasClass("required")){
+                        if($(this).parents(".gl-dropdown").isEmpty())$(this).parents(".gl-dropdown").find(".alert").addClass("show");
+                        else $(this).parents(".gl-dropdown").find(".alert").removeClass("show");   
                     }
                 });
 
@@ -1019,10 +1093,10 @@ $(document).ready(function(){
                 
                 function toggle(element){
                     var options = element.children("ul");
+                    var size = (options.attr("data-size") !== undefined)? Number(options.attr("data-size")) : 6;
                     var transitions;
 
                     if(element.hasClass("focus")){
-                        
                         var length = options.children().length;
                         var multiply = (length > size)? size : length;
                         var height = options.css("line-height").replace("px","") * multiply;
@@ -1080,16 +1154,29 @@ $(document).ready(function(){
         $.fn.dropdownVal = function(data = null){
             $this = $(this);
             if($this.hasClass("gl-dropdown")){
-                
                 var values = $this.children("ul").children("li");
-                for(var i = 0; i < values.length; i++){    
-                    if(data == values.eq(i).val()){
-                        $this.children(".title").children().eq(0).val(values.eq(i).text());
-                        return $this.children("input").val(data);
+                if(data != null){
+
+                    for(var i = 0; i < values.length; i++){    
+                        if(data == values.eq(i).val()){
+                            $this.children(".title").children().eq(0).val(values.eq(i).text());
+                            return $this.children("input").val(data);
+                        }
                     }
+
+                    var $default = $this.children("ul").attr("data-default");
+                    $default = ($default == undefined)? "undefined" : $default;
+                    $this.children(".title").children("b").val($default);
+                    $this.children("input").val("");
+
+                }else{
+                    for(var i = 0; i < values.length; i++){   
+                        if($this.children("input").val() == values.eq(i).val()){
+                            return $this.children("input").val();
+                        }
+                    }
+                    return "";
                 }
-                $this.children(".title").children("span").val("undefined");
-                $this.children("input").val("undefined");
             }
             return undefined;
         }
@@ -1332,6 +1419,7 @@ $(document).ready(function(){
             }
         }
     /********************************POPUPS*********************************/
+
 
 /*****************************CUSTOM ELEMENTS*****************************/
 

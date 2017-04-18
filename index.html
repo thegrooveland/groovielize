@@ -364,67 +364,93 @@
 
                 <div class="hd-20">
                     <h2 class="gl-float-title">Text Input</h2>
-                    <input type="text" class="gl-text" placeholder="Text default">
-                    <input type="text" class="gl-text" placeholder="Text default required" required>
-                    <input type="text" class="gl-text" placeholder="Text default required 2" required data-required="Campo obligatorio.">
-                    <input type="text" class="gl-text" placeholder="Text default limit chars" maxlength="20">
+                    <form>
+                        <input type="text" class="gl-text" placeholder="Text default">
+                        <input type="text" class="gl-text" placeholder="Text default required" required>
+                        <input type="text" class="gl-text" placeholder="Text default required 2" required data-required="Campo obligatorio.">
+                        <input type="text" class="gl-text" placeholder="Text default limit chars" maxlength="20">
+                        <aside class="hd-20">
+                            <button class="gl-btn check-pass">Check emptys</button>
+                        </aside>
+                    </form>
                 </div>
 
                 <div class="hd-20">
                     <h2 class="gl-float-title">Password Input</h2>
-                    <input type="password" class="gl-text" placeholder="Password default">
-                    <input type="password" class="gl-text" placeholder="Password default required" required>
-                    <input type="password" class="gl-text" placeholder="Password default required 2" required data-required="Campo obligatorio.">
-                    <input type="password" class="gl-text" placeholder="Password default limit chars" maxlength="20">
+                    <form>
+                        <input type="password" class="gl-text" placeholder="Password default">
+                        <input type="password" class="gl-text" placeholder="Password default required" required>
+                        <input type="password" class="gl-text" placeholder="Password default required 2" required data-required="Campo obligatorio.">
+                        <input type="password" class="gl-text" placeholder="Password default limit chars" maxlength="20">
+                        <aside class="hd-20">
+                            <button class="gl-btn check-pass">Check emptys</button>
+                        </aside>
+                    </form>
                 </div>
 
                 <div class="hd-20">
                     <h2 class="gl-float-title">Text Area</h2>
-                    <textarea class="gl-text" placeholder="Text Area default"></textarea>
-                    <textarea class="gl-text" placeholder="Text Area default required" required></textarea>
-                    <textarea class="gl-text" placeholder="Text Area default required 2" required data-required="Campo obligatorio."></textarea>
-                    <textarea class="gl-text" placeholder="Text Area default limit chars" maxlength="160"></textarea>
+                    <form>
+                        <textarea class="gl-text" placeholder="Text Area default"></textarea>
+                        <textarea class="gl-text" placeholder="Text Area default required" required></textarea>
+                        <textarea class="gl-text" placeholder="Text Area default required 2" required data-required="Campo obligatorio."></textarea>
+                        <textarea class="gl-text" placeholder="Text Area default limit chars" maxlength="160"></textarea>
+                        <aside class="hd-20">
+                            <button class="gl-btn check-pass">Check emptys</button>
+                        </aside>
+                    </form>
                 </div>
 
                 <div class="hd-20">
                     <h2 class="gl-float-title">File Input</h2>
-                    <input type="file" name="file" class="gl-file">
+                    <form>
+                        <input type="file" name="file" class="gl-file">
+                        <input type="file" name="file" class="gl-file" required>
+                        <aside class="hd-20">
+                            <button class="gl-btn check-pass">Check emptys</button>
+                        </aside>
+                    </form>
                 </div>
 
                 <div class="hd-20">
                     <h2 class="gl-float-title">Drop downs</h2>
-                    <select class="gl-dropdown" name="select" data-default="Selecciona uno...">
-                        <option>Opcion 1</option>
-                        <option>Opcion 2</option>
-                        <option value="mejor">Opcion 3</option>
-                        <option value="1">Opcion 4</option>
-                        <option>Opcion 5</option>
-                        <option>Opcion 6</option>
-                    </select>
-                    <select class="gl-dropdown" name="select">
-                        <option disabled>Opcion 1</option>
-                        <option selected>Opcion 2</option>
-                        <option value="mejor">Opcion 3</option>
-                        <option value="1">Opcion 4</option>
-                        <option>Opcion 5</option>
-                        <option>Opcion 6</option>
-                    </select>
-                    <select class="gl-dropdown" name="select">
-                        <option disabled>Opcion 1</option>
-                        <option selected>Opcion 2</option>
-                        <option value="mejor">Opcion 3</option>
-                    </select>
-                    <select class="gl-dropdown test" id="test" name="select">
-                        <option>Opcion 1</option>
-                        <option>Opcion 2</option>
-                        <option value="mejor">Opcion 3</option>
-                        <option>Opcion 4</option>
-                        <option>Opcion 5</option>
-                        <option>Opcion 6</option>
-                        <option>Opcion 7</option>
-                        <option>Opcion 8</option>
-                        <option>Opcion 9</option>
-                    </select>
+                    <form>
+                        <select class="gl-dropdown" name="select" data-default="Selecciona uno..." size="3" required>
+                            <option>Opcion 1</option>
+                            <option>Opcion 2</option>
+                            <option value="mejor">Opcion 3</option>
+                            <option value="1">Opcion 4</option>
+                            <option>Opcion 5</option>
+                            <option>Opcion 6</option>
+                        </select>
+                        <select class="gl-dropdown" name="select">
+                            <option disabled>Opcion 1</option>
+                            <option selected>Opcion 2</option>
+                            <option value="mejor">Opcion 3</option>
+                            <option value="1">Opcion 4</option>
+                            <option>Opcion 5</option>
+                            <option>Opcion 6</option>
+                        </select>
+                        <select class="gl-dropdown" name="select">
+                            <option disabled>Opcion 1</option>
+                            <option selected>Opcion 2</option>
+                            <option value="mejor">Opcion 3</option>
+                        </select>
+                        <select class="gl-dropdown test" id="test" name="select" requireda>
+                            <option>Opcion 1</option>
+                            <option>Opcion 2</option>
+                            <option value="mejor">Opcion 3</option>
+                            <option>Opcion 4</option>
+                            <option>Opcion 5</option>
+                            <option>Opcion 6</option>
+                            <option>Opcion 7</option>
+                            <option>Opcion 8</option>
+                            <option>Opcion 9</option>
+                        </select>
+                        <aside class="hd-20">
+                            <button class="gl-btn check-pass">Check emptys</button>
+                        </aside>
+                    </form>
                 </div>
 
                 <div class="hd-20">
@@ -487,6 +513,10 @@
 
         <script>
             $(document).ready(function(){
+                $(".check-pass").click(function(){
+                    console.log("result :"+$(this).checkRequired());
+                });
+                
                 $("#test").click(function(){
                     console.log($(this).val());
                 });

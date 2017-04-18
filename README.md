@@ -1,5 +1,5 @@
 Groovielize is a Custom css/jQuery Framework
-##Current Version 0.0.5
+##Current Version 0.0.8
 
 ##About
 Web page: [Grooveland](http://thegrooveland.com)<br/>
