@@ -1177,6 +1177,10 @@ img.wide{
     margin-right: 0;    
 }
 
+.gl-text.disabled,
+.gl-text.disabled *{
+    cursor:default !important;
+}
 .gl-text.focus{
     color: #555454;
 }
@@ -1243,9 +1247,11 @@ img.wide{
     height: 150px;
 }
 
-.gl-text input:hover,
+.gl-text:not(.disabled) .placeholder:hover ~ input,
+.gl-text:not(.disabled) input:hover,
 .gl-text.focus input,
-.gl-text textarea:hover,
+.gl-text:not(.disabled) .placeholder:hover ~ textarea,
+.gl-text:not(.disabled) textarea:hover,
 .gl-text.focus textarea{
     box-shadow: 0px 2px 5px -1px rgba(0,0,0,0.30) !important;
 }
@@ -1357,18 +1363,33 @@ img.wide{
     margin: 10px 15px 15px 0;
     min-width: 200px;
     width: 300px;
-    height: 36px;
-    line-height: 36px;
-    background-color: #F2F2F2;
-    border:none;
-    border-radius: 6px;
+    height: 58px;
     color:#B3B3B3;
     position: relative;
     padding: 0;
 }
 
+.gl-dropdown.disabled,
+.gl-dropdown.disabled *{
+    cursor: default !important;;
+}
+
 .gl-dropdown:last-child{
     margin-right: 0;
+}
+
+.gl-dropdown > .placeholder{    
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    margin: 0 15px;
+    z-index: 4;
+    color: inherit;
+    font: inherit;
+}
+
+.gl-dropdown.focus .placeholder{
+    color: #4BB6FF;
 }
 
 .gl-dropdown > .title{
@@ -1376,17 +1397,18 @@ img.wide{
     display: block;
     position: relative;
     padding: 0 15px;
+    margin-top: 22px;
     box-sizing: border-box;
     color: inherit;
     font: inherit;
     z-index: 1000;
     width: 100%;
-    height: 100%;
-    background-color: inherit;
-    border-radius: inherit;  
+    height: 36px;
+    background-color: #F2F2F2;
+    border-radius: 6px;      
     -webkit-transition: box-shadow 0.3s ease;
     -webkit-transition: box-shadow 0.3s ease, background-color 0.3s ease, color 0.3s ease;
-    transition: box-shadow 0.3s ease, background-color 0.3s ease, color 0.3s ease;        
+    transition: box-shadow 0.3s ease, background-color 0.3s ease, color 0.3s ease;    
 }
 
 .gl-dropdown > .title i[class^="gli-"]{
@@ -1396,7 +1418,11 @@ img.wide{
     transition: inherit;
 }
 
-.gl-dropdown:hover > .title,
+.gl-dropdown.disabled > .title i[class^="gli-"]{
+    display: none;
+}
+
+.gl-dropdown:hover:not(.disabled) > .title,
 .gl-dropdown.focus > .title{
     box-shadow: 0px 2px 5px -1px rgba(0,0,0,0.30) !important;
     background-color: #4BB6FF;
@@ -1408,14 +1434,16 @@ img.wide{
     position: absolute;  
     color: #4D4D4D;
     height: 0;
+    line-height: 36px;
     box-sizing: border-box;
     z-index: 999;
     background-color: inherit;
-    border: inherit;
-    border-radius: inherit;       
+    border: none;
+    border-radius: 6px;       
     overflow: hidden;
     box-shadow: 0px 2px 5px -1px rgba(0,0,0,0.30) !important;
-    margin: 0 !important;
+    margin: 0 !important;;
+    background-color: #F2F2F2;
 } 
 .gl-dropdown > ul li{
     cursor: default !important;
@@ -1454,7 +1482,7 @@ img.wide{
     background-color: #FF5578;
     border-radius: 6px;
     z-index: 2;
-    bottom: 3px;
+    bottom: 4px;
     font-size: 12px;
     color: #FFFFFF;
     -webkit-transition: bottom 0.3s ease;

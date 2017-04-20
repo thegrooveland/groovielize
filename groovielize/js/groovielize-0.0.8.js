@@ -213,7 +213,7 @@ $(document).ready(function(){
      * Check if element is required
      */
     $.fn.isRequired = function(){
-        if($(this).isGroovie() && $(this).hasClass("required"))
+        if($(this).isGroovie() && $(this).hasClass("required") && !$(this).hasClass("disabled"))
             return true;
         return false;
     }
@@ -224,7 +224,7 @@ $(document).ready(function(){
     $.fn.jqVal = $.fn.val;
     $.fn.val = function(data = null){
         var tag = $(this).tagName();
-        if(tag !== "textarea" && tag !== "input" && tag !== "select"){ 
+        if(tag !== "textarea" && tag !== "input" && tag !== "select" && tag !== "option"){ 
             value = undefined;            
             if($(this).isGroovie()){    
                 value = $(this).glVal(data);
@@ -233,7 +233,7 @@ $(document).ready(function(){
                     ($(this).attr("data-value") !== undefined)? $(this).attr("data-value",data) : $(this).text(data); 
                 value = (($(this).attr("data-value") !== undefined)? $(this).attr("data-value") : $(this).text());
             }
-        }else{          
+        }else{ 
             if(data !== null)
                 $(this).jqVal(data);
             value = $(this).jqVal();
@@ -261,7 +261,7 @@ $(document).ready(function(){
         var form = ($(this).tagName() == "form")? $(this) : $(this).parents("form");
         var childrens = form.find(".required");
         childrens.each(function(){
-            if($(this).isGroovie()){
+            if($(this).isRequired()){
                 if($(this).isEmpty()){
                     $(this).find(".alert").addClass("show");
                     result = false;
@@ -870,6 +870,11 @@ $(document).ready(function(){
                 var classList = input.attr("class");
                 input.removeAttr("class");
 
+                if(!input.isEmpty())
+                    classList += " fill";
+                if(input.attr("disabled"))
+                    classList += " disabled";
+
                 container.append(placeHolder);
                 container.append(input).addClass(classList);
                 $this.replaceWith(container);
@@ -920,8 +925,10 @@ $(document).ready(function(){
                 container.children().click(function(event){
                     event.stopPropagation();
                     parent = $(this).parent();
-                    if(!parent.hasClass("focus")) parent.addClass("focus");
-                    parent.children("input, textarea").focus();
+                    if(!parent.hasClass("disabled")){
+                        if(!parent.hasClass("focus")) parent.addClass("focus");
+                        parent.children("input, textarea").focus();
+                    }
                 });
 
                 input.focus( function(event) { 
@@ -1025,16 +1032,19 @@ $(document).ready(function(){
     /******************************DROP DOWN********************************/
         $.fn.addDropdown = function(){
             if(($(this).tagName() == "select")){
-                $this = $(this);
-                value = ($this.attr("data-default") != undefined)? undefined : $this.val();
-                text = ($this.attr("data-default") != undefined)? $this.attr("data-default") : $this.val();
-                name = ($this.attr("name") !== undefined)? $this.attr("name") : "";
-                size = ($this.attr("size") !== undefined)? Number($this.attr("size")) : 6;
+                var $this = $(this);
+                var value = ($this.val() == "default")? undefined : $this.val();
+                var text = $this.children().eq($this.prop("selectedIndex")).text();
+                var name = ($this.attr("name") !== undefined)? $this.attr("name") : "";
+                var size = ($this.attr("size") !== undefined)? Number($this.attr("size")) : 6;                
+                var placeHolder = ($this.attr("placeHolder"))? "<span class='placeholder'>"+$this.attr("placeHolder")+"</span>" : "";
 
-                options = $("<ul data-size='"+size+"' "+(($this.attr("data-default") != undefined)? "data-default='"+$this.attr("data-default")+"'" : "")+"></ul>");
-                container = $("<div></div>");
-                button = $("<button class='title'><b>"+text+"</b><i class='gli-arrow-down'></i></button>");
-                select = $("<input type='hidden' name='"+name+"' value='"+value+"'>").html($this.html())
+
+                var options = $("<ul data-size='"+size+"'></ul>");
+                var container = $("<div class='gl-dropdown'></div>").append(placeHolder);
+                var button = $("<button class='title'><b>"+text+"</b><i class='gli-arrow-down'></i></button>");
+                var select = $("<input type='hidden' name='"+name+"' value='"+value+"'>");
+
                 $this.children("option").each(function(){
                     var $this = $(this);
                     var text = $this.text();
@@ -1048,11 +1058,18 @@ $(document).ready(function(){
                         option.addClass(selected);
                     if(value)
                         option.attr("data-value",value);
-                    options.append(option);
-
+                    
+                    if(value !== "default")
+                        options.append(option);
                 });
 
-                container.attr("class",$this.attr("class")).attr("id",$this.attr("id")).append(button).append(options).append(select);
+                $this.removeClass("gl-dropdown");
+                if($this.attr("disabled")){
+                    button.attr("disabled", "");
+                    container.addClass("disabled");
+                }
+
+                container.addClass($this.attr("class")).attr("id",$this.attr("id")).append(button).append(options).append(select);
 
                 if($this.attr("required")){
                     container.addClass("required");
