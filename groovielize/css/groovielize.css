@@ -1590,7 +1590,8 @@ img.wide{
 /****************************************************************************************************************************************************************/
 /****************************************************************************************************************************************************************/
 
-.gl-popup{
+.gl-popup,
+.gl-popup-rm{
     position: fixed;
     display: table;
     top: 0;
@@ -1606,16 +1607,19 @@ img.wide{
     transition: opacity 0.3s ease;
 }
 
-.gl-popup.show{
+.gl-popup.show,
+.gl-popup-rm.show{
     opacity: 1;
 }
 
-.gl-popup > .middle{    
+.gl-popup > .middle,
+.gl-popup-rm > .middle{    
     display: table-cell;
     vertical-align: middle;
 }
 
-.gl-popup > .middle > .container{
+.gl-popup > .middle > .container,
+.gl-popup-rm > .middle > .container{
     cursor: default !important;
     width: 300px;
     max-height: 200px;
@@ -1627,40 +1631,48 @@ img.wide{
     box-shadow: 0px 2px 5px -1px rgba(0,0,0,0.30) !important;
 }
 
-.gl-popup > .middle > .container *:not(.gl-btn){
+.gl-popup > .middle > .container *:not(.gl-btn),
+.gl-popup-rm > .middle > .container *:not(.gl-btn){
     cursor: initial !important;
 }
 
-.gl-popup > .middle > .container .header{
+.gl-popup > .middle > .container .header,
+.gl-popup-rm > .middle > .container .header{
     font-size: 18px;
     color: #0097FF;
-    height: 36px;
+    /*! height: 36px; */
+    margin-bottom: 15px;
 }
 
-.gl-popup > .middle > .container .header [class^="gli-"]{
+.gl-popup > .middle > .container .header [class^="gli-"],
+.gl-popup-rm > .middle > .container .header [class^="gli-"]{
     color: inherit;
     padding-right: 10px;
     font-size: 18px;
 }
 
-.gl-popup > .middle > .container .header *{
+.gl-popup > .middle > .container .header *,
+.gl-popup-rm > .middle > .container .header *{
     cursor: default !important;
 }
 
-.gl-popup > .middle > .container .header hr{
+.gl-popup > .middle > .container .header hr,
+.gl-popup-rm > .middle > .container .header hr{
     display: block;
     height: 2px;
-    margin: 9px 0 15px 0;
+    margin: 9px 0 0 0;
     border:none;
     border-radius: 6px;
     background-color: #0097FF;
 }
 
-.gl-popup > .middle > .container > .body{
+.gl-popup > .middle > .container > .body,
+.gl-popup-rm > .middle > .container > .body{
     margin-top: 15px;
 }
 
-.gl-popup > .middle > .container > .footer .gl-btn{
+.gl-popup > .middle > .container > .footer .gl-btn,
+.gl-popup-rm > .middle > .container > .footer .gl-btn{
     float: right;
     margin-bottom: 0;
 }

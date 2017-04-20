@@ -867,9 +867,11 @@ $(document).ready(function(){
                 var placeHolder = ($this.attr("placeHolder"))? "<span class='placeholder'>"+$this.attr("placeHolder")+"</span><hr>" : "";
 
                 var input = $this.clone().removeClass("gl-text").removeAttr("placeHolder");
+                var classList = input.attr("class");
+                input.removeAttr("class");
 
                 container.append(placeHolder);
-                container.append(input);
+                container.append(input).addClass(classList);
                 $this.replaceWith(container);
 
                 if(input.attr("required")){
@@ -1332,34 +1334,33 @@ $(document).ready(function(){
 
             buttons = "";
 
-            button1 = {text: ((_button1 != null && typeof _button1.title === 'string')? _button1.title : "Accept"), action: function(){
+            button1 = {text: ((_button1 != null && typeof _button1.title === 'string')? _button1.title : "Accept"), class: ((_button1 != null && typeof _button1.class === 'string')? _button1.class : ""), action: function(){
                     $(this).parents(".gl-popup").removePopup();
                     if(typeof _button1.action ==  "function") _button1.action($(this))
                 }
             };
             
-            buttons = "<button class='gl-btn'>"+button1.text+"</button>";
+            buttons = "<button class='gl-btn "+button1.class+"'>"+button1.text+"</button>";
 
             if(_button2 != null){
-                button2 = {text: ((_button2 != null && typeof _button2.title === 'string')? _button2.title : "Accept"), action: function(){
+                button2 = {text: ((_button2 != null && typeof _button2.title === 'string')? _button2.title : "Accept"), class: ((_button2 != null && typeof _button2.class === 'string')? _button2.class : ""), action: function(){
                         $(this).parents(".gl-popup").removePopup();
                         if(typeof _button2.action ==  "function") _button2.action($(this))
                     }
                 };
 
-                buttons += "<button class='gl-btn'>"+button2.text+"</button>";
+                buttons += "<button class='gl-btn "+button2.class+"'>"+button2.text+"</button>";
             }
 
             if(_button3 != null){
-                button3 = {text: ((_button3 != null && typeof _button3.title === 'string')? _button3.title : "Accept"), action: function(){
+                button3 = {text: ((_button3 != null && typeof _button3.title === 'string')? _button3.title : "Accept"), class: ((_button3 != null && typeof _button3.class === 'string')? _button3.class : ""), action: function(){
                         $(this).parents(".gl-popup").removePopup();
                         if(typeof _button3.action ==  "function") _button3.action($(this))
                     }
                 };
                 
-                buttons += "<button class='gl-btn'>"+button3.text+"</button>";
+                buttons += "<button class='gl-btn "+button3.class+"'>"+button3.text+"</button>";
             }
-
 
             html = "<aside class='gl-popup'>"+
                         "<div class='middle'>"+
@@ -1412,7 +1413,7 @@ $(document).ready(function(){
         $.fn.removePopup = function(){
             if($(this).hasClass("gl-popup")){
                 $this = $(this);
-                $this.removeClass("show");
+                $this.removeClass("gl-popup show").addClass("gl-popup-rm");
                 setTimeout(function(){
                     $this.remove();
                 },350);
