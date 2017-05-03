@@ -72,6 +72,10 @@ $(document).ready(function(){
         $(".gl-radiobtn").each(function(){
             $(this).addRadioBtn();
         });
+
+        $(".gl-spinner").each(function(){
+            $(this).addSpinner();
+        });
     }
 
 /*****************************CUSTOM ELEMENTS*****************************/
@@ -172,15 +176,25 @@ $(document).ready(function(){
     $.fn.coverImg = function(){
         this.each(function(){              
             var $this = $(this);   
-            var parent = $this.parent();               
-            $this.on("load",function(){
-                var naturalwidth = this.naturalWidth, naturalheight = this.naturalHeight;
+            var parent = $this.parent();    
+            if($this.attr("data-naturalSize")){
+                var data = JSON.parse($this.attr("data-naturalSize"));
+                var naturalwidth = data.width, naturalheight = data.height;                
                 var imgS = naturalwidth/naturalheight, parentS = parent.width()/parent.height();
                 var _class = "tall";
-                if((parentS === 1 && imgS > 1) || (parentS < 1 && imgS > 1)) _class = "wide";
+                    if((parentS === 1 && imgS > 1) || (parentS < 1 && imgS > 1) || (parentS < imgS)) _class = "wide";
 
-                $this.addClass(_class);
-            });                
+                $this.removeClass("tall wide").addClass(_class);
+            }else{   
+                $this.on("load",function(){
+                    var naturalwidth = this.naturalWidth, naturalheight = this.naturalHeight;
+                    var imgS = naturalwidth/naturalheight, parentS = parent.width()/parent.height();
+                    var _class = "tall";
+                    if((parentS === 1 && imgS > 1) || (parentS < 1 && imgS > 1) || (parentS < imgS)) _class = "wide";
+
+                    $this.addClass(_class).attr("data-naturalSize", JSON.stringify({width:naturalwidth,height:naturalheight}));
+                });
+            }                
         })
     }
 
@@ -250,6 +264,7 @@ $(document).ready(function(){
         else if($(this).hasClass("gl-statebox"))    value = $(this).stateboxVal(data);
         else if($(this).hasClass("gl-radiobtn"))    value = $(this).radiobtnVal(data);
         else if($(this).hasClass("gl-file"))        value = $(this).fileInputVal(data);
+        else if($(this).hasClass("gl-spinner"))     value = $(this).spinnerVal(data);
         return value;
     }
 
@@ -271,7 +286,6 @@ $(document).ready(function(){
 
         return result;
     }
-
 
 
 /*CUSTOM FUNCTIONS*/
@@ -1437,6 +1451,54 @@ $(document).ready(function(){
             }
         }
     /********************************POPUPS*********************************/
+
+    /*******************************SPINNERS********************************/
+        $.fn.addSpinner = function(){
+            $this = $(this);
+
+            if($this.tagName() == "input" && $this.attr("type") == "text"){
+                var container = $("<div class='gl-spinner'></div>");
+                var input = $this.clone();
+                var actions = $("<button class='minus'><i class='gli-back'></i></button><input><button class='plus'><i class='gli-next'></i></button>")
+
+                input.removeClass("gl-spinner");
+                container.addClass(input.attr("class")).attr("id", input.attr("id")); 
+                input.removeAttr("class").removeAttr("id").attr("disabled", true); 
+
+                container.append(actions);
+                container.find("input").replaceWith(input);
+                $this.replaceWith(container);
+
+                container.children("button").click(function(event){
+                    var parent = $(this).parent();
+                    var value = Number(parent.val());
+                    if($(this).hasClass("minus")){
+                        value -= 1;
+                    }else if($(this).hasClass("plus")){
+                        value += 1;
+                    }
+
+                    parent.val(value);
+                }).mousedown(function(event){
+                    $(this).addClass("active");
+                }).mouseup(function(event){
+                    $(this).removeClass("active")
+                });
+            }
+        }
+
+        $.fn.spinnerVal = function(data = null){
+            $this = (this);
+            if($this.hasClass("gl-spinner")){
+                if(data != null){
+                    data = (isNaN(data))? 0 : data;
+                    $this.find("input").val(data);
+                }
+                return $this.find("input").val();
+            }
+            return undefined;
+        }
+    /*******************************SPINNERS********************************/
 
 
 /*****************************CUSTOM ELEMENTS*****************************/

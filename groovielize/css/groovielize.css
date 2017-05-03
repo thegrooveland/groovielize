@@ -26,7 +26,7 @@ time, mark, audio, video {
 html,body{
     min-width: 100%;
     min-height: 100%;
-    overflow: hidden;
+    overflow: visible;
 }
 
 /*
@@ -1271,7 +1271,7 @@ img.wide{
     background-color: #FF5578;
     border-radius: 6px;
     z-index: 2;
-    bottom: 4px;
+    bottom: 5px;
     font-size: 12px;
     color: #FFFFFF;
     -webkit-transition: bottom 0.3s ease;
@@ -1284,7 +1284,7 @@ img.wide{
 
 .gl-text.focus .counter,
 .gl-text.required .alert.show{
-    bottom: -15px;
+    bottom: -16px;
 }
 
 /****************************************************************************************************************************************************************/
@@ -1302,6 +1302,10 @@ img.wide{
     margin: 10px 15px 15px 0;
     text-align: left;
     position: relative;
+}
+
+.gl-file:last-child{
+    margin: 10px 0px 15px 0;
 }
 
 .gl-file > div{
@@ -1703,4 +1707,45 @@ img.wide{
 .gl-popup-rm > .middle > .container > .footer .gl-btn{
     float: right;
     margin-bottom: 0;
+}
+
+
+/****************************************************************************************************************************************************************/
+/****************************************************************************************************************************************************************/
+/**************************************************************************SPINNERS******************************************************************************/
+/****************************************************************************************************************************************************************/
+/****************************************************************************************************************************************************************/
+
+.gl-spinner{
+    display: inline-block;
+    font-size: 16px;
+}
+
+.gl-spinner button{
+    float: left;
+    padding: 0 2px;
+    height: 35px;
+    box-sizing: border-box;
+    background: inherit;
+    font-size: 20px;
+}
+.gl-spinner button [class^="gli-"]{
+    font-size: inherit;
+    color: inherit;
+}
+.gl-spinner button.active{
+    color: #4BB6FF;
+}
+
+.gl-spinner input{
+    float:left;
+    padding: 5px 0;
+    height: 35px;
+    box-sizing: border-box;
+    font-size: inherit;
+    width: 30px;
+    text-align: center;
+    font-family: inherit;
+    background-color: inherit;
+    color: inherit;
 }
