@@ -93,7 +93,8 @@ No select text
 [class^="gl-"] .placeholder,
 .gl-popup > .middle > .container .header,
 .gl-checkbox,
-.gl-file{
+.gl-file,
+.gl-acordion > li > h3{
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -1717,8 +1718,24 @@ img.wide{
 /****************************************************************************************************************************************************************/
 
 .gl-spinner{
-    display: inline-block;
+    display: block;
     font-size: 16px;
+    height: 58px;
+    box-sizing: border-box;
+    color: #B3B3B3;
+    padding-top: 23px;
+    position: relative;
+    float: left;
+    margin: 10px 15px 15px 0;
+}
+
+.gl-spinner .placeholder{
+    display: block;
+    margin-left: 15px;
+    color: inherit;
+    font: inherit;
+    position: absolute;
+    top: 0;
 }
 
 .gl-spinner button{
@@ -1727,6 +1744,7 @@ img.wide{
     height: 35px;
     box-sizing: border-box;
     background: inherit;
+    color: inherit;
     font-size: 20px;
 }
 .gl-spinner button [class^="gli-"]{
@@ -1748,4 +1766,62 @@ img.wide{
     font-family: inherit;
     background-color: inherit;
     color: inherit;
+}
+
+/****************************************************************************************************************************************************************/
+/****************************************************************************************************************************************************************/
+/**************************************************************************ACORDION******************************************************************************/
+/****************************************************************************************************************************************************************/
+/****************************************************************************************************************************************************************/
+
+.gl-acordion{
+    min-width: 280px;
+    margin: 15px 0;
+}
+
+.gl-acordion > li{
+    width: 100%;
+    font-size: 15px;  
+    background-color: #FAFAFA;  
+    border-bottom: 2px transparent #4BB6FF;
+    -webkit-transition: border-bottom 0.3s ease;
+    transition: border-bottom 0.3s ease;
+}
+.gl-acordion > li:nth-child(2n + 0){    
+    background-color: #F2F2F2;
+}
+
+.gl-acordion > li.open{
+    border-bottom: 2px solid #4BB6FF;
+}
+
+.gl-acordion > li > h3{
+    height: 34px;
+    position: relative;
+    z-index: 3;
+    font-size: inherit;
+    color: inherit;
+    font-family: inherit;
+    padding: 0 15px;
+    line-height: 36px;
+    -webkit-transition: box-shadow 0.3s ease;
+    transition: box-shadow 0.3s ease;
+}
+
+.gl-acordion > li > h3 [class^="gli-"]{
+    margin-right: 10px;
+}
+
+.gl-acordion > li.open > h3{
+    box-shadow: 0px 2px 3px -1px rgba(0,0,0,0.57) !important;
+}
+
+
+.gl-acordion > li > div{
+    position: relative;
+    z-index: 1;
+    height: auto;
+    padding: 0 30px;
+    height: 0px;
+    overflow: hidden;
 }

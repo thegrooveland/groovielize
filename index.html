@@ -423,7 +423,7 @@
                             <option>Opcion 5</option>
                             <option>Opcion 6</option>
                         </select>
-                        <select class="gl-dropdown" name="select">
+                        <select class="gl-dropdown" name="select" placeholder="Select 2">
                             <option disabled>Opcion 1</option>
                             <option selected>Opcion 2</option>
                             <option value="mejor">Opcion 3</option>
@@ -436,7 +436,7 @@
                             <option selected>Opcion 2</option>
                             <option value="mejor">Opcion 3</option>
                         </select>
-                        <select class="gl-dropdown test" id="test" name="select" requireda>
+                        <select class="gl-dropdown test" id="test" name="select" required>
                             <option>Opcion 1</option>
                             <option>Opcion 2</option>
                             <option value="mejor">Opcion 3</option>
@@ -484,7 +484,121 @@
 
                 <div class="hd-20">
                     <h2 class="gl-float-title">Spinners</h2>
-                    <input type="text" name="spinner" value="1" class="gl-spinner">
+                    <input type="text" name="spinner" value="1" class="gl-spinner" placeholder="Default">
+                    <input type="text" name="spinner" value="1" data-min="0" class="gl-spinner" placeholder="Min value">
+                    <input type="text" name="spinner" value="1" data-min="-10" data-max="10" class="gl-spinner">
+                </div>
+
+                <div class="hd-20">
+                    <h2 class="gl-float-title">Acordion</h2>
+                    <ul class="gl-acordion" data-mode="single">
+                        <li>
+                            <h3>Title 1</h3>
+                            <div>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus orci ex, dignissim sed mauris quis, tristique rutrum urna. Proin massa turpis, lobortis at sollicitudin nec, sollicitudin vel felis. Praesent eget ligula fermentum, efficitur arcu a, placerat metus. Duis lobortis gravida augue vel ultrices. </p>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus orci ex, dignissim sed mauris quis, tristique rutrum urna. Proin massa turpis, lobortis at sollicitudin nec, sollicitudin vel felis. Praesent eget ligula fermentum, efficitur arcu a, placerat metus. Duis lobortis gravida augue vel ultrices. </p>
+                            </div>
+                        </li>
+                        <li>
+                            <h3>Title 2</h3>
+                            <div>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus orci ex, dignissim sed mauris quis, tristique rutrum urna. Proin massa turpis, lobortis at sollicitudin nec, sollicitudin vel felis. Praesent eget ligula fermentum, efficitur arcu a, placerat metus. Duis lobortis gravida augue vel ultrices. </p>
+                            </div>
+                        </li>
+                        <li>
+                            <h3>Title 3</h3>
+                            <div>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus orci ex, dignissim sed mauris quis, tristique rutrum urna. Proin massa turpis, lobortis at sollicitudin nec, sollicitudin vel felis. Praesent eget ligula fermentum, efficitur arcu a, placerat metus. Duis lobortis gravida augue vel ultrices. </p>
+                            </div>
+                        </li>
+                        <li>
+                            <h3>Title 4</h3>
+                            <div>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus orci ex, dignissim sed mauris quis, tristique rutrum urna. Proin massa turpis, lobortis at sollicitudin nec, sollicitudin vel felis. Praesent eget ligula fermentum, efficitur arcu a, placerat metus. Duis lobortis gravida augue vel ultrices. </p>
+                            </div>
+                        </li>
+                    </ul>
+                    <ul class="gl-acordion">
+                        <li class="open">
+                            <h3>Title 1</h3>
+                            <div>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus orci ex, dignissim sed mauris quis, tristique rutrum urna. Proin massa turpis, lobortis at sollicitudin nec, sollicitudin vel felis. Praesent eget ligula fermentum, efficitur arcu a, placerat metus. Duis lobortis gravida augue vel ultrices. </p>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus orci ex, dignissim sed mauris quis, tristique rutrum urna. Proin massa turpis, lobortis at sollicitudin nec, sollicitudin vel felis. Praesent eget ligula fermentum, efficitur arcu a, placerat metus. Duis lobortis gravida augue vel ultrices. </p>
+                            </div>
+                        </li>
+                        <li class="open">
+                            <h3>Title 2</h3>
+                            <div>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus orci ex, dignissim sed mauris quis, tristique rutrum urna. Proin massa turpis, lobortis at sollicitudin nec, sollicitudin vel felis. Praesent eget ligula fermentum, efficitur arcu a, placerat metus. Duis lobortis gravida augue vel ultrices. </p>
+                            </div>
+                        </li>
+                        <li>
+                            <h3>Title 3</h3>
+                            <div>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus orci ex, dignissim sed mauris quis, tristique rutrum urna. Proin massa turpis, lobortis at sollicitudin nec, sollicitudin vel felis. Praesent eget ligula fermentum, efficitur arcu a, placerat metus. Duis lobortis gravida augue vel ultrices. </p>
+                            </div>
+                        </li>
+                        <li>
+                            <h3>Title 4</h3>
+                            <div>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus orci ex, dignissim sed mauris quis, tristique rutrum urna. Proin massa turpis, lobortis at sollicitudin nec, sollicitudin vel felis. Praesent eget ligula fermentum, efficitur arcu a, placerat metus. Duis lobortis gravida augue vel ultrices. </p>
+                            </div>
+                        </li>
+                    </ul>
+                    <ul class="gl-acordion" data-mode="single">
+                        <li class="open">
+                            <h3>Title 1</h3>
+                            <div>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus orci ex, dignissim sed mauris quis, tristique rutrum urna. Proin massa turpis, lobortis at sollicitudin nec, sollicitudin vel felis. Praesent eget ligula fermentum, efficitur arcu a, placerat metus. Duis lobortis gravida augue vel ultrices. </p>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus orci ex, dignissim sed mauris quis, tristique rutrum urna. Proin massa turpis, lobortis at sollicitudin nec, sollicitudin vel felis. Praesent eget ligula fermentum, efficitur arcu a, placerat metus. Duis lobortis gravida augue vel ultrices. </p>
+                            </div>
+                        </li>
+                        <li>
+                            <h3>Title 2</h3>
+                            <div>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus orci ex, dignissim sed mauris quis, tristique rutrum urna. Proin massa turpis, lobortis at sollicitudin nec, sollicitudin vel felis. Praesent eget ligula fermentum, efficitur arcu a, placerat metus. Duis lobortis gravida augue vel ultrices. </p>
+                            </div>
+                        </li>
+                        <li>
+                            <h3>Title 3</h3>
+                            <div>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus orci ex, dignissim sed mauris quis, tristique rutrum urna. Proin massa turpis, lobortis at sollicitudin nec, sollicitudin vel felis. Praesent eget ligula fermentum, efficitur arcu a, placerat metus. Duis lobortis gravida augue vel ultrices. </p>
+                            </div>
+                        </li>
+                        <li>
+                            <h3>Title 4</h3>
+                            <div>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus orci ex, dignissim sed mauris quis, tristique rutrum urna. Proin massa turpis, lobortis at sollicitudin nec, sollicitudin vel felis. Praesent eget ligula fermentum, efficitur arcu a, placerat metus. Duis lobortis gravida augue vel ultrices. </p>
+                            </div>
+                        </li>
+                    </ul>
+                    <ul class="gl-acordion" data-mode="single">
+                        <li class="open">
+                            <h3>Title 1</h3>
+                            <div>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus orci ex, dignissim sed mauris quis, tristique rutrum urna. Proin massa turpis, lobortis at sollicitudin nec, sollicitudin vel felis. Praesent eget ligula fermentum, efficitur arcu a, placerat metus. Duis lobortis gravida augue vel ultrices. </p>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus orci ex, dignissim sed mauris quis, tristique rutrum urna. Proin massa turpis, lobortis at sollicitudin nec, sollicitudin vel felis. Praesent eget ligula fermentum, efficitur arcu a, placerat metus. Duis lobortis gravida augue vel ultrices. </p>
+                            </div>
+                        </li>
+                        <li class="open">
+                            <h3>Title 2</h3>
+                            <div>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus orci ex, dignissim sed mauris quis, tristique rutrum urna. Proin massa turpis, lobortis at sollicitudin nec, sollicitudin vel felis. Praesent eget ligula fermentum, efficitur arcu a, placerat metus. Duis lobortis gravida augue vel ultrices. </p>
+                            </div>
+                        </li>
+                        <li>
+                            <h3>Title 3</h3>
+                            <div>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus orci ex, dignissim sed mauris quis, tristique rutrum urna. Proin massa turpis, lobortis at sollicitudin nec, sollicitudin vel felis. Praesent eget ligula fermentum, efficitur arcu a, placerat metus. Duis lobortis gravida augue vel ultrices. </p>
+                            </div>
+                        </li>
+                        <li>
+                            <h3>Title 4</h3>
+                            <div>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus orci ex, dignissim sed mauris quis, tristique rutrum urna. Proin massa turpis, lobortis at sollicitudin nec, sollicitudin vel felis. Praesent eget ligula fermentum, efficitur arcu a, placerat metus. Duis lobortis gravida augue vel ultrices. </p>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
 
             </section>

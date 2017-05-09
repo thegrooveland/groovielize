@@ -13,6 +13,7 @@ $(document).ready(function(){
     $(".gl-float-title").addTitle();
     cards();
     inputs();
+    $(".gl-acordion").addAcordion();
 });
 
 /*****************************CUSTOM ELEMENTS*****************************/
@@ -1048,7 +1049,7 @@ $(document).ready(function(){
             if(($(this).tagName() == "select")){
                 var $this = $(this);
                 var value = ($this.val() == "default")? undefined : $this.val();
-                var text = $this.children().eq($this.prop("selectedIndex")).text();
+                var text = (value != undefined)? $this.children().eq($this.prop("selectedIndex")).text() : $this.attr("data-default");
                 var name = ($this.attr("name") !== undefined)? $this.attr("name") : "";
                 var size = ($this.attr("size") !== undefined)? Number($this.attr("size")) : 6;                
                 var placeHolder = ($this.attr("placeHolder"))? "<span class='placeholder'>"+$this.attr("placeHolder")+"</span>" : "";
@@ -1459,19 +1460,30 @@ $(document).ready(function(){
             if($this.tagName() == "input" && $this.attr("type") == "text"){
                 var container = $("<div class='gl-spinner'></div>");
                 var input = $this.clone();
-                var actions = $("<button class='minus'><i class='gli-back'></i></button><input><button class='plus'><i class='gli-next'></i></button>")
+                var value = (isNaN(input.val())? 0 : input.val());
+                var actions = $("<button class='minus'><i class='gli-back'></i></button><input><button class='plus'><i class='gli-next'></i></button>")                
+                var placeHolder = ($this.attr("placeHolder"))? "<span class='placeholder'>"+$this.attr("placeHolder")+"</span>" : "";
 
-                input.removeClass("gl-spinner");
+                input.removeClass("gl-spinner").removeAttr("placeHolder");
                 container.addClass(input.attr("class")).attr("id", input.attr("id")); 
-                input.removeAttr("class").removeAttr("id").attr("disabled", true); 
+                input.removeAttr("class").removeAttr("id"); 
 
-                container.append(actions);
+                input.mousedown(function(event){
+                    event.preventDefault();
+                }).keydown(function(event){
+                    event.preventDefault();
+                }).keyup(function(event){
+                    event.preventDefault();
+                });
+
+                container.append(actions).prepend(placeHolder);
                 container.find("input").replaceWith(input);
                 $this.replaceWith(container);
 
                 container.children("button").click(function(event){
                     var parent = $(this).parent();
                     var value = Number(parent.val());
+
                     if($(this).hasClass("minus")){
                         value -= 1;
                     }else if($(this).hasClass("plus")){
@@ -1484,6 +1496,7 @@ $(document).ready(function(){
                 }).mouseup(function(event){
                     $(this).removeClass("active")
                 });
+                container.val(value);
             }
         }
 
@@ -1492,6 +1505,13 @@ $(document).ready(function(){
             if($this.hasClass("gl-spinner")){
                 if(data != null){
                     data = (isNaN(data))? 0 : data;
+
+                    if(data <= Number($(this).children("input").attr("data-min"))){
+                        data = Number($(this).children("input").attr("data-min"));
+                    }else if(data >= Number($(this).children("input").attr("data-max"))){
+                        data = Number($(this).children("input").attr("data-max"))
+                    }
+
                     $this.find("input").val(data);
                 }
                 return $this.find("input").val();
@@ -1499,6 +1519,74 @@ $(document).ready(function(){
             return undefined;
         }
     /*******************************SPINNERS********************************/
+
+    /*******************************ACORDION********************************/
+        $.fn.addAcordion = function(){
+            $this = $(this);
+            if($this.tagName() == "ul" && $this.find("li > h3, li > div").length >= 2){
+
+                $this.children("li").each(function(){
+                    if($(this).hasClass("open")){
+                        var body = $(this).children("div").eq(0);
+                        var height = 0;
+                        var padding = 15;
+                        body.children().each(function(){
+                            height += $(this).height();
+                        });
+                        body.transition({
+                            "height" : height+"px",
+                            "padding-top" : padding+"px",
+                            "padding-bottom" : padding+"px"
+                        },300,"ease");
+
+                        if($(this).parents(".gl-acordion").attr("data-mode") === "single"){
+                            var opened = $(this).siblings(".open");
+                            opened.removeClass("open");
+                            opened.children("div").transition({
+                                "height" : 0+"px",
+                                "padding-top" : 0+"px",
+                                "padding-bottom" : 0+"px",
+                            },300,"ease")
+                        }
+                    }
+                });
+
+                $this.find("li > h3").click(function(event){
+                    event.preventDefault();
+                    var parent = $(this).parent();
+                    parent.toggleClass("open");
+
+                    var body = $(this).siblings("div").eq(0);
+                    var height = 0;
+                    var padding = 0;
+
+                    if(parent.hasClass("open")){
+                        padding = 15;
+                        body.children().each(function(){
+                            height += $(this).height();
+                        });
+                    }
+
+                    body.transition({
+                        "height" : height+"px",
+                        "padding-top" : padding+"px",
+                        "padding-bottom" : padding+"px"
+                    },300,"ease")
+
+                    if($(this).parents(".gl-acordion").attr("data-mode") === "single"){
+                        var opened = parent.siblings(".open");
+                        opened.removeClass("open");
+                        opened.children("div").transition({
+                            "height" : 0+"px",
+                            "padding-top" : 0+"px",
+                            "padding-bottom" : 0+"px",
+                        },300,"ease")
+                    }
+                });
+
+            }
+        }
+    /*******************************ACORDION********************************/
 
 
 /*****************************CUSTOM ELEMENTS*****************************/
