@@ -14,6 +14,7 @@ $(document).ready(function(){
     cards();
     inputs();
     $(".gl-acordion").addAcordion();
+    pagers();
 });
 
 /*****************************CUSTOM ELEMENTS*****************************/
@@ -76,6 +77,12 @@ $(document).ready(function(){
 
         $(".gl-spinner").each(function(){
             $(this).addSpinner();
+        });
+    }
+
+    function pagers(){
+        $(".gl-num-pager, gl-dot-pager").each(function(){
+            $(this).addPagger();
         });
     }
 
@@ -259,13 +266,15 @@ $(document).ready(function(){
     $.fn.glVal = function(data = null){
         var value = undefined;
 
-        if($(this).hasClass("gl-text"))             value = $(this).textVal(data);
-        else if($(this).hasClass("gl-dropdown"))    value = $(this).dropdownVal(data);
-        else if($(this).hasClass("gl-checkbox"))    value = $(this).checkboxVal(data);
-        else if($(this).hasClass("gl-statebox"))    value = $(this).stateboxVal(data);
-        else if($(this).hasClass("gl-radiobtn"))    value = $(this).radiobtnVal(data);
-        else if($(this).hasClass("gl-file"))        value = $(this).fileInputVal(data);
-        else if($(this).hasClass("gl-spinner"))     value = $(this).spinnerVal(data);
+        if($(this).hasClass("gl-text"))                                                   value = $(this).textVal(data);
+        else if($(this).hasClass("gl-dropdown"))                                          value = $(this).dropdownVal(data);
+        else if($(this).hasClass("gl-checkbox"))                                          value = $(this).checkboxVal(data);
+        else if($(this).hasClass("gl-statebox"))                                          value = $(this).stateboxVal(data);
+        else if($(this).hasClass("gl-radiobtn"))                                          value = $(this).radiobtnVal(data);
+        else if($(this).hasClass("gl-file"))                                              value = $(this).fileInputVal(data);
+        else if($(this).hasClass("gl-spinner"))                                           value = $(this).spinnerVal(data);
+        else if($(this).hasClass("gl-num-pager") || $(this).hasClass("gl-dot-pager"))     value = $(this).pagerVal(data);
+
         return value;
     }
 
@@ -402,6 +411,36 @@ $(document).ready(function(){
             }
         }
     /********************************CHARS COUNTER*******************************/
+
+    /********************************HIDE ELEMENT********************************/
+        $.fn.hide = function(time = 300){
+            $(this).transition({
+                "opacity" : 0
+            }, time, "ease").transition({
+                "display": "none",
+                "delay" : time    
+            }, 50, "ease");
+        }
+    /********************************HIDE ELEMENT********************************/
+
+    /********************************SHOW ELEMENT********************************/
+        $.fn.show = function(time = 300){
+            $(this).css({
+                "display": "",
+                "opacity" : 0
+            }).transition({ 
+                "opacity" : 1,               
+                "delay" : 50    
+            }, time, "ease");
+        }
+    /********************************SHOW ELEMENT********************************/
+
+    /*******************************ISHIDE ELEMENT*******************************/
+        $.fn.isHide = function(){
+            if($(this).css("display") === "none") return true;
+            return false;
+        }
+    /*******************************ISHIDE ELEMENT*******************************/
 
     /************************************AJAX************************************/
         $.sendAjax = function(data,url,callback,method){
@@ -1587,6 +1626,136 @@ $(document).ready(function(){
             }
         }
     /*******************************ACORDION********************************/
+
+    /*******************************PAGERS*********************************/
+        $.fn.addPagger = function(view = "number", type = "default"){
+            var $this = $(this); 
+            var isAjax = ($this.attr("data-ajax") !== undefined)? true : false;
+
+            var next = {
+                url : ($this.attr("data-nextUrl") != undefined)? $this.attr("data-nextUrl") : "#next",
+                title : ($this.attr("data-nextTitle") != undefined)? $this.attr("data-nextTitle") : "next"
+            } 
+            var prev = {
+                url : ($this.attr("data-prevUrl") != undefined)? $this.attr("data-prevUrl") : "#prev",
+                title : ($this.attr("data-prevTitle") != undefined)? $this.attr("data-prevTitle") : "prev"
+            }  
+
+            var pages = {
+                current: ($this.attr("data-page") != undefined)? $this.attr("data-page") : 1,
+                last : ($this.attr("data-last") != undefined)? $this.attr("data-last") : 1
+            }
+
+            var container = $("<div class='container'></div>");
+            var controls;
+            
+            if($this.hasClass("gl-num-pager") || $this.hasClass("gl-dot-pager"))
+                view = ($this.hasClass("gl-num-pager")) ? "number" : "dot";
+            else
+                $this.addClass((view === "number")? "gl-num-pager" : "gl-dot-pager");
+            
+            if($this.attr("data-type") !== undefined)
+                type = ($this.attr("data-type") === "min")? "min" : "default";
+            else
+                $this.attr("data-type",type);
+            
+            if(view === "number"){
+                if(type === "min"){
+                    controls = "<a class='previus' href='"+prev.url+"' title='"+prev.title+"'><i class='gli-previus'></i></a>"+
+                               "<p class='display'><span class='current-page'></span>/<span class='max-page'>"+pages.last+"</span></p>"+
+                               "<a class='next' href='"+next.url+"' title='"+next.title+"'><i class='gli-next'></i></a>";
+                }
+            }
+
+            controls = $(controls);
+
+            container.append(controls);
+            $this.html("").append(container);
+            $this.glVal(pages.current);
+
+            if(isAjax){
+                $this.find(".previus, .next").click(function(event){
+                    event.preventDefault();
+                    var $this = $(this);
+                    var page = Number($this.siblings().children(".current-page").text());
+                    var parent = $this.parents(".gl-num-pager");
+                    if(parent.length == 0)
+                        parent = $this.parents(".gl-dot-pager");
+
+                    if($this.hasClass("next")) page++;
+                    else if($this.hasClass("previus")) page--;
+
+                    parent.glVal(page);
+                    
+                });
+            }   
+        }
+
+        $.fn.pagerLast = function(last){
+            $this = (this);
+            if($this.hasClass("gl-num-pager") || $this.hasClass("gl-dot-pager")){
+                last = (isNaN(last))? 1 : last;
+                $this.find(".max-page").text(last);
+
+                if(last <= 1)
+                    $this.hide();
+                else{
+                    $this.show();
+                }
+            }
+            return $(this);
+        }
+
+        function pagerToggleButton(element, page){
+            $this = element;
+            if($this.hasClass("gl-num-pager") || $this.hasClass("gl-dot-pager")){
+                var maxPage = Number($this.find(".max-page").text());
+                var margin = 0;
+                var prev = $this.find(".previus");
+                var next = $this.find(".next");
+
+                if(page <= 1){
+                    margin = prev.outerWidth(true);
+                    prev.hide(300);
+
+                    if(next.isHide()){
+                        next.show(300);
+                    }
+                }else if(page >= maxPage){
+                    margin = next.outerWidth(true);
+                    next.hide(300);
+
+                    if(prev.isHide()){
+                        prev.show(300)
+                    }
+                }
+            }
+        }
+
+        $.fn.pagerVal = function(data = null){
+            $this = (this);
+            if($this.hasClass("gl-num-pager") || $this.hasClass("gl-dot-pager")){
+                if(data != null){
+                    data = (isNaN(data))? 1 : data;
+
+                    if(data <= 1){
+                        data = 1;
+                    }else if(data >= Number($this.find(".max-page").text())){
+                        data = Number($this.find(".max-page").text());   
+                    }
+
+                    pagerToggleButton($this, data);
+
+                    if($this.hasClass("gl-num-pager"))
+                        $this.find(".current-page").text(data);
+                }
+                return Number($this.find(".current-page").text());
+            }
+            return undefined;
+        }
+
+        
+    /*******************************PAGERS*********************************/
 
 
 /*****************************CUSTOM ELEMENTS*****************************/

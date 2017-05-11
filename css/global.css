@@ -9,3 +9,7 @@
 .gl-acordion{
     width: 450px;
 }
+
+.paggers{
+    position: relative;
+}

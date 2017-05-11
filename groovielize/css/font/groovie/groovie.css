@@ -69,7 +69,7 @@
 .gli-audio-none:before{
   content: "\e907";
 }
-.gli-back:before,
+.gli-previus:before,
 .gli-arrow-left:before{
   content: "\e908";
 }
@@ -119,7 +119,7 @@
   content: "\e921";
 }
 .gli-first:before,
-.gli-previus:before{
+.gli-previus-media:before{
   content: "\e922";
 }
 .gli-home-solid:before{
@@ -132,7 +132,7 @@
   content: "\e925";
 }
 .gli-last:before,
-.gli-next:before{
+.gli-next-media:before{
   content: "\e926";
 }
 .gli-location-solid:before{
