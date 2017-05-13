@@ -1757,6 +1757,66 @@ $(document).ready(function(){
         
     /*******************************PAGERS*********************************/
 
+    /*******************************LOADING********************************/
+        $.fn.loading = function(data){
+            $this = $(this);
+            var loading;
+
+            var configs = {
+                timer : 0,
+                image : null,
+                action : "show",
+                color : null,
+                opacity : 0.2
+            }
+
+            if(typeof data == "object"){
+                for(var key in configs){
+                    if(key in data)
+                        configs[key] = data[key];
+                }
+            }
+
+            if(configs.action !== "hide") {           
+                loading = $("<div class='gl-load' style='display:none'><div class='container'><div class='loading'></div></div></div>");
+                if(configs.image != null)
+                    loading.find(".loading").css("background-image", "url("+configs.image+")");
+                
+                if(configs.color != null){
+                    color = new Color(configs.color);
+                    if(color != null){
+                        loading.css("background-color","rgba("+color.rgb.r+","+color.rgb.g+","+color.rgb.b+","+configs.opacity+")")
+                    }
+                }
+
+                var position = $this.css("position");
+                if(position === "static"){
+                    $this.css("position", "relative");
+                }
+
+                $this.append(loading);
+                loading.show(150);
+
+                if(configs.timer > 0){
+                    setTimeout(function(){
+                        console.log($this);
+                        $this.loading({
+                            action: "hide"
+                        })
+                    },configs.timer);
+                }
+
+            }else{
+                loading = $this.find(".gl-load");
+                loading.hide(150);
+                setTimeout(function(){
+                    loading.remove();
+                },180)
+            }
+
+        }
+    /*******************************LOADING********************************/
+
 
 /*****************************CUSTOM ELEMENTS*****************************/
 

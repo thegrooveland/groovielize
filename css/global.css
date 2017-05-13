@@ -13,3 +13,25 @@
 .paggers{
     position: relative;
 }
+
+.load-tester{
+    width: 400px;
+    height: 400px;
+    margin: 30px auto;
+    padding:20px;
+    box-sizing: border-box;
+    background-color: #f2f2fe;
+    text-align: center;
+    position: relative;
+}
+
+.load-tester p{
+    font-size: 20px;
+    text-align: center;
+    padding: 30px 0;
+}
+
+.load-tester .gl-btn{
+    display: inline-block;
+    float: none;
+}

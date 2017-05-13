@@ -607,7 +607,16 @@
                     <div class="gl-num-pager" data-ajax="true" data-type="min" data-page="0" data-last="10"></div>
                 </div>
 
+                <div class="hd-20 paggers">
+                    <h2 class="gl-float-title">Pagger</h2>
+                    <div class="load-tester">
+                        <p>Load screen</p>
+                        <button class="gl-btn">Load</button>                        
+                    </div>
+                </div>
+
             </section>
+            
         </div>
         <nav class="gl-taskbar" data-time-format="hh:mm" data-date-format="DD/MM/YY" data-update-time="5000">
             <div class="actions">
@@ -638,6 +647,10 @@
 
         <script>
             $(document).ready(function(){
+                $(".load-tester .gl-btn").click(function(){
+                    $(".load-tester").loading();
+                });
+
                 $(".check-pass").click(function(){
                     console.log("result :"+$(this).checkRequired());
                 });
@@ -667,5 +680,7 @@
                 })
             });
         </script>
+        
     </body>
 </html>
+
